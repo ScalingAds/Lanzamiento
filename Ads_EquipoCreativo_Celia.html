@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Andromeda — Guía para el equipo creativo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #f8f7f4; color: #1a1a18; line-height: 1.6; }
+  .page { max-width: 860px; margin: 0 auto; padding: 48px 32px 80px; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 8px; margin-bottom: 40px; background: #eeecea; border-radius: 12px; padding: 5px; }
+  .tab-btn { flex: 1; padding: 10px 16px; border: none; background: transparent; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #888780; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .tab-btn.active { background: #fff; color: #1a1a18; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* HERO */
+  .hero { margin-bottom: 56px; }
+  .hero-tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #534AB7; background: #EEEDFE; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; }
+  .hero h1 { font-size: 36px; font-weight: 700; line-height: 1.15; color: #1a1a18; margin-bottom: 12px; }
+  .hero h1 span { color: #534AB7; }
+  .hero-sub { font-size: 16px; color: #5a5a54; max-width: 600px; }
+
+  /* SECTION */
+  .section { margin-bottom: 56px; }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #888780; margin-bottom: 10px; }
+  .section h2 { font-size: 22px; font-weight: 700; color: #1a1a18; margin-bottom: 16px; }
+  .section p { font-size: 15px; color: #3d3d3a; margin-bottom: 12px; line-height: 1.7; }
+  .section p:last-child { margin-bottom: 0; }
+  .highlight-box { background: #EEEDFE; border-left: 3px solid #534AB7; border-radius: 0 10px 10px 0; padding: 16px 20px; margin: 20px 0; }
+  .highlight-box p { color: #3C3489; margin: 0; font-size: 14px; font-weight: 500; }
+  .highlight-box.green { background: #E1F5EE; border-left-color: #0F6E56; }
+  .highlight-box.green p { color: #085041; }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid #e0ddd6; margin: 48px 0; }
+
+  /* SVG BOLSAS */
+  .visual-wrap { background: #fff; border: 1px solid #e8e5de; border-radius: 16px; padding: 8px; margin: 32px 0; overflow: hidden; }
+  .visual-wrap svg { width: 100%; display: block; }
+
+  /* TABLES */
+  .table-section { margin-bottom: 48px; }
+  .table-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .table-header-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .icon-bad { background: #FCEBEB; }
+  .icon-good { background: #E1F5EE; }
+  .table-header-text h3 { font-size: 18px; font-weight: 700; }
+  .table-header-text p { font-size: 13px; color: #888780; margin: 0; }
+  .h-bad { color: #A32D2D; }
+  .h-good { color: #0F6E56; }
+
+  table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; border: 1px solid #e8e5de; font-size: 13px; background: #fff; }
+  thead { background: #faf9f6; }
+  th { padding: 11px 16px; font-weight: 600; font-size: 11px; color: #888780; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid #e8e5de; text-align: left; }
+  td { padding: 12px 16px; vertical-align: top; line-height: 1.55; color: #1a1a18; border-bottom: 1px solid #f0ede6; }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #faf9f6; }
+  .group-header td { background: #f5f3ef; padding: 7px 16px; border-bottom: 1px solid #e8e5de; }
+  .group-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; color: #5a5a54; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+  .dot-vis { background: #7F77DD; }
+  .dot-copy { background: #BA7517; }
+  .pill { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.03em; margin-right: 4px; vertical-align: middle; }
+  .pill-vis { background: #EEEDFE; color: #534AB7; }
+  .pill-copy { background: #FAEEDA; color: #854F0B; }
+  .example { font-weight: 500; color: #1a1a18; font-size: 13px; }
+  .ex-vs { display: block; font-size: 12px; color: #888780; margin-top: 3px; font-style: italic; }
+  .reason-bad { color: #A32D2D; font-size: 12px; margin-top: 3px; line-height: 1.5; }
+  .reason-good { color: #0F6E56; font-size: 12px; margin-top: 3px; line-height: 1.5; }
+
+  /* TAB 2 SPECIFIC */
+  .rule-card { background: #fff; border: 1px solid #e8e5de; border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
+  .rule-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .rule-card p { font-size: 14px; color: #3d3d3a; line-height: 1.65; margin: 0; }
+  .rule-card.purple { border-left: 3px solid #534AB7; }
+  .rule-card.purple h4 { color: #534AB7; }
+  .rule-card.red { border-left: 3px solid #A32D2D; }
+  .rule-card.red h4 { color: #A32D2D; }
+  .rule-card.green { border-left: 3px solid #0F6E56; }
+  .rule-card.green h4 { color: #0F6E56; }
+  .rule-card.amber { border-left: 3px solid #854F0B; }
+  .rule-card.amber h4 { color: #854F0B; }
+
+  .decision-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; border: 1px solid #e8e5de; font-size: 13px; background: #fff; margin: 24px 0; }
+  .decision-table thead { background: #faf9f6; }
+  .decision-table th { padding: 10px 16px; font-weight: 600; font-size: 11px; color: #888780; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid #e8e5de; text-align: left; }
+  .decision-table td { padding: 11px 16px; border-bottom: 1px solid #f0ede6; vertical-align: top; line-height: 1.5; }
+  .decision-table tr:last-child td { border-bottom: none; }
+  .decision-table tbody tr:hover { background: #faf9f6; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .badge-no { background: #FCEBEB; color: #A32D2D; }
+  .badge-yes { background: #E1F5EE; color: #0F6E56; }
+  .badge-maybe { background: #FAEEDA; color: #854F0B; }
+
+  /* GRID HV */
+  .grid-hv { display: grid; grid-template-columns: 100px repeat(4, 1fr); gap: 8px; overflow-x: auto; }
+  .grid-hv .axis-col { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #888780; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .grid-hv .row-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #888780; display: flex; align-items: center; }
+  .concept-card { border-radius: 10px; padding: 10px 12px; border: 1.5px solid; }
+  .concept-card .ct { font-size: 12px; font-weight: 700; margin-bottom: 3px; }
+  .concept-card .cs { font-size: 11px; opacity: 0.8; line-height: 1.4; }
+  .concept-card .cb { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 20px; margin-top: 6px; }
+  .var-card { border-radius: 8px; padding: 9px 11px; border: 1px dashed; }
+  .var-card .vt { font-size: 11px; font-weight: 600; margin-bottom: 2px; }
+  .var-card .vs { font-size: 10px; opacity: 0.75; line-height: 1.4; }
+  .var-card .vb { display: inline-block; font-size: 9px; font-weight: 600; padding: 1px 6px; border-radius: 20px; margin-top: 5px; }
+  .axis-h-wrap { grid-column: 1/-1; display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+  .axis-h-line { flex: 1; height: 1px; background: #e0ddd6; }
+  .axis-h-txt { font-size: 10px; font-weight: 600; color: #888780; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+  .c1 { background: #FAECE7; border-color: #D85A30; } .c1 .ct { color: #712B13; } .c1 .cs { color: #993C1D; } .c1 .cb { background: #F0997B; color: #4A1B0C; }
+  .c1v { background: #fff8f6; border-color: #D85A30; } .c1v .vt { color: #993C1D; } .c1v .vs { color: #D85A30; } .c1v .vb { background: #F5C4B3; color: #712B13; }
+  .c2 { background: #E6F1FB; border-color: #185FA5; } .c2 .ct { color: #042C53; } .c2 .cs { color: #185FA5; } .c2 .cb { background: #85B7EB; color: #042C53; }
+  .c2v { background: #f5f9ff; border-color: #185FA5; } .c2v .vt { color: #0C447C; } .c2v .vs { color: #185FA5; } .c2v .vb { background: #B5D4F4; color: #0C447C; }
+  .c3 { background: #E1F5EE; border-color: #0F6E56; } .c3 .ct { color: #04342C; } .c3 .cs { color: #0F6E56; } .c3 .cb { background: #5DCAA5; color: #04342C; }
+  .c3v { background: #f4fdf9; border-color: #0F6E56; } .c3v .vt { color: #085041; } .c3v .vs { color: #0F6E56; } .c3v .vb { background: #9FE1CB; color: #085041; }
+  .c4 { background: #EEEDFE; border-color: #534AB7; } .c4 .ct { color: #26215C; } .c4 .cs { color: #534AB7; } .c4 .cb { background: #AFA9EC; color: #26215C; }
+  .c4v { background: #f8f7ff; border-color: #534AB7; } .c4v .vt { color: #3C3489; } .c4v .vs { color: #534AB7; } .c4v .vb { background: #CECBF6; color: #3C3489; }
+  .info-row { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+  .info-box { flex: 1; min-width: 200px; border-radius: 10px; padding: 14px 16px; }
+  .info-box.good { background: #E1F5EE; border: 1px solid #9FE1CB; }
+  .info-box.neutral { background: #EEEDFE; border: 1px solid #CECBF6; }
+  .info-box.plain { background: #fff; border: 1px solid #e8e5de; }
+  .info-box h4 { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+  .info-box.good h4 { color: #0F6E56; }
+  .info-box.neutral h4 { color: #534AB7; }
+  .info-box.plain h4 { color: #1a1a18; }
+  .info-box p { font-size: 11px; line-height: 1.5; color: #5a5a54; margin: 0; }
+
+  .footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid #e0ddd6; font-size: 12px; color: #aaa9a4; text-align: center; }
+</style>
+</head>
+<body>
+<div class="page">
+
+
+
+  <!-- NAV PESTAÑAS -->
+  <div style="display:flex;gap:8px;margin-bottom:40px;background:#eeecea;border-radius:12px;padding:5px;">
+    <button id="btn-andromeda" onclick="showPage('andromeda')" style="flex:1;padding:10px 16px;border:none;background:#fff;border-radius:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#1a1a18;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.08);">Cómo procesa Andromeda tus anuncios</button>
+    <button id="btn-specs" onclick="showPage('specs')" style="flex:1;padding:10px 16px;border:none;background:transparent;border-radius:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#888780;cursor:pointer;">Especificaciones técnicas</button>
+  </div>
+
+  <div id="tab2" class="tab-content active">
+    <div class="hero">
+      <div class="hero-tag">Guía para el equipo creativo</div>
+      <h1>Cómo procesa<br/><span>Andromeda</span> tus anuncios</h1>
+      <p class="hero-sub">Qué cuenta como anuncio nuevo, qué no, y cómo escalar sin quemar siempre a las mismas personas.</p>
+    </div>
+
+    <!-- SECCIÓN 1: CÓMO LO ANALIZA -->
+    <div class="section">
+      <div class="section">
+        <div class="section-label">Visual</div>
+        <h2>Cada concepto distinto desbloquea una bolsa nueva</h2>
+        <p>Anuncios casi iguales llegan siempre a las mismas personas. Conceptos distintos abren bolsas nuevas.</p>
+        <div class="visual-wrap">
+          <svg viewBox="0 0 860 460" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="ag2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#B4B2A9" stroke-width="1.5" stroke-linecap="round"/></marker>
+              <marker id="ac2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#D85A30" stroke-width="1.5" stroke-linecap="round"/></marker>
+              <marker id="ab2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round"/></marker>
+              <marker id="at2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round"/></marker>
+              <marker id="ap2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round"/></marker>
+            </defs>
+            <text font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#A32D2D" x="175" y="28" text-anchor="middle">❌ Anuncios casi iguales</text>
+            <!-- Anuncio A: arriba izquierda -->
+            <rect x="20" y="44" width="110" height="46" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="1"/>
+            <text font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#444441" x="75" y="63" text-anchor="middle">Anuncio A</text>
+            <text font-family="Inter,sans-serif" font-size="11" fill="#888780" x="75" y="80" text-anchor="middle">Fondo azul</text>
+            <!-- Anuncio B: arriba derecha -->
+            <rect x="220" y="44" width="110" height="46" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="1"/>
+            <text font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#444441" x="275" y="63" text-anchor="middle">Anuncio B</text>
+            <text font-family="Inter,sans-serif" font-size="11" fill="#888780" x="275" y="80" text-anchor="middle">Fondo verde</text>
+            <!-- Anuncio C: centro -->
+            <rect x="120" y="125" width="110" height="46" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="1"/>
+            <text font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#444441" x="175" y="144" text-anchor="middle">Anuncio C</text>
+            <text font-family="Inter,sans-serif" font-size="11" fill="#888780" x="175" y="161" text-anchor="middle">Botón distinto</text>
+            <!-- flechas triángulo limpias -->
+            <line x1="75" y1="90" x2="150" y2="222" stroke="#B4B2A9" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ag2)"/>
+            <line x1="275" y1="90" x2="200" y2="222" stroke="#B4B2A9" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ag2)"/>
+            <line x1="175" y1="171" x2="175" y2="222" stroke="#B4B2A9" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ag2)"/>
+            <!-- bolsa centrada -->
+            <circle cx="175" cy="288" r="62" fill="#F8F7F4" stroke="#B4B2A9" stroke-width="1.5" stroke-dasharray="7 4"/>
+            <text font-family="Inter,sans-serif" font-size="12" fill="#888780" x="175" y="265" text-anchor="middle">Siempre</text>
+            <text font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#5F5E5A" x="175" y="282" text-anchor="middle">la misma bolsa</text>
+            <circle cx="150" cy="297" r="7" fill="#D3D1C7"/><rect x="143" y="305" width="13" height="10" rx="3" fill="#D3D1C7"/>
+            <circle cx="175" cy="300" r="7" fill="#D3D1C7"/><rect x="168" y="308" width="13" height="10" rx="3" fill="#D3D1C7"/>
+            <circle cx="200" cy="297" r="7" fill="#D3D1C7"/><rect x="193" y="305" width="13" height="10" rx="3" fill="#D3D1C7"/>
+            <!-- etiqueta negativa centrada -->
+            <rect x="100" y="364" width="150" height="36" rx="8" fill="#FCEBEB"/>
+            <text font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#A32D2D" x="175" y="378" text-anchor="middle">Se queman rápido</text>
+            <text font-family="Inter,sans-serif" font-size="11" fill="#A32D2D" x="175" y="393" text-anchor="middle">Lead más caro</text>
+            <line x1="370" y1="20" x2="370" y2="440" stroke="#e0ddd6" stroke-width="1.5"/>
+            <text font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0F6E56" x="615" y="28" text-anchor="middle">✅ Conceptos distintos</text>
+            <rect x="400" y="44" width="106" height="46" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+            <text font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#712B13" x="453" y="63" text-anchor="middle">Desde el agobio</text>
+            <text font-family="Inter,sans-serif" font-size="10" fill="#993C1D" x="453" y="80" text-anchor="middle">Anuncio 1</text>
+            <rect x="520" y="44" width="106" height="46" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="1"/>
+            <text font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#0C447C" x="573" y="63" text-anchor="middle">Desde la aspiración</text>
+            <text font-family="Inter,sans-serif" font-size="10" fill="#185FA5" x="573" y="80" text-anchor="middle">Anuncio 2</text>
+            <rect x="640" y="44" width="100" height="46" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+            <text font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#085041" x="690" y="63" text-anchor="middle">Prueba social</text>
+            <text font-family="Inter,sans-serif" font-size="10" fill="#0F6E56" x="690" y="80" text-anchor="middle">Anuncio 3</text>
+            <rect x="754" y="44" width="86" height="46" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+            <text font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#3C3489" x="797" y="59" text-anchor="middle">Tono</text>
+            <text font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#3C3489" x="797" y="73" text-anchor="middle">educativo</text>
+            <text font-family="Inter,sans-serif" font-size="10" fill="#534AB7" x="797" y="87" text-anchor="middle">Anuncio 4</text>
+            <line x1="453" y1="90" x2="453" y2="218" stroke="#D85A30" stroke-width="1.5" marker-end="url(#ac2)"/>
+            <line x1="573" y1="90" x2="573" y2="218" stroke="#185FA5" stroke-width="1.5" marker-end="url(#ab2)"/>
+            <line x1="690" y1="90" x2="690" y2="218" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#at2)"/>
+            <line x1="797" y1="90" x2="797" y2="218" stroke="#534AB7" stroke-width="1.5" marker-end="url(#ap2)"/>
+            <circle cx="453" cy="280" r="63" fill="#FFF8F5" stroke="#D85A30" stroke-width="1.5"/>
+            <text font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#993C1D" x="453" y="262" text-anchor="middle">Los agobiados</text>
+            <circle cx="437" cy="286" r="7" fill="#F0997B"/><rect x="430" y="294" width="13" height="10" rx="2.5" fill="#F0997B"/>
+            <circle cx="453" cy="289" r="7" fill="#F0997B"/><rect x="446" y="297" width="13" height="10" rx="2.5" fill="#F0997B"/>
+            <circle cx="469" cy="286" r="7" fill="#F0997B"/><rect x="462" y="294" width="13" height="10" rx="2.5" fill="#F0997B"/>
+            <circle cx="573" cy="280" r="63" fill="#F5F9FF" stroke="#185FA5" stroke-width="1.5"/>
+            <text font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#0C447C" x="573" y="262" text-anchor="middle">Los aspiracionales</text>
+            <circle cx="557" cy="286" r="7" fill="#85B7EB"/><rect x="550" y="294" width="13" height="10" rx="2.5" fill="#85B7EB"/>
+            <circle cx="573" cy="289" r="7" fill="#85B7EB"/><rect x="566" y="297" width="13" height="10" rx="2.5" fill="#85B7EB"/>
+            <circle cx="589" cy="286" r="7" fill="#85B7EB"/><rect x="582" y="294" width="13" height="10" rx="2.5" fill="#85B7EB"/>
+            <circle cx="690" cy="280" r="63" fill="#F4FDF9" stroke="#0F6E56" stroke-width="1.5"/>
+            <text font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#085041" x="690" y="262" text-anchor="middle">Los escépticos</text>
+            <circle cx="674" cy="286" r="7" fill="#5DCAA5"/><rect x="667" y="294" width="13" height="10" rx="2.5" fill="#5DCAA5"/>
+            <circle cx="690" cy="289" r="7" fill="#5DCAA5"/><rect x="683" y="297" width="13" height="10" rx="2.5" fill="#5DCAA5"/>
+            <circle cx="706" cy="286" r="7" fill="#5DCAA5"/><rect x="699" y="294" width="13" height="10" rx="2.5" fill="#5DCAA5"/>
+            <circle cx="797" cy="280" r="58" fill="#F8F7FF" stroke="#534AB7" stroke-width="1.5"/>
+            <text font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#3C3489" x="797" y="262" text-anchor="middle">Los curiosos</text>
+            <circle cx="781" cy="286" r="7" fill="#AFA9EC"/><rect x="774" y="294" width="13" height="10" rx="2.5" fill="#AFA9EC"/>
+            <circle cx="797" cy="289" r="7" fill="#AFA9EC"/><rect x="790" y="297" width="13" height="10" rx="2.5" fill="#AFA9EC"/>
+            <circle cx="813" cy="286" r="7" fill="#AFA9EC"/><rect x="806" y="294" width="13" height="10" rx="2.5" fill="#AFA9EC"/>
+            <rect x="395" y="350" width="450" height="36" rx="8" fill="#E1F5EE"/>
+            <text font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#0F6E56" x="620" y="365" text-anchor="middle">Más alcance · Lead más barato</text>
+            <text font-family="Inter,sans-serif" font-size="11" fill="#0F6E56" x="620" y="379" text-anchor="middle">Anuncios que duran más tiempo</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="section-label">Lo que mira Meta</div>
+      <h2>Meta analiza tres cosas a la vez</h2>
+      <p>Cuando subes un anuncio, Andromeda no lee solo lo que dice. Analiza el conjunto completo — lo que se ve, lo que se escucha y el mensaje temático — y los tiene en cuenta todos juntos para decidir si es un anuncio nuevo o el mismo de siempre.</p>
+      <div style="display:flex; gap:12px; margin:24px 0; flex-wrap:wrap;">
+        <div class="rule-card purple" style="flex:1;min-width:180px;">
+          <h4>Lo visual</h4>
+          <p>La escena, el entorno, los colores, la composición, quién aparece, el encuadre, la iluminación.</p>
+        </div>
+        <div class="rule-card amber" style="flex:1;min-width:180px;">
+          <h4>El audio y la voz</h4>
+          <p>El tono de la voz en off, el ritmo, el tipo de música, la energía general del sonido.</p>
+        </div>
+        <div class="rule-card green" style="flex:1;min-width:180px;">
+          <h4>El mensaje temático</h4>
+          <p>La intención, el registro emocional, el problema al que apunta, los triggers que usa.</p>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <p>Para que Meta lo cuente como anuncio nuevo, necesita que cambien al menos dos de estos tres elementos de forma significativa.</p>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 2: TABLA DECISIÓN -->
+    <div class="section">
+      <div class="section-label">Guía práctica</div>
+      <h2>Cuándo es un anuncio nuevo y cuándo no</h2>
+
+      <!-- SÍ -->
+      <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#0F6E56;margin:20px 0 8px;">✅ Sí — Meta lo cuenta como anuncio nuevo</p>
+      <table class="decision-table" style="margin-bottom:24px;">
+        <thead><tr><th style="width:45%">Lo que cambia</th><th style="width:10%">¿Nuevo?</th><th>Por qué</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Todo distinto <strong>pero</strong> el CTA final es el mismo</td>
+            <td><span class="badge badge-yes">Sí</span></td>
+            <td style="font-size:12px;color:#3d3d3a;">El final pesa muy poco. Lo que cuenta es el conjunto visual y temático.</td>
+          </tr>
+          <tr>
+            <td>Mismo copy <strong>pero</strong> grabado por otra persona en otro sitio</td>
+            <td><span class="badge badge-yes">Sí</span></td>
+            <td style="font-size:12px;color:#3d3d3a;">El ADN visual cambia completamente: persona distinta, entorno distinto.</td>
+          </tr>
+          <tr>
+            <td>Formato completamente distinto: testimonial vs tutorial vs carrusel</td>
+            <td><span class="badge badge-yes">Sí</span></td>
+            <td style="font-size:12px;color:#3d3d3a;">La estructura visual, el ritmo y el mensaje son distintos de raíz.</td>
+          </tr>
+          <tr>
+            <td>Distinto escenario + distinto mensaje + distinta persona</td>
+            <td><span class="badge badge-yes">Sí</span></td>
+            <td style="font-size:12px;color:#3d3d3a;">Cambian los tres elementos a la vez. Bolsa nueva garantizada.</td>
+          </tr>
+          <tr>
+            <td>Misma persona <strong>pero</strong> en escenario completamente distinto y mensaje distinto</td>
+            <td><span class="badge badge-yes">Sí</span></td>
+            <td style="font-size:12px;color:#3d3d3a;">Cambian al menos dos elementos significativos: visual y temático.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- NO -->
+      <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#A32D2D;margin:0 0 8px;">❌ No — Meta lo ve como el mismo anuncio</p>
+      <table class="decision-table">
+        <thead><tr><th style="width:45%">Lo que cambia</th><th style="width:10%">¿Nuevo?</th><th>Por qué</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Solo el copy hablado <strong>pero</strong> misma cara, mismo sitio, mismo encuadre</td>
+            <td><span class="badge badge-no">No</span></td>
+            <td style="font-size:12px;color:#3d3d3a;">Meta ve imágenes, no escucha palabras. El ADN visual es idéntico.</td>
+          </tr>
+          <tr>
+            <td>Solo el texto en pantalla o los subtítulos</td>
+            <td><span class="badge badge-no">No</span></td>
+            <td style="font-size:12px;color:#3d3d3a;">La escena, la persona y el mensaje de fondo no cambian.</td>
+          </tr>
+          <tr>
+            <td>Solo la música de fondo</td>
+            <td><span class="badge badge-no">No</span></td>
+            <td style="font-size:12px;color:#3d3d3a;">Cambia el ritmo pero no el concepto ni el problema que resuelves.</td>
+          </tr>
+          <tr>
+            <td>Solo el CTA final</td>
+            <td><span class="badge badge-no">No</span></td>
+            <td style="font-size:12px;color:#3d3d3a;">El final es lo que menos peso tiene. El resto del vídeo es idéntico.</td>
+          </tr>
+          <tr>
+            <td>Hook distinto <strong>pero</strong> misma persona, mismo sitio, mismo cuerpo del vídeo</td>
+            <td><span class="badge badge-no">No</span></td>
+            <td style="font-size:12px;color:#3d3d3a;">Meta analiza el ADN visual completo, no solo la apertura. El conjunto es el mismo.</td>
+          </tr>
+          <tr>
+            <td>Misma persona en mismo sitio <strong>pero</strong> diciendo un copy completamente distinto</td>
+            <td><span class="badge badge-no">No</span></td>
+            <td style="font-size:12px;color:#3d3d3a;">El visual manda. Misma cara, mismo fondo, mismo encuadre = mismo anuncio para Meta.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECCIÓN 3: EJEMPLOS -->
+    <div class="section">
+      <div class="section-label">Ejemplos prácticos</div>
+      <h2>Ejemplos de cambios que sí funcionan y que no</h2>
+
+      <!-- TABLA IGUAL -->
+      <div class="table-header" style="margin-top:8px;">
+        <div class="table-header-icon icon-bad">❌</div>
+        <div class="table-header-text">
+          <h3 class="h-bad">Esto Andromeda lo ve igual</h3>
+          <p>Da igual cuántas variaciones hagas si el concepto de fondo no cambia.</p>
+        </div>
+      </div>
+      <table style="margin-bottom:32px;">
+        <thead><tr><th style="width:42%">Lo que hacemos</th><th>Por qué Andromeda lo ve igual</th></tr></thead>
+        <tbody>
+          <tr class="group-header"><td colspan="2"><span class="group-label"><span class="dot dot-vis"></span>Visual</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">Cambiar el color del texto o subtítulos</span></td><td><span class="reason-bad">Andromeda lee el contenido del vídeo, no su paleta. El mensaje, el contexto y la historia son idénticos.</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">Poner un logo diferente o moverlo de esquina</span></td><td><span class="reason-bad">El logo no cambia de qué trata el anuncio. El algoritmo lo ignora como señal de segmentación.</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">Cortar el vídeo 3–5 segundos antes o después</span></td><td><span class="reason-bad">El hook, el mensaje y el tono son los mismos. El recorte no altera a quién le hablas ni desde qué emoción.</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">Cambiar la música de fondo</span></td><td><span class="reason-bad">La música afecta al ritmo, pero no al concepto ni al problema que resuelves. Andromeda no segmenta por gusto musical.</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">Cambiar el fondo de un estático<span class="ex-vs">(blanco → negro)</span></span></td><td><span class="reason-bad">El texto, la oferta y la propuesta de valor son los mismos. Solo cambia la estética, no el ángulo ni el perfil de persona.</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">Cambiar el texto del botón CTA<span class="ex-vs">"Quiero saber más" → "Empezar ahora"</span></span></td><td><span class="reason-bad">Llevan al mismo sitio y dicen lo mismo. El algoritmo no distingue variaciones de CTA como ángulos distintos.</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">El mismo vídeo en formato 9:16 y 4:5</span></td><td><span class="reason-bad">El formato cambia el tamaño, no el contenido. Si la historia es la misma, Andromeda los agrupa como una sola creatividad.</span></td></tr>
+          <tr class="group-header"><td colspan="2"><span class="group-label"><span class="dot dot-copy"></span>Copy</span></td></tr>
+          <tr><td><span class="pill pill-copy">Copy</span><span class="example">"Aprende a gestionar tu dinero"<span class="ex-vs">vs. "Descubre cómo gestionar tu dinero"</span></span></td><td><span class="reason-bad">Mismo problema, mismo beneficio, misma audiencia. Cambiar el verbo no cambia a quién hablas ni desde qué emoción entras.</span></td></tr>
+          <tr><td><span class="pill pill-copy">Copy</span><span class="example">"El curso que cambiará tus finanzas"<span class="ex-vs">vs. "El método que transformará tus finanzas"</span></span></td><td><span class="reason-bad">La promesa es idéntica. Andromeda detecta el tema y la intención, no las palabras exactas que usas.</span></td></tr>
+          <tr><td><span class="pill pill-copy">Copy</span><span class="example">"¿Cansado de llegar justo a fin de mes?"<span class="ex-vs">vs. "¿Harto de no llegar a fin de mes?"</span></span></td><td><span class="reason-bad">La emoción, el problema y el perfil de persona son exactamente los mismos. Solo cambian las palabras.</span></td></tr>
+          <tr><td><span class="pill pill-copy">Copy</span><span class="example">"Más de 3.000 personas ya lo han conseguido"<span class="ex-vs">vs. "Únete a más de 3.000 que lo lograron"</span></span></td><td><span class="reason-bad">Ambas son prueba social con el mismo número y mensaje. No hay cambio de ángulo ni de emoción de entrada.</span></td></tr>
+          <tr><td><span class="pill pill-copy">Copy</span><span class="example">"Empieza hoy. Sin excusas."<span class="ex-vs">vs. "Empieza ya. Sin complicaciones."</span></span></td><td><span class="reason-bad">Mismo tono, mismo CTA, misma audiencia. Andromeda los trata como una sola variación del mismo concepto.</span></td></tr>
+          <tr><td><span class="pill pill-copy">Copy</span><span class="example">"Sin conocimientos previos"<span class="ex-vs">vs. "Aunque no sepas nada de finanzas"</span></span></td><td><span class="reason-bad">Misma objeción, misma respuesta, mismo perfil. Reformular la frase no abre una bolsa nueva de audiencia.</span></td></tr>
+        </tbody>
+      </table>
+
+      <!-- TABLA DIFERENTE -->
+      <div class="table-header">
+        <div class="table-header-icon icon-good">✅</div>
+        <div class="table-header-text">
+          <h3 class="h-good">Esto Andromeda lo ve diferente</h3>
+          <p>Cada concepto nuevo es una puerta a personas que de otra forma nunca nos verían.</p>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th style="width:42%">Lo que hacemos</th><th>Por qué abre una bolsa nueva</th></tr></thead>
+        <tbody>
+          <tr class="group-header"><td colspan="2"><span class="group-label"><span class="dot dot-vis"></span>Visual</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">Persona hablando a cámara tipo "te cuento mi historia"<span class="ex-vs">vs. capturas de pantalla con voz en off</span></span></td><td><span class="reason-good">El formato y el contexto visual son completamente distintos. Uno atrae por cercanía, el otro por credibilidad.</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">Vídeo en exterior, ambiente cotidiano<span class="ex-vs">vs. vídeo en casa, íntimo y cercano</span></span></td><td><span class="reason-good">El escenario cambia quién se identifica con el anuncio. Andromeda lee el contexto visual como señal de perfil.</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">Formato "día en mi vida" mostrando libertad<span class="ex-vs">vs. tutorial paso a paso con texto en pantalla</span></span></td><td><span class="reason-good">Son formatos con intenciones distintas. Uno atrae a quien aspira, el otro a quien quiere aprender ya.</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">Carrusel estático con datos y cifras<span class="ex-vs">vs. vídeo vertical tipo Reels con ritmo rápido</span></span></td><td><span class="reason-good">Formato completamente distinto. Andromeda los trata como creatividades independientes y los sirve a perfiles diferentes.</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">Testimonial real grabado desde el móvil<span class="ex-vs">vs. animación con texto que explica el proceso</span></span></td><td><span class="reason-good">La prueba social y la explicación racional apelan a momentos de decisión distintos. Audiencias distintas.</span></td></tr>
+          <tr><td><span class="pill pill-vis">Visual</span><span class="example">Antes/después: capturas reales de cuenta bancaria<span class="ex-vs">vs. vídeo en escritorio, ambiente profesional</span></span></td><td><span class="reason-good">El antes/después apela a la esperanza. El entorno profesional apela a la credibilidad. Dos bolsas distintas.</span></td></tr>
+          <tr class="group-header"><td colspan="2"><span class="group-label"><span class="dot dot-copy"></span>Copy</span></td></tr>
+          <tr><td><span class="pill pill-copy">Copy</span><span class="example">"Llego a fin de mes con lo justo y ya no sé qué más recortar"<span class="ex-vs">vs. "Gano bien pero no entiendo dónde se va el dinero"</span></span></td><td><span class="reason-good">Dos entradas distintas al mismo problema. Una desde el <strong>agobio</strong>, la otra desde la <strong>confusión</strong>. Bolsas distintas.</span></td></tr>
+          <tr><td><span class="pill pill-copy">Copy</span><span class="example">"Quiero empezar a invertir pero no tengo ni idea de por dónde"<span class="ex-vs">vs. "Vi que con lo que gano podría estar mucho mejor si supiera gestionarlo"</span></span></td><td><span class="reason-good">Una entra desde el <strong>miedo</strong>, la otra desde la <strong>oportunidad</strong>. Perfil de persona completamente distinto.</span></td></tr>
+          <tr><td><span class="pill pill-copy">Copy</span><span class="example">"Nadie te enseña esto en el cole: cómo hacer que tu dinero trabaje"<span class="ex-vs">vs. "Si ganas más de 1.500€ al mes y no ahorras nada, lee esto"</span></span></td><td><span class="reason-good">Una entra desde la <strong>rebeldía</strong> — siente que el sistema le falló. La otra desde la <strong>provocación</strong> — tiene recursos pero no los gestiona. Dos perfiles y dos bolsas muy distintas.</span></td></tr>
+          <tr><td><span class="pill pill-copy">Copy</span><span class="example">"El error que cometes con tu nómina todos los meses sin saberlo"<span class="ex-vs">vs. "En 6 meses pasé de vivir al día a tener 3 meses de colchón"</span></span></td><td><span class="reason-good">Una entra desde la <strong>curiosidad</strong> — despierta un problema que el usuario no sabía que tenía. La otra desde la <strong>prueba social</strong> — demuestra que el resultado es posible. Momentos de decisión distintos.</span></td></tr>
+          <tr><td><span class="pill pill-copy">Copy</span><span class="example">"No soy de números. Nunca lo fui. Pero esto lo entiende cualquiera"<span class="ex-vs">vs. "Si ganas más de 1.500€ al mes y no ahorras nada, lee esto"</span></span></td><td><span class="reason-good">Una entra desde la <strong>identificación</strong> — habla a quien se cree incapaz. La otra desde la <strong>provocación</strong> — habla a quien tiene recursos pero no los aprovecha. Perfiles y bolsas completamente distintos.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider"/>
+
+    <!-- SECCIÓN 4: HORIZONTAL / VERTICAL -->
+    <div class="section">
+      <div class="section-label">Estrategia de producción</div>
+      <h2>Escalar en horizontal y en vertical</h2>
+      <p>No todo tiene que ser un concepto nuevo. Hay dos tipos de trabajo creativo y cada uno tiene un objetivo distinto.</p>
+      <div style="display:flex;gap:16px;margin:24px 0;flex-wrap:wrap;">
+        <div class="rule-card green" style="flex:1;min-width:220px;">
+          <h4>Horizontal = amplitud</h4>
+          <p>Conceptos distintos que abren bolsas nuevas de audiencia. Esto es lo que hace crecer el alcance y bajar el coste por lead. Cada concepto nuevo es una puerta a personas que de otra forma nunca nos verían.</p>
+        </div>
+        <div class="rule-card purple" style="flex:1;min-width:220px;">
+          <h4>Vertical = aprendizaje</h4>
+          <p>Variaciones del mismo concepto que compiten en la misma bolsa. Sirven para saber qué versión convierte mejor. Como un A/B test de landing: misma hipótesis, distinta ejecución.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST VARIACIONES -->
+    <div class="section">
+      <div style="background:#fff;border:1px solid #e8e5de;border-radius:16px;padding:24px 28px;">
+        <p style="font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:4px;">¿A qué nos referimos con variaciones dentro de un mismo anuncio?</p>
+        <p style="font-size:13px;color:#888780;margin-bottom:16px;">Algunos ejemplos:</p>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;font-size:14px;color:#3d3d3a;">
+            <span style="width:22px;height:22px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#0F6E56;flex-shrink:0;">✓</span>
+            Versión larga (60s) vs versión corta (15s)
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;font-size:14px;color:#3d3d3a;">
+            <span style="width:22px;height:22px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#0F6E56;flex-shrink:0;">✓</span>
+            Con música vs sin música
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;font-size:14px;color:#3d3d3a;">
+            <span style="width:22px;height:22px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#0F6E56;flex-shrink:0;">✓</span>
+            Con subtítulos vs sin subtítulos
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">Guía interna · Equipo creativo · Lanzamiento Celia Rubio · 2026</div>
+  </div>
+
+  <!-- ==================== PESTAÑA SPECS ==================== -->
+  <div id="tab-specs" style="display:none;">
+    <div class="hero">
+      <div class="hero-tag">Referencia técnica</div>
+      <h1>Especificaciones<br/><span>técnicas</span></h1>
+      <p class="hero-sub">Formatos, medidas y límites de copy para cada plataforma. Consúltalo antes de entregar cualquier pieza.</p>
+    </div>
+
+    <div style="display:flex;gap:6px;background:#eeecea;border-radius:10px;padding:4px;margin-bottom:36px;max-width:320px;">
+      <button id="btn-meta" onclick="showSpecs('meta')" style="flex:1;padding:9px 16px;border:none;background:#fff;border-radius:7px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#1a1a18;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.08);">Meta Ads</button>
+      <button id="btn-yt" onclick="showSpecs('yt')" style="flex:1;padding:9px 16px;border:none;background:transparent;border-radius:7px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#888780;cursor:pointer;">YouTube Ads</button>
+    </div>
+
+    <!-- META -->
+    <div id="specs-meta">
+      <div class="section">
+        <div class="section-label">Creatividades</div>
+        <h2>Formatos de imagen y vídeo</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:16px;">
+          <div style="background:#fff;border:1px solid #e8e5de;border-radius:12px;padding:20px;">
+            <div style="width:36px;height:36px;background:#EEEDFE;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#534AB7;margin-bottom:10px;">Imagen</p>
+            <div style="border-top:1px solid #f0ede6;padding-top:10px;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:40px;height:50px;background:#EEEDFE;border-radius:3px;border:1.5px solid #AFA9EC;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:9px;font-weight:700;color:#534AB7;">4:5</span></div>
+                <div>
+                  <p style="font-size:12px;font-weight:600;color:#1a1a18;margin-bottom:2px;">Feed vertical (4:5)</p>
+                  <p style="font-size:12px;color:#888780;">1080 × 1350 px</p>
+                </div>
+              </div>
+            </div>
+            <div style="border-top:1px solid #f0ede6;padding-top:10px;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:28px;height:50px;background:#EEEDFE;border-radius:3px;border:1.5px solid #AFA9EC;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#534AB7;">9:16</span></div>
+                <div>
+                  <p style="font-size:12px;font-weight:600;color:#1a1a18;margin-bottom:2px;">Stories / Reels (9:16)</p>
+                  <p style="font-size:12px;color:#888780;">1080 × 1920 px</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="background:#fff;border:1px solid #e8e5de;border-radius:12px;padding:20px;">
+            <div style="width:36px;height:36px;background:#E1F5EE;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#0F6E56;margin-bottom:10px;">Vídeo</p>
+            <div style="border-top:1px solid #f0ede6;padding-top:10px;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:40px;height:50px;background:#E1F5EE;border-radius:3px;border:1.5px solid #5DCAA5;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:9px;font-weight:700;color:#0F6E56;">4:5</span></div>
+                <div>
+                  <p style="font-size:12px;font-weight:600;color:#1a1a18;margin-bottom:2px;">Feed vertical (4:5)</p>
+                  <p style="font-size:12px;color:#888780;">1080 × 1350 px</p>
+                </div>
+              </div>
+            </div>
+            <div style="border-top:1px solid #f0ede6;padding-top:10px;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:28px;height:50px;background:#E1F5EE;border-radius:3px;border:1.5px solid #5DCAA5;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#0F6E56;">9:16</span></div>
+                <div>
+                  <p style="font-size:12px;font-weight:600;color:#1a1a18;margin-bottom:2px;">Stories / Reels (9:16)</p>
+                  <p style="font-size:12px;color:#888780;">1080 × 1920 px</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-label">Textos</div>
+        <h2>Límites de copy</h2>
+        <table>
+          <thead><tr><th>Campo</th><th>Recomendado</th><th>Máximo</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Primary text</strong></td><td style="color:#0F6E56;font-weight:500;">125–250 caracteres</td><td style="color:#888780;">500 caracteres</td></tr>
+            <tr><td><strong>Titular</strong></td><td style="color:#0F6E56;font-weight:500;">20–40 caracteres</td><td style="color:#888780;">90 caracteres</td></tr>
+            <tr><td><strong>Descripción</strong></td><td style="color:#0F6E56;font-weight:500;">20–60 caracteres</td><td style="color:#888780;">90 caracteres</td></tr>
+          </tbody>
+        </table>
+        <div class="highlight-box" style="margin-top:20px;">
+          <p>Todo el copy debe cumplir las políticas de Meta: sin promesas exageradas ni afirmaciones falsas. Esto no aplica solo al anuncio — Meta también analiza la web de destino, así que la landing debe cumplir las mismas reglas. Pasarlo por IA antes de entregar es un buen filtro.</p>
+          <p style="margin-top:10px;"><a href="https://es-es.facebook.com/policies/ads/" target="_blank" style="color:#534AB7;font-size:13px;font-weight:600;text-decoration:none;border-bottom:1px solid #AFA9EC;">Ver políticas publicitarias de Meta en español →</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- YOUTUBE -->
+    <div id="specs-yt" style="display:none;">
+      <div class="section">
+        <div class="section-label">Creatividades</div>
+        <h2>Imágenes y vídeos</h2>
+
+        <p style="font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:12px;margin-top:16px;">Imágenes — mínimo 10 en total</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:28px;">
+
+          <div style="background:#fff;border:1px solid #e8e5de;border-radius:12px;padding:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <div style="width:32px;height:32px;background:#EEEDFE;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </div>
+              <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#534AB7;">Horizontal (1,91:1)</p>
+            </div>
+            <!-- Preview ratio -->
+            <div style="display:flex;justify-content:center;margin-bottom:12px;">
+              <div style="width:96px;height:50px;background:#EEEDFE;border-radius:4px;border:1.5px solid #AFA9EC;display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:10px;font-weight:600;color:#534AB7;">1,91:1</span>
+              </div>
+            </div>
+            <p style="font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:2px;">1200 × 628 px</p>
+            <p style="font-size:12px;color:#888780;">Mínimo 4 imágenes</p>
+          </div>
+
+          <div style="background:#fff;border:1px solid #e8e5de;border-radius:12px;padding:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <div style="width:32px;height:32px;background:#EEEDFE;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </div>
+              <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#534AB7;">Cuadrada (1:1)</p>
+            </div>
+            <div style="display:flex;justify-content:center;margin-bottom:12px;">
+              <div style="width:60px;height:60px;background:#EEEDFE;border-radius:4px;border:1.5px solid #AFA9EC;display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:10px;font-weight:600;color:#534AB7;">1:1</span>
+              </div>
+            </div>
+            <p style="font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:2px;">1200 × 1200 px</p>
+            <p style="font-size:12px;color:#888780;">Mínimo 4 imágenes</p>
+          </div>
+
+          <div style="background:#fff;border:1px solid #e8e5de;border-radius:12px;padding:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <div style="width:32px;height:32px;background:#EEEDFE;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </div>
+              <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#534AB7;">Vertical (4:5)</p>
+            </div>
+            <div style="display:flex;justify-content:center;margin-bottom:12px;">
+              <div style="width:48px;height:60px;background:#EEEDFE;border-radius:4px;border:1.5px solid #AFA9EC;display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:10px;font-weight:600;color:#534AB7;">4:5</span>
+              </div>
+            </div>
+            <p style="font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:2px;">960 × 1200 px</p>
+            <p style="font-size:12px;color:#888780;">Mínimo 2 imágenes</p>
+          </div>
+
+        </div>
+
+        <p style="font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:12px;">Vídeos</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">
+
+          <div style="background:#fff;border:1px solid #e8e5de;border-radius:12px;padding:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <div style="width:32px;height:32px;background:#E1F5EE;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+              <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#0F6E56;">Horizontal (16:9)</p>
+            </div>
+            <div style="display:flex;justify-content:center;margin-bottom:12px;">
+              <div style="width:96px;height:54px;background:#E1F5EE;border-radius:4px;border:1.5px solid #5DCAA5;display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:10px;font-weight:600;color:#0F6E56;">16:9</span>
+              </div>
+            </div>
+            <p style="font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:2px;">10s – 3 minutos</p>
+          </div>
+
+          <div style="background:#fff;border:1px solid #e8e5de;border-radius:12px;padding:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <div style="width:32px;height:32px;background:#E1F5EE;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+              <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#0F6E56;">Cuadrado (1:1)</p>
+            </div>
+            <div style="display:flex;justify-content:center;margin-bottom:12px;">
+              <div style="width:60px;height:60px;background:#E1F5EE;border-radius:4px;border:1.5px solid #5DCAA5;display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:10px;font-weight:600;color:#0F6E56;">1:1</span>
+              </div>
+            </div>
+            <p style="font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:2px;">10s – 3 minutos</p>
+          </div>
+
+          <div style="background:#fff;border:1px solid #e8e5de;border-radius:12px;padding:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <div style="width:32px;height:32px;background:#E1F5EE;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+              <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#0F6E56;">Vertical (9:16)</p>
+            </div>
+            <div style="display:flex;justify-content:center;margin-bottom:12px;">
+              <div style="width:34px;height:60px;background:#E1F5EE;border-radius:4px;border:1.5px solid #5DCAA5;display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:9px;font-weight:600;color:#0F6E56;">9:16</span>
+              </div>
+            </div>
+            <p style="font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:2px;">10s – 1 minuto</p>
+          </div>
+
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-label">Textos</div>
+        <h2>Límites de copy</h2>
+        <table>
+          <thead><tr><th>Campo</th><th>Cantidad</th><th>Límite</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Títulos cortos</strong></td><td style="color:#0F6E56;font-weight:500;">15 títulos</td><td style="color:#888780;">30 caracteres c/u</td></tr>
+            <tr><td><strong>Títulos largos</strong></td><td style="color:#0F6E56;font-weight:500;">5 títulos</td><td style="color:#888780;">90 caracteres c/u</td></tr>
+            <tr><td><strong>Descripciones</strong></td><td style="color:#0F6E56;font-weight:500;">5 descripciones</td><td style="color:#888780;">90 caracteres c/u</td></tr>
+          </tbody>
+        </table>
+        <div class="highlight-box" style="margin-top:20px;">
+          <p>Todo el copy debe cumplir las políticas de Google: sin promesas exageradas ni afirmaciones falsas. Google también analiza la web de destino, así que la landing debe cumplir las mismas reglas. Pasarlo por IA antes de entregar es un buen filtro.</p>
+          <p style="margin-top:10px;"><a href="https://support.google.com/adspolicy/answer/6008942" target="_blank" style="color:#534AB7;font-size:13px;font-weight:600;text-decoration:none;border-bottom:1px solid #AFA9EC;">Ver políticas publicitarias de Google Ads →</a></p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-label">Notas importantes</div>
+        <h2>Antes del lanzamiento</h2>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="background:#fff;border:1px solid #e8e5de;border-left:3px solid #534AB7;border-radius:0 10px 10px 0;padding:14px 18px;">
+            <p style="font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:4px;">Recopilar apariciones en medios</p>
+            <p style="font-size:13px;color:#5a5a54;">Listado completo de todos los medios en los que Celia ha aparecido o dado entrevistas, año actual y anterior.</p>
+          </div>
+          <div style="background:#fff;border:1px solid #e8e5de;border-left:3px solid #D85A30;border-radius:0 10px 10px 0;padding:14px 18px;">
+            <p style="font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:6px;">Enviar la URL de la landing con la máxima antelación posible</p>
+            <p style="font-size:13px;color:#5a5a54;">Es necesario lanzar una campaña en pausa antes del día de salida para que Google pueda revisar y aprobar los anuncios con tiempo. En el último lanzamiento, Google nos pidió autorizar ciertos elementos justo en el momento de salir, lo que nos impidió lanzar en Google. Para que esto no vuelva a ocurrir, necesitamos al menos una URL con suficiente margen para detectar cualquier problema de aprobación antes de que sea urgente. No hace falta que sean todas — con una es suficiente para empezar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">Guía interna · Equipo creativo · Lanzamiento Celia Rubio · 2026</div>
+  </div>
+
+</div>
+
+<script>
+  function showPage(page) {
+    document.getElementById('tab2').style.display = page === 'andromeda' ? 'block' : 'none';
+    document.getElementById('tab-specs').style.display = page === 'specs' ? 'block' : 'none';
+    const ba = document.getElementById('btn-andromeda');
+    const bs = document.getElementById('btn-specs');
+    ba.style.background = page === 'andromeda' ? '#fff' : 'transparent';
+    ba.style.color = page === 'andromeda' ? '#1a1a18' : '#888780';
+    ba.style.boxShadow = page === 'andromeda' ? '0 1px 4px rgba(0,0,0,0.08)' : 'none';
+    bs.style.background = page === 'specs' ? '#fff' : 'transparent';
+    bs.style.color = page === 'specs' ? '#1a1a18' : '#888780';
+    bs.style.boxShadow = page === 'specs' ? '0 1px 4px rgba(0,0,0,0.08)' : 'none';
+  }
+  function showSpecs(platform) {
+    document.getElementById('specs-meta').style.display = platform === 'meta' ? 'block' : 'none';
+    document.getElementById('specs-yt').style.display = platform === 'yt' ? 'block' : 'none';
+    const bm = document.getElementById('btn-meta');
+    const by = document.getElementById('btn-yt');
+    bm.style.background = platform === 'meta' ? '#fff' : 'transparent';
+    bm.style.color = platform === 'meta' ? '#1a1a18' : '#888780';
+    bm.style.boxShadow = platform === 'meta' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none';
+    by.style.background = platform === 'yt' ? '#fff' : 'transparent';
+    by.style.color = platform === 'yt' ? '#1a1a18' : '#888780';
+    by.style.boxShadow = platform === 'yt' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none';
+  }
+</script>
+</body>
+</html>
