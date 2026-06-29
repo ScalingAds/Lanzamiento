@@ -41,6 +41,20 @@ a.drive:hover{background:#444}
 tfoot td{padding:8px 10px;font-weight:700;font-size:13px;border-top:2px solid #e8e8e4;background:#fafaf8;white-space:nowrap}
 tfoot td.num{text-align:right}
 tfoot .tot-label{color:#555;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+
+.av-row{cursor:pointer;}
+.av-row:hover td{background:#fafaf8 !important;}
+.av-row.expanded td{background:#f5f5f3 !important;}
+.av-expand-row td{padding:0 !important;background:#f9f9f7 !important;}
+.av-expand-inner{padding:12px 16px 16px 32px;border-top:1px solid #ececea;}
+.av-expand-title{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+.av-expand-table{width:100%;border-collapse:collapse;font-size:12px;}
+.av-expand-table th{padding:4px 8px;font-size:10px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:.4px;text-align:right;border-bottom:1px solid #ececea;}
+.av-expand-table th.left{text-align:left;}
+.av-expand-table td{padding:4px 8px;border-bottom:1px solid #f5f5f3;text-align:right;}
+.av-expand-table td.left{text-align:left;color:#555;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.av-expand-table tr:last-child td{border-bottom:none;}
+.av-expand-empty{color:#aaa;font-size:12px;font-style:italic;padding:8px 0;}
 </style>
 </head>
 <body>
@@ -74,49 +88,53 @@ tfoot .tot-label{color:#555;font-size:11px;text-transform:uppercase;letter-spaci
   <!-- TOP AVATARES -->
   <div style="margin-bottom:24px">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-      <span style="font-size:14px;font-weight:700">&#128100; Top 10 Avatares</span>
+      <span style="font-size:14px;font-weight:700">&#128100; Top 10 Avatares *</span>
       <span id="dash-av-badge" style="font-size:11px;font-weight:600;background:#1a1a1a;color:#fff;padding:2px 9px;border-radius:10px">ROAS</span>
     </div>
     <div class="section">
       <table id="dash-av-table">
-        <thead><tr>
+        <thead id="dash-av-head"><tr>
           <th style="width:28px">#</th>
           <th>Avatar</th>
-          <th class="num">Leads</th>
-          <th class="num">CPL</th>
-          <th class="num">Ventas</th>
-          <th class="num">Gasto</th>
-          <th class="num">Ingresos</th>
-          <th class="num" id="dash-av-sort-col">ROAS &#x2193;</th>
+          <th class="num dash-av-sort" data-col="7" style="cursor:pointer">Leads <span class="si">&#x21D5;</span></th>
+          <th class="num dash-av-sort" data-col="8" style="cursor:pointer">CPL <span class="si">&#x21D5;</span></th>
+          <th class="num dash-av-sort" data-col="2" style="cursor:pointer">Ventas <span class="si">&#x21D5;</span></th>
+          <th class="num dash-av-sort" data-col="3" style="cursor:pointer">Gasto <span class="si">&#x21D5;</span></th>
+          <th class="num dash-av-sort" data-col="4" style="cursor:pointer">Ingresos <span class="si">&#x21D5;</span></th>
+          <th class="num dash-av-sort" data-col="5" id="dash-av-sort-col" style="cursor:pointer">ROAS <span class="si">&#x2193;</span></th>
+          <th class="num dash-av-sort dash-score-th" data-col="99" id="dash-av-score-col" style="cursor:pointer" title="Score = ROAS × Gasto | orden por defecto">Score ↓</th>
         </tr></thead>
         <tbody id="dash-av-body"></tbody>
         <tfoot><tr id="dash-av-foot"></tr></tfoot>
       </table>
     </div>
+  <p style="font-size:11px;color:#aaa;margin-top:6px;line-height:1.5">* <b>Modo ROAS:</b> solo avatares con ROAS &ge; 4x. Ordenados por <b>Score = ROAS &times; Gasto</b> &mdash; prioriza qui&eacute;n convierte bien <i>y</i> ha tenido inversi&oacute;n real. Puedes reordenar por cualquier columna dentro del top 10.</p>
   </div>
   <!-- TOP ANUNCIOS -->
   <div>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-      <span style="font-size:14px;font-weight:700">&#128226; Top 10 Anuncios</span>
+      <span style="font-size:14px;font-weight:700">&#128226; Top 10 Anuncios *</span>
       <span id="dash-ads-badge" style="font-size:11px;font-weight:600;background:#1a1a1a;color:#fff;padding:2px 9px;border-radius:10px">ROAS</span>
     </div>
     <div class="section">
       <table id="dash-ads-table">
-        <thead><tr>
+        <thead id="dash-ads-head"><tr>
           <th style="width:28px">#</th>
           <th>Anuncio</th>
-          <th class="num">Leads</th>
-          <th class="num">CPL</th>
-          <th class="num">Ventas</th>
-          <th class="num">Gasto</th>
-          <th class="num">Ingresos</th>
-          <th class="num" id="dash-ads-sort-col">ROAS &#x2193;</th>
+          <th class="num dash-ads-sort" data-col="6" style="cursor:pointer">Leads <span class="si">&#x21D5;</span></th>
+          <th class="num dash-ads-sort" data-col="7" style="cursor:pointer">CPL <span class="si">&#x21D5;</span></th>
+          <th class="num dash-ads-sort" data-col="1" style="cursor:pointer">Ventas <span class="si">&#x21D5;</span></th>
+          <th class="num dash-ads-sort" data-col="2" style="cursor:pointer">Gasto <span class="si">&#x21D5;</span></th>
+          <th class="num dash-ads-sort" data-col="3" style="cursor:pointer">Ingresos <span class="si">&#x21D5;</span></th>
+          <th class="num dash-ads-sort" data-col="4" id="dash-ads-sort-col" style="cursor:pointer">ROAS <span class="si">&#x2193;</span></th>
+          <th class="num dash-ads-sort dash-score-th" data-col="99" id="dash-ads-score-col" style="cursor:pointer" title="Score = ROAS × Gasto | orden por defecto">Score ↓</th>
           <th class="num">Enlace</th>
         </tr></thead>
         <tbody id="dash-ads-body"></tbody>
         <tfoot><tr id="dash-ads-foot"></tr></tfoot>
       </table>
     </div>
+    <p style="font-size:11px;color:#aaa;margin-top:6px;line-height:1.5">* <b>Modo ROAS:</b> solo anuncios con ROAS &ge; 4x. Ordenados por <b>Score = ROAS &times; Gasto</b> &mdash; prioriza qui&eacute;n convierte bien <i>y</i> ha tenido inversi&oacute;n real. Puedes reordenar por cualquier columna dentro del top 10.</p>
   </div>
 </div>
 
@@ -197,12 +215,12 @@ tfoot .tot-label{color:#555;font-size:11px;text-transform:uppercase;letter-spaci
       <thead><tr>
         <th style="width:28px">#</th>
         <th>Nombre</th>
-        <th class="num sortable" data-col="1">Leads <span class="si">↕</span></th>
-        <th class="num sortable" data-col="2">CPL <span class="si">↕</span></th>
-        <th class="num sortable" data-col="3">Ventas <span class="si">↕</span></th>
-        <th class="num sortable active" data-col="4">Gasto <span class="si">↓</span></th>
-        <th class="num sortable" data-col="5">Ingresos <span class="si">↕</span></th>
-        <th class="num sortable" data-col="6">ROAS <span class="si">↕</span></th>
+        <th class="num sortable" data-col="6">Leads <span class="si">↕</span></th>
+        <th class="num sortable" data-col="7">CPL <span class="si">↕</span></th>
+        <th class="num sortable" data-col="1">Ventas <span class="si">↕</span></th>
+        <th class="num sortable active" data-col="2">Gasto <span class="si">↓</span></th>
+        <th class="num sortable" data-col="3">Ingresos <span class="si">↕</span></th>
+        <th class="num sortable" data-col="4">ROAS <span class="si">↕</span></th>
       </tr></thead>
       <tbody></tbody>
     </table>
@@ -224,16 +242,19 @@ tfoot .tot-label{color:#555;font-size:11px;text-transform:uppercase;letter-spaci
     <button class="toggle" onclick="switchAdsL2(4)">TT_AF</button>
     <button class="toggle" onclick="switchAdsL2(5)">LATAM</button>
   </div>
+  <div style="margin:10px 0 8px">
+    <input id="ads-search" type="text" placeholder="Buscar anuncio..." oninput="adsSearchUpdate()" style="width:100%;max-width:400px;padding:7px 12px;border:1px solid #ddd;border-radius:20px;font-size:13px;outline:none;box-sizing:border-box" />
+  </div>
   <div class="section">
     <table id="ads-table"><tfoot id="ads-table-foot"><tr></tr></tfoot>
       <thead><tr>
         <th style="width:28px">#</th>
         <th>Anuncio</th>
-        <th class="num sortable" data-col="1">Leads <span class="si">↕</span></th>
-        <th class="num sortable" data-col="2">CPL <span class="si">↕</span></th>
-        <th class="num sortable" data-col="3">Ventas <span class="si">↕</span></th>
-        <th class="num sortable" data-col="4">Gasto <span class="si">↕</span></th>
-        <th class="num sortable" data-col="5">Ingresos <span class="si">↕</span></th>
+        <th class="num sortable" data-col="6">Leads <span class="si">↕</span></th>
+        <th class="num sortable" data-col="7">CPL <span class="si">↕</span></th>
+        <th class="num sortable" data-col="1">Ventas <span class="si">↕</span></th>
+        <th class="num sortable" data-col="2">Gasto <span class="si">↕</span></th>
+        <th class="num sortable" data-col="3">Ingresos <span class="si">↕</span></th>
         <th class="num sortable active" data-col="4">ROAS <span class="si">↓</span></th>
         <th style="text-align:center">Link</th>
       </tr></thead>
@@ -252,8 +273,54 @@ function updateHeaders(tableId,sc,sa){
     var col=parseInt(th.getAttribute('data-col'));
     th.classList.toggle('active',col===sc);
     var sp=th.querySelector('.si');
-    if(sp)sp.textContent=col===sc?(sa?'↑':'↓'):'↕';
+    if(sp)sp.textContent=col===sc?(sa?'↑':'↓'):'⇕';
   });
+}
+function updateHeadersMulti(tableId,sorts){
+  document.querySelectorAll('#'+tableId+' thead th.sortable').forEach(function(th){
+    var col=parseInt(th.getAttribute('data-col'));
+    var idx=-1;
+    for(var i=0;i<sorts.length;i++){if(sorts[i].col===col){idx=i;break;}}
+    th.classList.toggle('active',idx>=0);
+    var sp=th.querySelector('.si');
+    if(sp){
+      if(idx>=0){
+        var arrow=sorts[idx].asc?'↑':'↓';
+        sp.textContent=sorts.length>1?arrow+(idx+1):arrow;
+      }else{
+        sp.textContent='⇕';
+      }
+    }
+  });
+}
+function multiSort(data,sorts){
+  if(!sorts||sorts.length===0)return data;
+  return [...data].sort(function(a,b){
+    for(var i=0;i<sorts.length;i++){
+      var col=sorts[i].col,asc=sorts[i].asc;
+      var va=a[col]!=null?a[col]:(asc?Infinity:-Infinity);
+      var vb=b[col]!=null?b[col]:(asc?Infinity:-Infinity);
+      if(va<vb)return asc?-1:1;
+      if(va>vb)return asc?1:-1;
+    }
+    return 0;
+  });
+}
+function toggleMultiSort(sorts,col){
+  var idx=-1;
+  for(var i=0;i<sorts.length;i++){if(sorts[i].col===col){idx=i;break;}}
+  if(idx>=0){
+    // already in sorts: toggle direction first click, remove second click
+    if(!sorts[idx]._clicked){
+      sorts[idx].asc=!sorts[idx].asc;
+      sorts[idx]._clicked=true;
+    }else{
+      sorts.splice(idx,1);
+    }
+  }else{
+    sorts.push({col:col,asc:false,_clicked:false});
+  }
+  return sorts;
 }
 
 function mergeByName(arr){
@@ -634,7 +701,7 @@ const avTT = [
   ["Dependientes farmac\u00e9uticos / parafarmacia","2722",1.0,350.11,2500.0,7.14,null,102.0,3.43],
 ];
 
-var avState={sc:3,sa:false,mode:0};
+var avState={sc:3,sa:false,mode:0,sorts:[{col:3,asc:false,_clicked:false}]};
 function renderAvatares(tableId,data,sc,sa){
   var sorted=[...data].sort(function(a,b){
     var va=a[sc]!=null?a[sc]:-Infinity,vb=b[sc]!=null?b[sc]:-Infinity;
@@ -695,7 +762,8 @@ function renderAv(tableId,data,sc,sa){
     if(ing!=null)ti+=ing;
     if(leads!=null){tleads+=leads;hasLeads=true;}
     var nameCell=codigo?'<span style="color:#888;font-size:0.8em;margin-right:6px">'+codigo+'</span>'+name:name;
-    var tr=document.createElement('tr');
+    var tr=document.createElement('tr');    tr.className='av-row';
+
     tr.innerHTML='<td style="color:#888">'+(i+1)+'</td>'+
       '<td class="ad-name" title="'+name+'">'+nameCell+'</td>'+
       '<td class="num">'+fmtN(leads)+'</td>'+
@@ -704,6 +772,7 @@ function renderAv(tableId,data,sc,sa){
       '<td class="num">'+fmtE(g)+'</td>'+
       '<td class="num">'+fmtE(ing)+'</td>'+
       '<td class="num roas '+(roas!=null?rc(roas):'')+'">'+fmtR(roas)+'</td>';
+    (function(row,cod){ row.addEventListener('click',function(){ toggleAvExpand(row,cod,8); }); })(tr,codigo||'');
     tbody.appendChild(tr);
   });
   var tfoot=document.querySelector('#'+tableId+'-foot tr');
@@ -718,6 +787,43 @@ function renderAv(tableId,data,sc,sa){
     '<td class="num roas '+(roasMed!=null?rc(roasMed):'')+'">'+fmtR(roasMed)+'</td>';
   updateHeaders(tableId,sc,sa);
 }
+function renderAvSorted(tableId,sorted,sorts){
+  var tbody=document.querySelector('#'+tableId+' tbody');
+  tbody.innerHTML='';
+  var tv=0,tg=0,ti=0,cv=0,cg=0,tleads=0,hasLeads=false;
+  sorted.forEach(function(r,i){
+    var name=r[0],codigo=r[1],v=r[2],g=r[3],ing=r[4],roas=r[5],leads=r[7],cpl=r[8];
+    if(v!=null){tv+=v;cv++;}
+    if(g!=null){tg+=g;cg++;}
+    if(ing!=null)ti+=ing;
+    if(leads!=null){tleads+=leads;hasLeads=true;}
+    var nameCell=codigo?'<span style="color:#888;font-size:0.8em;margin-right:6px">'+codigo+'</span>'+name:name;
+    var tr=document.createElement('tr');    tr.className='av-row';
+
+    tr.innerHTML='<td style="color:#888">'+(i+1)+'</td>'+
+      '<td class="ad-name" title="'+name+'">'+nameCell+'</td>'+
+      '<td class="num">'+fmtN(leads)+'</td>'+
+      '<td class="num">'+fmtE(cpl)+'</td>'+
+      '<td class="num bold">'+fmtN(v)+'</td>'+
+      '<td class="num">'+fmtE(g)+'</td>'+
+      '<td class="num">'+fmtE(ing)+'</td>'+
+      '<td class="num roas '+(roas!=null?rc(roas):'')+'">'+fmtR(roas)+'</td>';
+    (function(row,cod){ row.addEventListener('click',function(){ toggleAvExpand(row,cod,8); }); })(tr,codigo||'');
+    tbody.appendChild(tr);
+  });
+  var tfoot=document.querySelector('#'+tableId+'-foot tr');
+  var roasMed=tg>0&&ti>0?ti/tg:null;
+  var cplMed=(hasLeads&&tleads>0&&tg>0)?Math.round(tg/tleads*100)/100:null;
+  tfoot.innerHTML='<td></td><td class="tot-label">TOTAL ('+sorted.length+')</td>'+
+    '<td class="num">'+fmtN(hasLeads?tleads:null)+'</td>'+
+    '<td class="num">'+fmtE(cplMed)+'</td>'+
+    '<td class="num">'+fmtN(cv>0?tv:null)+'</td>'+
+    '<td class="num">'+fmtE(cg>0?tg:null)+'</td>'+
+    '<td class="num">'+fmtE(ti>0?ti:null)+'</td>'+
+    '<td class="num roas '+(roasMed!=null?rc(roasMed):'')+'">'+fmtR(roasMed)+'</td>';
+  updateHeadersMulti(tableId,sorts);
+}
+
 function avData(mode){
   if(mode===0){return mergeByNameAv([...avAll]);}
   else if(mode===1){return avTF;}
@@ -726,7 +832,7 @@ function avData(mode){
   return [];
 }
 function switchAv(mode){
-  avState.mode=mode;avState.sc=3;avState.sa=false;
+  avState.mode=mode;avState.sc=3;avState.sa=false;avState.sorts=[{col:3,asc:false,_clicked:false}];
   document.querySelectorAll('#tab-avatares .toggle').forEach(function(b,i){b.classList.toggle('active',i===mode)});
   var data=avData(mode).filter(function(r){return r[3]!=null;});
   renderAv('av-table',data,avState.sc,avState.sa);
@@ -734,9 +840,10 @@ function switchAv(mode){
 document.querySelectorAll('#av-table thead th.sortable').forEach(function(th){
   th.addEventListener('click',function(){
     var col=parseInt(th.getAttribute('data-col'));
-    if(avState.sc===col)avState.sa=!avState.sa;else{avState.sc=col;avState.sa=false;}
+    avState.sorts=toggleMultiSort(avState.sorts,col);
     var data=avData(avState.mode).filter(function(r){return r[3]!=null;});
-    renderAv('av-table',data,avState.sc,avState.sa);
+    var sorted=multiSort(data,avState.sorts);
+    renderAvSorted('av-table',sorted,avState.sorts);
   });
 });
 
@@ -781,7 +888,7 @@ function renderCamp(tableId,data,sc,sa){
     '<td class="num roas '+(roasMed!=null?rc(roasMed):'')+'" >'+fmtR(roasMed)+'</td>';
   updateHeaders(tableId,sc,sa);
 }
-var campState={l1:0,l2:0,sc:2,sa:false};
+var campState={l1:0,l2:0,sc:2,sa:false,sorts:[{col:2,asc:false,_clicked:false}]};
 const campTF = [
   ["CeliaRubio_AV_Agosto25_CAPT_TF_ES_CBO_0",1.0,981.51,2500.0,2.55,null,126.0,7.79],
   ["CeliaRubio_AV_Agosto25_CAPT_TF_ES_CBO_1",5.0,2042.78,12500.0,6.12,null,299.0,6.83],
@@ -1106,8 +1213,9 @@ function switchCampL2(mode){
 document.querySelectorAll('#camp-table thead th.sortable').forEach(function(th){
   th.addEventListener('click',function(){
     var col=parseInt(th.getAttribute('data-col'));
-    if(campState.sc===col)campState.sa=!campState.sa;else{campState.sc=col;campState.sa=false;}
-    renderCamp('camp-table',campData(),campState.sc,campState.sa);
+    campState.sorts=toggleMultiSort(campState.sorts,col);
+    var sorted=multiSort(campData(),campState.sorts);
+    renderCampSorted('camp-table',sorted,campState.sorts);
   });
 });
 
@@ -1152,7 +1260,7 @@ function renderConj(tableId,data,sc,sa){
     '<td class="num roas '+(roasMed!=null?rc(roasMed):'')+'" >'+fmtR(roasMed)+'</td>';
   updateHeaders(tableId,sc,sa);
 }
-var conjState={l1:0,l2:0,sc:2,sa:false};
+var conjState={l1:0,l2:0,sc:2,sa:false,sorts:[{col:2,asc:false,_clicked:false}]};
 const conjTF = [
   ["ADOBEEFFECTS_H_Y_M_25A60",null,68.25,null,null,null,2.0,34.12],
   ["ADVANTAGE_HOMBRES_25A60",null,169.82,null,null,null,27.0,6.29],
@@ -2224,8 +2332,9 @@ function switchConjL2(mode){
 document.querySelectorAll('#conj-table thead th.sortable').forEach(function(th){
   th.addEventListener('click',function(){
     var col=parseInt(th.getAttribute('data-col'));
-    if(conjState.sc===col)conjState.sa=!conjState.sa;else{conjState.sc=col;conjState.sa=false;}
-    renderConj('conj-table',conjData(),conjState.sc,conjState.sa);
+    conjState.sorts=toggleMultiSort(conjState.sorts,col);
+    var sorted=multiSort(conjData(),conjState.sorts);
+    renderConjSorted('conj-table',sorted,conjState.sorts);
   });
 });
 
@@ -3385,7 +3494,7 @@ const adsLATAM = [
   ["AV2782_CELIA_SATELITE_2_AD_VF",null,61.41,null,null,"https://drive.google.com/open?id=184krfUoZYwQ9dTn9dqT-aUks6G8GeOL2&usp=drive_fs",41.0,1.54]
 ];
 
-var adsState={l1:0,l2:0,sc:4,sa:false};
+var adsState={l1:0,l2:0,sc:4,sa:false,sorts:[{col:4,asc:false,_clicked:false}]};
 function captAdsData(sub){
   if(sub===0){return mergeByName([...adsTF,...adsTFIN,...adsTT,...adsTTAF,...adsLATAM]);}
   else if(sub===1){return adsTF;}
@@ -3402,18 +3511,32 @@ function adsData(){
   else if(l1===2){return adsRMK;}
   return [];
 }
+function adsSearchUpdate(){
+  var q=document.getElementById('ads-search').value.toLowerCase().trim();
+  var data=adsData();
+  if(q){data=data.filter(function(r){return r[0].toLowerCase().indexOf(q)>=0;});}
+  var sorted=multiSort(data,adsState.sorts);
+  renderAdsSorted('ads-table',sorted,adsState.sorts);
+}
+
 function switchAdsL1(mode){
   adsState.l1=mode;adsState.l2=0;adsState.sc=4;adsState.sa=false;
   document.querySelectorAll('#ads-toggles-l1 .toggle').forEach(function(b,i){b.classList.toggle('active',i===mode)});
   var l2=document.getElementById('ads-toggles-l2');
   if(l2)l2.style.display=mode===1?'flex':'none';
   if(mode===1){document.querySelectorAll('#ads-toggles-l2 .toggle').forEach(function(b,i){b.classList.toggle('active',i===0)});}
-  renderAds('ads-table',adsData(),adsState.sc,adsState.sa);
+  var _aq=document.getElementById('ads-search')?document.getElementById('ads-search').value.toLowerCase().trim():'';
+  var _ad=adsData();
+  if(_aq){_ad=_ad.filter(function(r){return r[0].toLowerCase().indexOf(_aq)>=0;});}
+  renderAdsSorted('ads-table',multiSort(_ad,adsState.sorts),adsState.sorts);
 }
 function switchAdsL2(mode){
   adsState.l2=mode;adsState.sc=4;adsState.sa=false;
   document.querySelectorAll('#ads-toggles-l2 .toggle').forEach(function(b,i){b.classList.toggle('active',i===mode)});
-  renderAds('ads-table',adsData(),adsState.sc,adsState.sa);
+  var _aq=document.getElementById('ads-search')?document.getElementById('ads-search').value.toLowerCase().trim():'';
+  var _ad=adsData();
+  if(_aq){_ad=_ad.filter(function(r){return r[0].toLowerCase().indexOf(_aq)>=0;});}
+  renderAdsSorted('ads-table',multiSort(_ad,adsState.sorts),adsState.sorts);
 }
 function renderAds(tableId,data,sc,sa){
   var sorted=[...data].sort(function(a,b){
@@ -3458,14 +3581,124 @@ function renderAds(tableId,data,sc,sa){
 document.querySelectorAll('#ads-table thead th.sortable').forEach(function(th){
   th.addEventListener('click',function(){
     var col=parseInt(th.getAttribute('data-col'));
-    if(adsState.sc===col)adsState.sa=!adsState.sa;else{adsState.sc=col;adsState.sa=false;}
-    renderAds('ads-table',adsData(),adsState.sc,adsState.sa);
+    adsState.sorts=toggleMultiSort(adsState.sorts,col);
+    var sorted=multiSort(adsData(),adsState.sorts);
+    renderAdsSorted('ads-table',sorted,adsState.sorts);
   });
 });
 
+
+function renderAdsSorted(tableId,sorted,sorts){
+  var tbody=document.querySelector('#'+tableId+' tbody');
+  tbody.innerHTML='';
+  var tv=0,tg=0,ti=0,cv=0,cg=0,tleads=0,hasLeads=false;
+  sorted.forEach(function(r,i){
+    var name=r[0],v=r[1],g=r[2],ing=r[3],roas=r[4],url=r[5],leads=r[6],cpl=r[7];
+    if(v!=null){tv+=v;cv++;}if(leads!=null){tleads+=leads;hasLeads=true;}
+    if(g!=null){tg+=g;cg++;}if(ing!=null)ti+=ing;
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td style="color:#888">'+(i+1)+'</td>'+
+      '<td class="ad-name" title="'+name+'">'+name+'</td>'+
+      '<td class="num">'+fmtN(leads)+'</td>'+
+      '<td class="num">'+fmtE(cpl)+'</td>'+
+      '<td class="num bold">'+fmtN(v)+'</td>'+
+      '<td class="num">'+fmtE(g)+'</td>'+
+      '<td class="num">'+fmtE(ing)+'</td>'+
+      '<td class="num roas '+(roas!=null?rc(roas):'')+'">'+fmtR(roas)+'</td>'+
+      '<td style="text-align:center">'+(url?'<a class="drive" href="'+url+'" target="_blank">&#9654;</a>':'')+'</td>';
+    tbody.appendChild(tr);
+  });
+  var tfoot=document.querySelector('#'+tableId+'-foot tr');
+  var roasMed=tg>0&&ti>0?ti/tg:null;
+  var cplMed=(hasLeads&&tleads>0&&tg>0)?Math.round(tg/tleads*100)/100:null;
+  tfoot.innerHTML='<td></td><td class="tot-label">TOTAL ('+sorted.length+')</td>'+
+    '<td class="num">'+fmtN(hasLeads?tleads:null)+'</td>'+
+    '<td class="num">'+fmtE(cplMed)+'</td>'+
+    '<td class="num">'+fmtN(cv>0?tv:null)+'</td>'+
+    '<td class="num">'+fmtE(cg>0?tg:null)+'</td>'+
+    '<td class="num">'+fmtE(ti>0?ti:null)+'</td>'+
+    '<td class="num roas '+(roasMed!=null?rc(roasMed):'')+'">'+fmtR(roasMed)+'</td>'+
+    '<td></td>';
+  updateHeadersMulti(tableId,sorts);
+}
+
+function renderCampSorted(tableId,sorted,sorts){
+  var tbody=document.querySelector('#'+tableId+' tbody');
+  tbody.innerHTML='';
+  var tv=0,tg=0,ti=0,cv=0,cg=0,tleads=0,hasLeads=false;
+  sorted.forEach(function(r,i){
+    var name=r[0],v=r[1],g=r[2],ing=r[3],roas=r[4],url=r[5],leads=r[6],cpl=r[7];
+    if(v!=null){tv+=v;cv++;}if(leads!=null){tleads+=leads;hasLeads=true;}
+    if(g!=null){tg+=g;cg++;}if(ing!=null)ti+=ing;
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td style="color:#888">'+(i+1)+'</td>'+
+      '<td class="ad-name" title="'+name+'">'+name+(enlace?'&nbsp;'+enlace:'')+'</td>'+
+      '<td class="num">'+fmtN(leads)+'</td>'+
+      '<td class="num">'+fmtE(cpl)+'</td>'+
+      '<td class="num bold">'+fmtN(v)+'</td>'+
+      '<td class="num">'+fmtE(g)+'</td>'+
+      '<td class="num">'+fmtE(ing)+'</td>'+
+      '<td class="num roas '+(roas!=null?rc(roas):'')+'">'+fmtR(roas)+'</td>';
+    tbody.appendChild(tr);
+  });
+  var tfoot=document.querySelector('#'+tableId+'-foot tr');
+  var roasMed=tg>0&&ti>0?ti/tg:null;
+  var cplMed=(hasLeads&&tleads>0&&tg>0)?Math.round(tg/tleads*100)/100:null;
+  tfoot.innerHTML='<td></td><td class="tot-label">TOTAL ('+sorted.length+')</td>'+
+    '<td class="num">'+fmtN(hasLeads?tleads:null)+'</td>'+
+    '<td class="num">'+fmtE(cplMed)+'</td>'+
+    '<td class="num">'+fmtN(cv>0?tv:null)+'</td>'+
+    '<td class="num">'+fmtE(cg>0?tg:null)+'</td>'+
+    '<td class="num">'+fmtE(ti>0?ti:null)+'</td>'+
+    '<td class="num roas '+(roasMed!=null?rc(roasMed):'')+'">'+fmtR(roasMed)+'</td>';
+  updateHeadersMulti(tableId,sorts);
+}
+
+function renderConjSorted(tableId,sorted,sorts){
+  var tbody=document.querySelector('#'+tableId+' tbody');
+  tbody.innerHTML='';
+  var tv=0,tg=0,ti=0,cv=0,cg=0,tleads=0,hasLeads=false;
+  sorted.forEach(function(r,i){
+    var name=r[0],v=r[1],g=r[2],ing=r[3],roas=r[4],url=r[5],leads=r[6],cpl=r[7];
+    if(v!=null){tv+=v;cv++;}if(leads!=null){tleads+=leads;hasLeads=true;}
+    if(g!=null){tg+=g;cg++;}if(ing!=null)ti+=ing;
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td style="color:#888">'+(i+1)+'</td>'+
+      '<td class="ad-name" title="'+name+'">'+name+(enlace?'&nbsp;'+enlace:'')+'</td>'+
+      '<td class="num">'+fmtN(leads)+'</td>'+
+      '<td class="num">'+fmtE(cpl)+'</td>'+
+      '<td class="num bold">'+fmtN(v)+'</td>'+
+      '<td class="num">'+fmtE(g)+'</td>'+
+      '<td class="num">'+fmtE(ing)+'</td>'+
+      '<td class="num roas '+(roas!=null?rc(roas):'')+'">'+fmtR(roas)+'</td>';
+    tbody.appendChild(tr);
+  });
+  var tfoot=document.querySelector('#'+tableId+'-foot tr');
+  var roasMed=tg>0&&ti>0?ti/tg:null;
+  var cplMed=(hasLeads&&tleads>0&&tg>0)?Math.round(tg/tleads*100)/100:null;
+  tfoot.innerHTML='<td></td><td class="tot-label">TOTAL ('+sorted.length+')</td>'+
+    '<td class="num">'+fmtN(hasLeads?tleads:null)+'</td>'+
+    '<td class="num">'+fmtE(cplMed)+'</td>'+
+    '<td class="num">'+fmtN(cv>0?tv:null)+'</td>'+
+    '<td class="num">'+fmtE(cg>0?tg:null)+'</td>'+
+    '<td class="num">'+fmtE(ti>0?ti:null)+'</td>'+
+    '<td class="num roas '+(roasMed!=null?rc(roasMed):'')+'">'+fmtR(roasMed)+'</td>';
+  updateHeadersMulti(tableId,sorts);
+}
 // ---- DASHBOARD ----
 var dashMode='roas';
 var dashTraffic=0;
+var dashAvSc=99, dashAvSa=false;
+var dashAdsSc=99, dashAdsSa=false;
+
+function updateDashHeaders(headSelector, sc, sa){
+  document.querySelectorAll(headSelector+' th[data-col]').forEach(function(th){
+    var col=parseInt(th.getAttribute('data-col'));
+    th.classList.toggle('active', col===sc);
+    var sp=th.querySelector('.si');
+    if(sp) sp.textContent=col===sc?(sa?'↑':'↓'):'⇕';
+  });
+}
 
 function switchDashTraffic(t){
   dashTraffic=t;
@@ -3476,6 +3709,9 @@ function switchDashTraffic(t){
 
 function switchDash(mode){
   dashMode=mode;
+  // Reset sort to default for the mode
+  dashAvSc=99; dashAvSa=false;
+  dashAdsSc=99; dashAdsSa=false;
   document.getElementById('dash-btn-roas').classList.toggle('active',mode==='roas');
   document.getElementById('dash-btn-cpl').classList.toggle('active',mode==='cpl');
   var label=mode==='roas'?'ROAS':'CPL';
@@ -3483,6 +3719,9 @@ function switchDash(mode){
   document.getElementById('dash-ads-badge').textContent=label;
   document.getElementById('dash-av-sort-col').textContent=label+' ↓';
   document.getElementById('dash-ads-sort-col').textContent=label+' ↓';
+  var scoreLabel=mode==='roas'?'Score = ROAS×Gasto':'Score = Gasto/CPL';
+  document.getElementById('dash-av-score-col').title=scoreLabel;
+  document.getElementById('dash-ads-score-col').title=scoreLabel;
   renderDashAv(mode);
   renderDashAds(mode);
 }
@@ -3511,14 +3750,25 @@ function dashMedal(i){return i===0?'#1':i===1?'#2':i===2?'#3':String(i+1);}
 
 function renderDashAv(mode){
   var raw=getAvDataForTraffic(dashTraffic);
-  var filtered,sorted;
+  var filtered;
   if(mode==='roas'){
-    filtered=raw.filter(function(r){return r[5]!=null;});
-    sorted=filtered.sort(function(a,b){return b[5]-a[5];}).slice(0,10);
+    filtered=raw.filter(function(r){return r[5]!=null&&r[3]!=null&&r[5]>=4;});
   }else{
     filtered=raw.filter(function(r){return r[3]!=null&&r[3]>=30&&r[8]!=null;});
-    sorted=filtered.sort(function(a,b){return a[8]-b[8];}).slice(0,10);
   }
+  // Score = ROAS * Gasto (roas=r[5], g=r[3]) or CPL-mode: score = (1/cpl) * gasto
+  var top10=filtered.map(function(r){
+    var score=mode==='roas'?(r[5]||0)*(r[3]||0):(r[3]||0)/(r[8]||9999);
+    return {r:r,score:score};
+  }).sort(function(a,b){return b.score-a.score;}).slice(0,10).map(function(x){return x.r;});
+  // Now sort top10 by user-chosen column
+  var sc=dashAvSc, sa=dashAvSa;
+  var sorted=top10.sort(function(a,b){
+    if(sc===99){return mode==='roas'?(b[5]||0)*(b[3]||0)-(a[5]||0)*(a[3]||0):(a[3]||0)/(a[8]||9999)-(b[3]||0)/(b[8]||9999);}
+    var va=a[sc]!=null?a[sc]:(sa?Infinity:-Infinity);
+    var vb=b[sc]!=null?b[sc]:(sa?Infinity:-Infinity);
+    return sa?va-vb:vb-va;
+  });
   var tbody=document.getElementById('dash-av-body');
   tbody.innerHTML='';
   var tg=0,ti=0,tv=0,tleads=0,hasG=false,hasI=false,hasV=false,hasL=false;
@@ -3537,6 +3787,10 @@ function renderDashAv(mode){
       '<td class="num">'+fmtE(g)+'</td>'+
       '<td class="num">'+fmtE(ing)+'</td>'+
       '<td class="num roas '+metricClass+'"><b>'+metricVal+'</b></td>';
+    var avScore=r[5]&&r[3]?Math.round(r[5]*r[3]):null;
+    var avScoreColor=avScore?(sorted.length<=3?['#0F6E56','#854F0B','#993C1D'][Math.min(i,2)]:
+      i<sorted.length*0.33?'#0F6E56':i<sorted.length*0.66?'#854F0B':'#993C1D'):'#aaa';
+    tr.innerHTML+=('<td class="num" style="font-weight:600;color:'+avScoreColor+'">'+(avScore?Math.round(avScore/1000)+'k':'—')+'</td>');
     tbody.appendChild(tr);
   });
   var roasTot=hasG&&hasI?Math.round(ti/tg*100)/100:null;
@@ -3550,19 +3804,31 @@ function renderDashAv(mode){
     '<td class="num">'+fmtN(hasV?tv:null)+'</td>'+
     '<td class="num">'+fmtE(hasG?tg:null)+'</td>'+
     '<td class="num">'+fmtE(hasI?ti:null)+'</td>'+
-    '<td class="num roas '+metricCls+'"><b>'+metricTot+'</b></td>';
+    '<td class="num roas '+metricCls+'"><b>'+metricTot+'</b></td>'+'<td></td>';
+  updateDashHeaders('#dash-av-head', dashAvSc, dashAvSa);
 }
 
 function renderDashAds(mode){
   var raw=mergeByName(getAdsForTraffic(dashTraffic));
-  var filtered,sorted;
+  var filtered;
   if(mode==='roas'){
-    filtered=raw.filter(function(r){return r[4]!=null;});
-    sorted=filtered.sort(function(a,b){return b[4]-a[4];}).slice(0,10);
+    filtered=raw.filter(function(r){return r[4]!=null&&r[2]!=null&&r[4]>=4;});
   }else{
     filtered=raw.filter(function(r){return r[2]!=null&&r[2]>=30&&r[7]!=null;});
-    sorted=filtered.sort(function(a,b){return a[7]-b[7];}).slice(0,10);
   }
+  // Score = ROAS * Gasto (roas=r[4], g=r[2]) or CPL-mode: score = gasto / cpl
+  var top10=filtered.map(function(r){
+    var score=mode==='roas'?(r[4]||0)*(r[2]||0):(r[2]||0)/(r[7]||9999);
+    return {r:r,score:score};
+  }).sort(function(a,b){return b.score-a.score;}).slice(0,10).map(function(x){return x.r;});
+  // Sort top10 by user-chosen column
+  var sc=dashAdsSc, sa=dashAdsSa;
+  var sorted=top10.sort(function(a,b){
+    if(sc===99){return mode==='roas'?(b[4]||0)*(b[2]||0)-(a[4]||0)*(a[2]||0):(a[2]||0)/(a[7]||9999)-(b[2]||0)/(b[7]||9999);}
+    var va=a[sc]!=null?a[sc]:(sa?Infinity:-Infinity);
+    var vb=b[sc]!=null?b[sc]:(sa?Infinity:-Infinity);
+    return sa?va-vb:vb-va;
+  });
   var tbody=document.getElementById('dash-ads-body');
   tbody.innerHTML='';
   var tg=0,ti=0,tv=0,tleads=0,hasG=false,hasI=false,hasV=false,hasL=false;
@@ -3582,7 +3848,11 @@ function renderDashAds(mode){
       '<td class="num">'+fmtE(g)+'</td>'+
       '<td class="num">'+fmtE(ing)+'</td>'+
       '<td class="num roas '+metricClass+'"><b>'+metricVal+'</b></td>'+
-      '<td class="num">'+enlace+'</td>';
+      '';
+    var adsScore=r[4]&&r[2]?Math.round(r[4]*r[2]):null;
+    var adsScoreColor=adsScore?(i<sorted.length*0.33?'#0F6E56':i<sorted.length*0.66?'#854F0B':'#993C1D'):'#aaa';
+    tr.innerHTML+=('<td class="num" style="font-weight:600;color:'+adsScoreColor+'">'+(adsScore?Math.round(adsScore/1000)+'k':'—')+'</td>');
+    tr.innerHTML+=('<td style="text-align:center">'+(url?'<a class="drive" href="'+url+'" target="_blank">&#9654;</a>':'')+'</td>');
     tbody.appendChild(tr);
   });
   var roasTot=hasG&&hasI?Math.round(ti/tg*100)/100:null;
@@ -3597,10 +3867,332 @@ function renderDashAds(mode){
     '<td class="num">'+fmtE(hasG?tg:null)+'</td>'+
     '<td class="num">'+fmtE(hasI?ti:null)+'</td>'+
     '<td class="num roas '+metricCls+'"><b>'+metricTot+'</b></td>'+
-    '<td></td>';
+    '<td></td>'+'<td></td>';
+  updateDashHeaders('#dash-ads-head', dashAdsSc, dashAdsSa);
 }
 
-function initDashboard(){switchDash('roas');}
+function initDashboard(){
+  switchDash('roas');
+  // Dashboard av sort listeners
+  document.querySelectorAll('#dash-av-head th[data-col]').forEach(function(th){
+    th.addEventListener('click',function(){
+      var col=parseInt(th.getAttribute('data-col'));
+      if(dashAvSc===col){dashAvSa=!dashAvSa;}else{dashAvSc=col;dashAvSa=false;}
+      renderDashAv(dashMode);
+    });
+  });
+  // Dashboard ads sort listeners
+  document.querySelectorAll('#dash-ads-head th[data-col]').forEach(function(th){
+    th.addEventListener('click',function(){
+      var col=parseInt(th.getAttribute('data-col'));
+      if(dashAdsSc===col){dashAdsSa=!dashAdsSa;}else{dashAdsSc=col;dashAdsSa=false;}
+      renderDashAds(dashMode);
+    });
+  });
+}
+
+
+const conjByAv = {
+  "0100":[["MARKETING DIGITAL_H_Y_M_25A60_3",1.0,332.94,2500.0,7.51,null,51.0,6.53],["BROAD_H_Y_M_25A60_6",1.0,318.68,2500.0,7.84,null,50.0,6.37],["ADVANTAGE_H_Y_M_25A60_2",1.0,313.98,2500.0,7.96,null,28.0,11.21],["ADVANTAGE_H_Y_M_25A60",null,295.17,null,null,null,21.0,14.06],["INVERSIONES_H_Y_M_25A60_2",null,284.42,null,null,null,32.0,8.89],["BROAD_H_Y_M_25A60_2",2.0,279.51,5000.0,17.89,null,34.0,8.22],["INVERSIONES_H_Y_M_25A60_3",1.0,266.28,2500.0,9.39,null,33.0,8.07],["ADVANTAGE_H_Y_M_25A60_3",null,265.12,null,null,null,42.0,6.31],["INVERSIONES_H_Y_M_25A60_10",2.0,263.88,5000.0,18.95,null,42.0,6.28],["MARKETING DIGITAL_H_Y_M_25A60_4",null,254.02,null,null,null,14.0,18.14],["ADVANTAGE_H_Y_M_25A60_6",1.0,253.58,2500.0,9.86,null,36.0,7.04],["BROAD_H_Y_M_25A60_4",null,252.09,null,null,null,15.0,16.81],["BROAD_H_Y_M_25A60",null,249.36,null,null,null,17.0,14.67],["BROAD_H_Y_M_25A60_3",1.0,246.74,2500.0,10.13,null,28.0,8.81],["MARKETING DIGITAL_H_Y_M_25A60_6",null,245.19,null,null,null,41.0,5.98],["INVERSIONES_H_Y_M_25A60",null,244.49,null,null,null,19.0,12.87],["INVERSIONES_H_Y_M_25A60_6",1.0,238.12,2500.0,10.5,null,18.0,13.23],["ADVANTAGE_H_Y_M_25A60_03",null,225.43,null,null,null,43.0,5.24],["MARKETING DIGITAL_H_Y_M_25A60_7",null,221.48,null,null,null,17.0,13.03],["BROAD_H_Y_M_25A60_7",null,203.92,null,null,null,11.0,18.54],["INVERSIONES_H_Y_M_25A60_4",1.0,200.29,2500.0,12.48,null,15.0,13.35],["DESARROLLO PERSONAL_H_Y_M_25A60_3",null,198.62,null,null,null,29.0,6.85],["MARKETING DIGITAL_H_Y_M_25A60_2",null,198.6,null,null,null,11.0,18.05],["INVERSIONES_H_Y_M_25A60_7",null,197.38,null,null,null,11.0,17.94],["INVERSIONES_H_Y_M_25A60_5",2.0,196.92,5000.0,25.39,null,16.0,12.31],["ADVANTAGE_H_Y_M_25A60_5",null,192.06,null,null,null,20.0,9.6],["MARKETING DIGITAL_H_Y_M_25A60",null,190.84,null,null,null,8.0,23.86],["BROAD_H_Y_M_25A60_5",null,184.55,null,null,null,4.0,46.14],["DESARROLLO PERSONA_H_Y_M_25A60",null,184.26,null,null,null,8.0,23.03],["ADVANTAGE_H_Y_M_25A60_4",null,179.94,null,null,null,10.0,17.99],["MARKETING DIGITAL_H_Y_M_25A60_5",null,177.92,null,null,null,10.0,17.79],["ADVANTAGE_H_Y_M_25A60_7",null,173.26,null,null,null,11.0,15.75],["BROAD_H_Y_M_25A60_8",2.0,168.1,5000.0,29.74,null,37.0,4.54],["DESARROLLO PERSONA_H_Y_M_25A60_03",null,166.11,null,null,null,23.0,7.22],["ADVANTAGE_H_Y_M_25A60_8",1.0,165.13,2500.0,15.14,null,48.0,3.44],["ADVANTAGE_H_Y_M_25A60_12",null,158.08,null,null,null,10.0,15.81],["BROAD_H_Y_M_25A60_12",null,150.07,null,null,null,5.0,30.01],["BROAD_H_Y_M_25A60_03",null,149.47,null,null,null,28.0,5.34],["DESARROLLO PERSONAL_H_Y_M_25A60_2",null,149.15,null,null,null,16.0,9.32],["BROAD_H_Y_M_25A60_9",null,144.76,null,null,null,37.0,3.91],["ADVANTAGE_H_Y_M_25A60_9",null,141.87,null,null,null,23.0,6.17],["MARKETING DIGITAL_H_Y_M_25A60_8",null,140.07,null,null,null,15.0,9.34],["DESARROLLO PERSONAL_H_Y_M_25A60_4",null,139.5,null,null,null,10.0,13.95],["MARKETING DIGITAL_H_Y_M_25A60_09",null,136.62,null,null,null,20.0,6.83],["MARKETING DIGITAL_H_Y_M_25A60_9",1.0,135.32,2500.0,18.47,null,32.0,4.23],["DESARROLLO PERSONAL_H_Y_M_25A60_12",null,135.25,null,null,null,18.0,7.51],["INVERSIONES_H_Y_M_25A60_8",1.0,132.73,2500.0,18.84,null,23.0,5.77],["BROAD_H_Y_M_25A60_10",null,128.6,null,null,null,8.0,16.07],["INVERSIONES_H_Y_M_25A60_9",null,127.72,null,null,null,20.0,6.39],["INVERSIONES_H_Y_M_25A60_03",null,126.08,null,null,null,15.0,8.41],["MARKETING DIGITAL_H_Y_M_25A60_03",null,119.46,null,null,null,16.0,7.47],["DESARROLLO PERSONAL_H_Y_M_25A60_6",null,118.28,null,null,null,16.0,7.39],["DESARROLLO PERSONA_H_Y_M_25A60_10",null,112.27,null,null,null,5.0,22.45],["MARKETING DIGITAL_H_Y_M_25A60_10",null,110.97,null,null,null,5.0,22.19],["ADVANTAGE_H_Y_M_25A60_10",null,110.5,null,null,null,6.0,18.42],["ADVANTAGE_H_Y_M_25A60_02",null,107.92,null,null,null,12.0,8.99],["DESARROLLO PERSONA_H_Y_M_25A60_4",null,101.77,null,null,null,5.0,20.35],["INVERSIONES_H_Y_M_25A60_1",null,101.49,null,null,null,8.0,12.69],["INVERSIONES_H_Y_M_25A60_08",null,99.27,null,null,null,13.0,7.64],["DESARROLLO PERSONA_H_Y_M_25A60_1",null,99.15,null,null,null,7.0,14.16],["DESARROLLO PERSONAL_H_Y_M_25A60",null,97.04,null,null,null,4.0,24.26],["DESARROLLO PERSONAL_H_Y_M_25A60_7",1.0,96.56,2500.0,25.89,null,5.0,19.31],["BROAD_H_Y_M_25A60_1",null,96.3,null,null,null,5.0,19.26],["DESARROLLO PERSONAL_H_Y_M_25A60_5",null,94.05,null,null,null,2.0,47.02],["INVERSIONES_H_Y_M_25A60_16",null,93.85,null,null,null,18.0,5.21],["MARKETING DIGITAL_H_Y_M_25A60_01",1.0,92.71,2500.0,26.97,null,4.0,23.18],["DESARROLLO PERSONA_H_Y_M_25A60_9",null,91.22,null,null,null,13.0,7.02],["DESARROLLO PERSONA_H_Y_M_25A60_8",null,89.63,null,null,null,21.0,4.27],["ADVANTAGE_H_Y_M_25A60_16",null,89.38,null,null,null,1.0,89.38],["INVERSIONES_H_Y_M_25A60_13",null,88.59,null,null,null,12.0,7.38],["ADVANTAGE_H_Y_M_25A60_15",null,88.39,null,null,null,12.0,7.37],["BROAD_H_Y_M_25A60_15",1.0,88.38,2500.0,28.29,null,7.0,12.63],["BROAD_H_Y_M_25A60_14",null,88.18,null,null,null,6.0,14.7],["ADVANTAGE_H_Y_M_25A60_13",1.0,88.06,2500.0,28.39,null,18.0,4.89],["DESARROLLO PERSONA_H_Y_M_25A60_15",null,87.43,null,null,null,10.0,8.74],["DESARROLLO PERSONA_H_Y_M_25A60_7",null,86.99,null,null,null,3.0,29.0],["MARKETING DIGITAL_H_Y_M_25A60_13",2.0,86.9,5000.0,57.54,null,11.0,7.9],["INVERSIONES_H_Y_M_25A60_01",null,86.54,null,null,null,4.0,21.64],["BROAD_H_Y_M_25A60_01",null,85.94,null,null,null,2.0,42.97],["ADVANTAGE_H_Y_M_25A60_14",null,85.83,null,null,null,13.0,6.6],["BROAD_H_Y_M_25A60_13",null,85.8,null,null,null,3.0,28.6],["INVERSIONES_H_Y_M_25A60_02",null,85.78,null,null,null,6.0,14.3],["DESARROLLO PERSONA_H_Y_M_25A60_16",null,85.62,null,null,null,8.0,10.7],["DESARROLLO PERSONA_H_Y_M_25A60_13",null,85.42,null,null,null,7.0,12.2],["MARKETING DIGITAL_H_Y_M_25A60_14",null,85.16,null,null,null,11.0,7.74],["DESARROLLO PERSONA_H_Y_M_25A60_2",null,84.82,null,null,null,1.0,84.82],["DESARROLLO PERSONA_H_Y_M_25A60_01",null,84.76,null,null,null,1.0,84.76],["BROAD_H_Y_M_25A60_04",null,84.44,null,null,null,9.0,9.38],["DESARROLLO PERSONA_H_Y_M_25A60_14",1.0,84.23,2500.0,29.68,null,6.0,14.04],["ADVANTAGE_H_Y_M_25A60_01",null,84.2,null,null,null,1.0,84.2],["MARKETING DIGITAL_H_Y_M_25A60_15",null,82.56,null,null,null,6.0,13.76],["INVERSIONES_H_Y_M_25A60_11",null,81.72,null,null,null,2.0,40.86],["INVERSIONES_H_Y_M_25A60_14",null,81.46,null,null,null,6.0,13.58],["INVERSIONES_H_Y_M_25A60_09",null,80.91,null,null,null,7.0,11.56],["DESARROLLO PERSONA_H_Y_M_25A60_12",null,77.01,null,null,null,4.0,19.25],["MARKETING DIGITAL_H_Y_M_25A60_08",1.0,74.77,2500.0,33.44,null,8.0,9.35],["BROAD_H_Y_M_25A60_09",null,73.69,null,null,null,9.0,8.19],["INVERSIONES_H_Y_M_25A60_04",null,73.58,null,null,null,6.0,12.26],["ADVANTAGE_H_Y_M_25A60_1",null,72.46,null,null,null,1.0,72.46],["DESARROLLO PERSONA_H_Y_M_25A60_6",null,72.42,null,null,null,3.0,24.14],["BROAD_H_Y_M_25A60_02",null,72.35,null,null,null,6.0,12.06],["DESARROLLO PERSONA_H_Y_M_25A60_5",null,72.13,null,null,null,3.0,24.04],["DESARROLLO PERSONA_H_Y_M_25A60_11",null,71.05,null,null,null,2.0,35.52],["DESARROLLO PERSONA_H_Y_M_25A60_02",null,70.68,null,null,null,3.0,23.56],["INVERSIONES_H_Y_M_25A60_12",null,70.0,null,null,null,3.0,23.33],["MARKETING DIGITAL_H_Y_M_25A60_11",null,67.89,null,null,null,1.0,67.89],["ADVANTAGE_H_Y_M_25A60_11",null,67.64,null,null,null,2.0,33.82],["MARKETING DIGITAL_H_Y_M_25A60_12",null,67.54,null,null,null,2.0,33.77],["MARKETING DIGITAL_H_Y_M_25A60_1",null,67.54,null,null,null,2.0,33.77],["BROAD_H_Y_M_25A60_11",null,66.53,null,null,null,2.0,33.27],["DESARROLLO PERSONA_H_Y_M_25A60_3",null,66.18,null,null,null,3.0,22.06],["INVERSIONES_H_Y_M_25A60_15",null,65.18,null,null,null,3.0,21.73],["ADVANTAGE_H_Y_M_25A60_08",null,64.93,null,null,null,6.0,10.82],["MARKETING DIGITAL_H_Y_M_25A60_04",null,63.8,null,null,null,5.0,12.76],["ADVANTAGE_H_Y_M_25A60_04",null,62.73,null,null,null,3.0,20.91],["BROAD_H_Y_M_25A60_16",null,62.01,null,null,null,2.0,31.0],["DESARROLLO PERSONA_H_Y_M_25A60_09",null,61.51,null,null,null,8.0,7.69],["INVERSIONES_H_Y_M_25A60_06",null,60.92,null,null,null,2.0,30.46],["DESARROLLO PERSONA_H_Y_M_25A60_04",null,59.62,null,null,null,1.0,59.62],["MARKETING DIGITAL_H_Y_M_25A60_02",null,57.13,null,null,null,3.0,19.04],["MARKETING DIGITAL_H_Y_M_25A60_16",null,51.83,null,null,null,2.0,25.91],["ADVANTAGE_H_Y_M_25A60_09",null,50.64,null,null,null,1.0,50.64],["DESARROLLO PERSONA_H_Y_M_25A60_08",null,50.4,null,null,null,3.0,16.8],["BROAD_H_Y_M_25A60_08",null,49.68,null,null,null,null,null],["BROAD_H_Y_M_25A60_06",null,47.53,null,null,null,4.0,11.88],["BROAD_H_Y_M_25A60_05",null,46.91,null,null,null,4.0,11.73],["MARKETING DIGITAL_H_Y_M_25A60_06",null,45.86,null,null,null,1.0,45.86],["DESARROLLO PERSONA_H_Y_M_25A60_06",null,45.68,null,null,null,2.0,22.84],["MARKETING DIGITAL_H_Y_M_25A60_07",null,45.64,null,null,null,2.0,22.82],["ADVANTAGE_H_Y_M_25A60_06",1.0,45.55,2500.0,54.88,null,4.0,11.39],["INVERSIONES_H_Y_M_25A60_07",null,44.43,null,null,null,2.0,22.21],["BROAD_H_Y_M_25A60_07",null,43.25,null,null,null,null,null],["DESARROLLO PERSONAL_H_Y_M_25A60_8",null,42.71,null,null,null,1.0,42.71],["DESARROLLO PERSONAL_H_Y_M_25A60_9",null,42.2,null,null,null,8.0,5.28],["ADVANTAGE_H_Y_M_25A60_07",null,42.06,null,null,null,null,null],["INVERSIONES_H_Y_M_25A60_05",null,41.61,null,null,null,null,null],["DESARROLLO PERSONA_H_Y_M_25A60_05",null,41.47,null,null,null,2.0,20.73],["MARKETING DIGITAL_H_Y_M_25A60_05",null,40.36,null,null,null,1.0,40.36],["ADVANTAGE_H_Y_M_25A60_05",null,38.81,null,null,null,1.0,38.81],["DESARROLLO PERSONA_H_Y_M_25A60_07",null,38.07,null,null,null,1.0,38.07],["RMKT_YT_SUSCRIBIRSE_AL_CANAL",null,1.29,null,null,null,null,null],["RMKT_YT_INDICAR_QUE_LE_GUSTA_CUALQUIER_V\u00cdDEO",null,0.76,null,null,null,null,null],["RMKT_YT_VER_CUALQUIER_V\u00cdDEO_COMO_ANUNCIO",null,0.45,null,null,null,null,null],["RMKT_YT_VISITAR_LA_P\u00c1GINA_DEL_CANAL",null,0.43,null,null,null,null,null],["RMKT_YT_COMPARTIR_CUALQUIER_V\u00cdDEO",null,0.38,null,null,null,null,null],["RMKT_YT_A\u00d1ADIR_CUALQUIER_V\u00cdDEO_A_UNA_LISTA_DE_REPRODUCCI\u00d3N",null,0.35,null,null,null,null,null],["RMKT_YT_VER_CUALQUIER_V\u00cdDEO",null,0.27,null,null,null,null,null]],
+  "0200":[["MOTIVACION_H_Y_M_25A60",null,240.39,null,null,null,24.0,10.02],["AUTOESTIMA_H_Y_M_25A60",null,228.07,null,null,null,16.0,14.25],["BROAD_H_Y_M_25A60",null,128.03,null,null,null,7.0,18.29],["CONFIANZAENSIMISMO_H_Y_M_25A60",null,125.75,null,null,null,6.0,20.96],["ADVANTG_H_Y_M_25A60",null,119.28,null,null,null,4.0,29.82],["CONFIANZAENSIMISMO_H_Y_M_25A60_2",null,53.93,null,null,null,3.0,17.98],["MOTIVACION_H_Y_M_25A60_2",null,51.0,null,null,null,3.0,17.0],["BROAD_H_Y_M_25A60_2",null,43.41,null,null,null,2.0,21.7],["AUTOESTIMA_H_Y_M_25A60_2",null,36.88,null,null,null,1.0,36.88],["ADVANTG_H_Y_M_25A60_2",null,15.9,null,null,null,null,null]],
+  "0300":[["BROAD_H_Y_M_25A60",null,57.94,null,null,null,1.0,57.94],["FELICIDADMEDIUM_H_Y_M_25A60",null,49.3,null,null,null,2.0,24.65],["AUTOINDIANEPAL_H_Y_M_25A60",null,45.79,null,null,null,1.0,45.79],["YOGA_H_Y_M_25A60",null,44.83,null,null,null,null,null],["ADVANTAGE_H_Y_M_45A60",null,42.09,null,null,null,null,null]],
+  "0400":[["PRESTSHOPWOOCOMMERCE_H_Y_M_25A60",null,178.77,null,null,null,6.0,29.8],["COMERCIOELECTR\u00d3NICO_H_Y_M_25A60_2",null,161.02,null,null,null,2.0,80.51],["ADVANTAGE_H_Y_M_45A60_2",null,151.29,null,null,null,1.0,151.29],["HOTMARTPUBLIONLINE_H_Y_M_25A60_2",null,151.21,null,null,null,null,null],["ADVANTAGE_H_Y_M_45A60_3",null,142.29,null,null,null,4.0,35.57],["HOTMARTPUBLIONLINE_H_Y_M_25A60_3",null,140.0,null,null,null,1.0,140.0],["COMERCIOELECTR\u00d3NICO_H_Y_M_25A60_3",null,134.25,null,null,null,5.0,26.85],["BROAD_H_Y_M_25A60_2",1.0,128.67,2500.0,19.43,null,4.0,32.17],["HOTMARTPUBLIONLINE_H_Y_M_25A60",null,122.69,null,null,null,5.0,24.54],["BROAD_H_Y_M_25A60_3",null,117.38,null,null,null,1.0,117.38],["COMERCIOELECTR\u00d3NICO_H_Y_M_25A60",null,96.73,null,null,null,1.0,96.73],["BROAD_H_Y_M_25A60",null,96.4,null,null,null,1.0,96.4],["ADVANTAGE_H_Y_M_45A60",null,93.88,null,null,null,2.0,46.94],["ADVANTAGE_H_Y_M_45A60_4",null,76.13,null,null,null,4.0,19.03],["BROAD_H_Y_M_25A60_4",null,70.92,null,null,null,4.0,17.73],["COMERCIOELECTR\u00d3NICO_H_Y_M_25A60_4",null,59.78,null,null,null,null,null],["PRESTSHOPWOOCOMMERCE_H_Y_M_25A60_3",null,57.22,null,null,null,null,null],["HOTMARTPUBLIONLINE_H_Y_M_25A60_4",null,57.11,null,null,null,3.0,19.04],["PRESTSHOPWOOCOMMERCE_H_Y_M_25A60_2",null,51.07,null,null,null,2.0,25.54],["PRESTSHOPWOOCOMMERCE_H_Y_M_25A60 - Copia",null,3.99,null,null,null,null,null]],
+  "0500":[["FAMILIA_H_Y_M_25A60",null,354.58,null,null,null,53.0,6.69],["FAMILIA_H_Y_M_25A60_4",null,196.54,null,null,null,27.0,7.28],["ADVNTG_H_Y_M_25A60",null,151.3,null,null,null,27.0,5.6],["BROAD_H_Y_M_25A60_4",null,145.94,null,null,null,24.0,6.08],["PADRES_H_Y_M_25A60_4",null,127.01,null,null,null,17.0,7.47],["BROAD_H_Y_M_25A60",null,125.53,null,null,null,10.0,12.55],["CASADOS_H_Y_M_25A60",null,111.98,null,null,null,11.0,10.18],["ADVNTG_H_Y_M_25A60_4",null,108.36,null,null,null,22.0,4.93],["CASADOS_H_Y_M_25A60_4",1.0,99.99,2500.0,25.0,null,10.0,10.0],["FAMILIA_H_Y_M_25A60_2",null,89.11,null,null,null,4.0,22.28],["PADRES_H_Y_M_25A60",null,88.75,null,null,null,3.0,29.58],["CASADOS_H_Y_M_25A60_3",null,86.43,null,null,null,4.0,21.61],["ADVNTG_H_Y_M_25A60_2",null,83.05,null,null,null,5.0,16.61],["PADRES_H_Y_M_25A60_2",null,74.05,null,null,null,null,null],["PADRES_H_Y_M_25A60_3",null,71.86,null,null,null,2.0,35.93],["ADVNTG_H_Y_M_25A60_3",null,70.83,null,null,null,1.0,70.83],["BROAD_H_Y_M_25A60_3",null,70.03,null,null,null,null,null],["CASADOS_H_Y_M_25A60_2",null,62.31,null,null,null,1.0,62.31],["FAMILIA_H_Y_M_25A60_3",null,61.41,null,null,null,1.0,61.41],["BROAD_H_Y_M_25A60_2",null,60.3,null,null,null,2.0,30.15]],
+  "0502":[["BROAD_M_25A45",null,59.47,null,null,null,6.0,9.91],["ADVANTAGE_M_25A45",null,36.83,null,null,null,null,null],["AYUDA ACOTADO CRIANZA_M_25A45",null,35.92,null,null,null,null,null],["HIJOS_M_25A45",null,32.62,null,null,null,3.0,10.87],["SOLTERA_M_25A45",null,20.65,null,null,null,1.0,20.65]],
+  "0503":[["ADVANTAGE_H_Y_M_23A35",null,77.37,null,null,null,4.0,19.34],["JUGUETES_H_Y_M_23A35_2",null,65.28,null,null,null,3.0,21.76],["BROAD_H_Y_M_23A35",null,62.64,null,null,null,2.0,31.32],["MATERNIDAD_H_Y_M_23A35",1.0,62.54,2500.0,39.97,null,2.0,31.27],["BROAD_H_Y_M_23A35_2",null,54.92,null,null,null,1.0,54.92],["JUGUETES_H_Y_M_23A35",null,51.0,null,null,null,2.0,25.5],["BIBERON_H_Y_M_23A35",null,47.83,null,null,null,2.0,23.91],["MATERNIDAD_H_Y_M_23A35_2",null,47.57,null,null,null,null,null],["ADVANTAGE_H_Y_M_23A35_2",null,46.17,null,null,null,1.0,46.17],["BIBERON_H_Y_M_23A35_2",null,42.94,null,null,null,2.0,21.47]],
+  "0504":[["ADVANTAGE_H_Y_M_25A45",null,44.93,null,null,null,5.0,8.99],["PADRES_H_Y_M_25A45",null,34.04,null,null,null,1.0,34.04],["PATERNIDAD_H_Y_M_25A45",null,29.58,null,null,null,null,null],["BROAD_H_Y_M_25A45",null,28.83,null,null,null,null,null],["MATERNIDAD_H_Y_M_25A45",null,28.58,null,null,null,null,null]],
+  "0600":[["FUNCIONARIOS_H_Y_M_25A60",null,215.0,null,null,null,20.0,10.75],["ADVNTG_H_Y_M_25A60",null,177.63,null,null,null,8.0,22.2],["BROAD_H_Y_M_25A60",null,66.5,null,null,null,2.0,33.25]],
+  "0700":[["TELETRABAJO_H_Y_M_25A60_1",null,89.0,null,null,null,4.0,22.25],["AUTOCARAVANA_H_Y_M_25A60_1",null,84.69,null,null,null,4.0,21.17],["ADVANTAGE_H_Y_M_25A60_1",null,84.56,null,null,null,3.0,28.19],["VIAJERO ACOTADO MKTG_H_Y_M_25A60_1",null,71.05,null,null,null,3.0,23.68],["BROAD_H_Y_M_25A60_1",null,57.86,null,null,null,2.0,28.93],["TELETRABAJO_H_Y_M_25A60 _2",null,49.24,null,null,null,null,null],["ADVANTAGE_H_Y_M_25A60 _2",null,48.55,null,null,null,null,null],["VIAJERO ACOTADO MKTG_H_Y_M_25A60 _2",null,45.8,null,null,null,null,null],["AUTOCARAVANA_H_Y_M_25A60 _2",null,29.81,null,null,null,1.0,29.81],["BROAD_H_Y_M_25A60 _2",null,27.71,null,null,null,1.0,27.71]],
+  "0801":[["ADVANTAGE_H_Y_M_25A60",null,112.77,null,null,null,10.0,11.28],["SALUD_H_Y_M_25A60",null,74.6,null,null,null,5.0,14.92],["MEDICINA_H_Y_M_25A60_2",null,71.99,null,null,null,2.0,35.99],["BIOLOGIA_H_Y_M_25A60",null,71.76,null,null,null,5.0,14.35],["BROAD_H_Y_M_25A60",null,69.3,null,null,null,2.0,34.65],["MEDICINA_H_Y_M_25A60",null,68.76,null,null,null,3.0,22.92],["BIOLOGIA_H_Y_M_25A60_2",null,68.53,null,null,null,2.0,34.27],["BROAD_H_Y_M_25A60_2",null,68.46,null,null,null,2.0,34.23],["SALUD_H_Y_M_25A60_2",null,65.92,null,null,null,null,null],["ADVANTAGE_H_Y_M_25A60_2",null,65.57,null,null,null,2.0,32.78]],
+  "0802":[["ADVANTAGE_HOMBRES_25A60",null,169.82,null,null,null,27.0,6.29],["Finanzas_HOMBRES_25A60",null,146.34,null,null,null,15.0,9.76],["BROAD_HOMBRES_25A60",null,68.21,null,null,null,5.0,13.64],["Salud_HOMBRES_25A60",null,67.73,null,null,null,2.0,33.87],["BROAD_HOMBRES_25A60_2",null,59.9,null,null,null,null,null],["Enfermeros_HOMBRES_25A60",null,57.63,null,null,null,1.0,57.63],["Salud_HOMBRES_25A60_2",null,55.32,null,null,null,null,null],["ADVANTAGE_HOMBRES_25A60_2",null,53.72,null,null,null,2.0,26.86],["Finanzas_HOMBRES_25A60_2",null,53.61,null,null,null,3.0,17.87],["Enfermeros_HOMBRES_25A60_2",null,45.79,null,null,null,null,null]],
+  "0803":[["ALIMENTACION SALUDABLE_H_Y_M_25A60_2",null,68.39,null,null,null,2.0,34.2],["SALUD Y BIENESTAR_H_Y_M_25A60",null,63.44,null,null,null,7.0,9.06],["ADVANTAGE_H_Y_M_25A60_2",null,58.91,null,null,null,3.0,19.64],["BROAD_H_Y_M_25A60_2",null,51.61,null,null,null,1.0,51.61],["SALUD Y BIENESTAR_H_Y_M_25A60_2",null,48.76,null,null,null,1.0,48.76],["PRODUCTO NATURAL_H_Y_M_25A60_2",null,47.21,null,null,null,4.0,11.8],["NUTRICION_H_Y_M_25A60_2",null,36.07,null,null,null,null,null],["ALIMENTACION SALUDABLE_H_Y_M_25A60",null,31.93,null,null,null,1.0,31.93],["PRODUCTO NATURAL_H_Y_M_25A60",null,31.75,null,null,null,1.0,31.75],["NUTRICION_H_Y_M_25A60",null,24.01,null,null,null,null,null],["ADVANTAGE_H_Y_M_25A60",null,22.04,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,19.64,null,null,null,null,null]],
+  "0804":[["ADVANTAGE_H_Y_M_25A60",null,56.24,null,null,null,4.0,14.06],["Finanzas_H_Y_M_25A60",null,46.79,null,null,null,3.0,15.6],["Fisioterapeuta_H_Y_M_25A60",null,45.83,null,null,null,4.0,11.46],["BROAD_H_Y_M_25A60",null,45.67,null,null,null,3.0,15.22],["SALUD_H_Y_M_25A60",null,42.91,null,null,null,1.0,42.91]],
+  "0805":[["BROAD_H_Y_M_25A60",null,117.24,null,null,null,4.0,29.31],["QUIMICA_H_Y_M_25A60",null,114.93,null,null,null,8.0,14.37],["ADVNTG_H_Y_M_25A60",null,100.43,null,null,null,5.0,20.09],["FARMACEUTICOS_H_Y_M_25A60",null,95.2,null,null,null,7.0,13.6]],
+  "0806":[["BROAD_H_Y_M_20A60",null,63.96,null,null,null,1.0,63.96],["PSICOLOGOS_H_Y_M_20A60",null,59.66,null,null,null,1.0,59.66],["ADVANTAGE_H_Y_M_20A60",null,58.53,null,null,null,3.0,19.51],["PERSONALDEVELOPMENT_H_Y_M_20A60",null,56.03,null,null,null,1.0,56.03],["COACHING_H_Y_M_20A60",null,55.06,null,null,null,1.0,55.06]],
+  "0807":[["BROAD_H_Y_M_25A60",null,80.26,null,null,null,2.0,40.13],["ADVNTG_H_Y_M_25A60",null,76.68,null,null,null,7.0,10.95],["DENTISTASYPASTADENTAL_H_Y_M_25A60",null,75.23,null,null,null,2.0,37.62],["MARCASCEPILLADO_H_Y_M_25A60",null,73.91,null,null,null,1.0,73.91]],
+  "0900":[["learning_H_Y_M_25A60_2",null,76.88,null,null,null,10.0,7.69],["BROAD_H_Y_M_25A60",null,76.17,null,null,null,2.0,38.09],["EDUCACION_H_Y_M_25A60",null,67.67,null,null,null,null,null],["ADVANTAGE_H_Y_M_25A60",null,67.52,null,null,null,null,null],["EDUCACION_H_Y_M_25A60_2",null,60.82,null,null,null,1.0,60.82],["learning_H_Y_M_25A60",null,44.74,null,null,null,4.0,11.19],["UNIVERSITY_H_Y_M_25A60",null,44.7,null,null,null,2.0,22.35],["university_H_Y_M_25A60_2",null,37.42,null,null,null,null,null],["BROAD_H_Y_M_25A60_2",null,37.28,null,null,null,1.0,37.28],["ADVANTAGE_H_Y_M_25A60_2",null,35.58,null,null,null,3.0,11.86]],
+  "0901":[["STUDENT_H_Y_M_25A60",null,43.33,null,null,null,1.0,43.33],["UNIVERSITl_H_Y_M_25A60",null,43.08,null,null,null,null,null],["ADVANTAGE_H_Y_M_20A60",null,42.99,null,null,null,1.0,42.99],["BROAD_H_Y_M_25A60",null,39.25,null,null,null,2.0,19.62],["SCHOOL_H_Y_M_25A60",null,14.53,null,null,null,null,null]],
+  "1100":[["family_H_Y_M_50A65",2.0,726.47,5000.0,6.88,null,74.0,9.82],["pension_H_Y_M_50A65",null,500.79,null,null,null,32.0,15.65],["BROAD_H_Y_M_50A65",null,488.41,null,null,null,33.0,14.8],["planretiro_H_Y_M_50A65",null,408.14,null,null,null,29.0,14.07],["ADVANTAGE_H_Y_M_50A65",null,407.62,null,null,null,23.0,17.72],["pension_H_Y_M_50A65_2",null,98.05,null,null,null,6.0,16.34],["BROAD_H_Y_M_50A65_3",null,94.75,null,null,null,11.0,8.61],["BROAD_H_Y_M_50A65_2",null,77.43,null,null,null,7.0,11.06],["family_H_Y_M_50A65_2",null,72.78,null,null,null,5.0,14.56],["family_H_Y_M_50A65_3",null,68.49,null,null,null,6.0,11.41],["pension_H_Y_M_50A65_3",null,61.25,null,null,null,5.0,12.25],["ADVANTAGE_H_Y_M_50A65_2",null,49.62,null,null,null,null,null],["planretiro_H_Y_M_50A65_2",null,48.3,null,null,null,3.0,16.1],["ADVANTAGE_H_Y_M_50A65_3",null,47.04,null,null,null,1.0,47.04],["planretiro_H_Y_M_50A65_3",null,44.48,null,null,null,1.0,44.48]],
+  "1200":[["ADVANTAGE_H_Y_M_25A60",null,57.05,null,null,null,1.0,57.05],["IDIOMAS_H_Y_M_25A60",null,55.38,null,null,null,1.0,55.38],["BROAD_H_Y_M_25A60",null,54.36,null,null,null,3.0,18.12],["LEJOS DE LA FAMILIA_H_Y_M_25A60",null,54.16,null,null,null,3.0,18.05],["EXPAT_H_Y_M_25A60",null,36.85,null,null,null,1.0,36.85],["EXPAT_H_Y_M_25A60_2",null,34.86,null,null,null,2.0,17.43],["LEJOS DE LA FAMILIA_H_Y_M_25A60_2",null,34.53,null,null,null,1.0,34.53],["BROAD_H_Y_M_25A60_2",null,33.45,null,null,null,1.0,33.45],["ADVANTAGE_H_Y_M_25A60_2",null,32.4,null,null,null,2.0,16.2],["IDIOMAS_H_Y_M_25A60_2",null,26.03,null,null,null,null,null]],
+  "1201":[["BROAD_H_Y_M_20A60",null,55.8,null,null,null,2.0,27.9],["ADVANTAGE_H_Y_M_20A60",null,55.3,null,null,null,4.0,13.82],["GERMANFOOD_H_Y_M_20A60",null,43.34,null,null,null,2.0,21.67],["germany_H_Y_M_20A60",null,40.41,null,null,null,1.0,40.41]],
+  "1202":[["ADVANTAGE_H_Y_M_20A60",1.0,53.71,2500.0,46.55,null,2.0,26.86],["BROAD_H_Y_M_20A60",null,51.2,null,null,null,1.0,51.2],["FRANCE_H_Y_M_20A60",null,50.64,null,null,null,1.0,50.64],["FRENCHCUSISNE_H_Y_M_20A60",null,49.05,null,null,null,null,null]],
+  "1203":[["BROAD_H_Y_M_20A60",null,68.88,null,null,null,7.0,9.84],["ADVANTAGE_H_Y_M_20A60",null,60.45,null,null,null,3.0,20.15],["ITALIA_H_Y_M_20A60",null,54.82,null,null,null,2.0,27.41],["MADEITALY_H_Y_M_20A60",null,36.47,null,null,null,null,null]],
+  "1204":[["ADVANTAGE_H_Y_M_20A60",null,45.65,null,null,null,1.0,45.65],["BROAD_H_Y_M_20A60",null,43.18,null,null,null,2.0,21.59],["BELGICA_H_Y_M_20A60",null,40.59,null,null,null,2.0,20.3]],
+  "1205":[["ADVANTAGE_H_Y_M_20A60",null,49.86,null,null,null,2.0,24.93],["BROAD_H_Y_M_20A60",null,48.46,null,null,null,null,null],["ireland_H_Y_M_20A60",null,40.56,null,null,null,4.0,10.14]],
+  "1206":[["netherlnds_H_Y_M_20A60",null,53.9,null,null,null,2.0,26.95],["ADVANTAGE_H_Y_M_20A60",null,47.79,null,null,null,1.0,47.79],["BROAD_H_Y_M_20A60",null,43.07,null,null,null,null,null]],
+  "1207":[["LONDON__H_Y_M_20A60",null,160.36,null,null,null,13.0,12.34],["BROAD_H_Y_M_20A60",null,108.19,null,null,null,4.0,27.05],["UK_H_Y_M_20A60",null,108.14,null,null,null,7.0,15.45],["england_H_Y_M_20A60",null,103.84,null,null,null,2.0,51.92],["ADVANTAGE_H_Y_M_20A60",null,81.15,null,null,null,3.0,27.05]],
+  "1208":[["BROAD_H_Y_M_20A60",null,57.57,null,null,null,2.0,28.79],["SCANDINAVIANORDICS_H_Y_M_20A60",null,50.27,null,null,null,1.0,50.27],["ADVANTAGE_H_Y_M_20A60",null,41.98,null,null,null,null,null],["SWEDEN_H_Y_M_20A60",null,41.53,null,null,null,2.0,20.77]],
+  "1209":[["BROAD_H_Y_M_20A60",null,148.31,null,null,null,7.0,21.19],["MONTA\u00d1AS_H_Y_M_20A60",null,124.4,null,null,null,7.0,17.77],["ADVANTAGE_H_Y_M_20A60",1.0,112.67,2500.0,22.19,null,4.0,28.17],["SUIZA_H_Y_M_20A60",null,110.54,null,null,null,7.0,15.79]],
+  "1210":[["PORTUGAL_H_Y_M_20A60",null,42.66,null,null,null,4.0,10.66],["ADVANTAGE_H_Y_M_20A60",null,41.37,null,null,null,1.0,41.37],["BROAD_H_Y_M_20A60",null,37.8,null,null,null,2.0,18.9]],
+  "1211":[["ADVANTAGE_H_Y_M_20A60",null,56.92,null,null,null,1.0,56.92],["OPERAORKESTRA_H_Y_M_20A60",null,50.98,null,null,null,null,null],["AUSTRIA_H_Y_M_20A60",null,42.04,null,null,null,1.0,42.04],["BROAD_H_Y_M_20A60",null,40.58,null,null,null,null,null]],
+  "1212":[["POLAND_H_Y_M_20A60",null,100.64,null,null,null,10.0,10.06],["ADVANTAGE_H_Y_M_20A60",null,61.57,null,null,null,6.0,10.26],["BROAD_H_Y_M_20A60",null,47.58,null,null,null,2.0,23.79]],
+  "1213":[["AUSTRAlia_H_Y_M_20A60",null,92.16,null,null,null,11.0,8.38],["BROAD_H_Y_M_20A60",null,83.6,null,null,null,12.0,6.97],["ADVANTAGE_H_Y_M_20A60",null,42.93,null,null,null,1.0,42.93]],
+  "1400":[["ADVNTG_H_Y_M_25A60",null,14.89,null,null,null,null,null],["FACULTADLICENCIATURA_H_Y_M_25A60",null,14.38,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,14.21,null,null,null,null,null],["UNIVERSIDAD_H_Y_M_25A60",null,13.87,null,null,null,null,null],["ESTUDIANTES_H_Y_M_25A60",null,13.28,null,null,null,null,null]],
+  "1500":[["DINERO_RIQUEZA_H_Y_M_25A60_3",null,153.4,null,null,null,21.0,7.3],["ADVANTAGE_H_Y_M_25A60",null,136.89,null,null,null,7.0,19.56],["BROAD_H_Y_M_25A60",null,128.05,null,null,null,5.0,25.61],["DINERO_RIQUEZA_H_Y_M_25A60_5",null,127.42,null,null,null,21.0,6.07],["DINERO RIQUEZA_H_Y_M_25A60",null,126.77,null,null,null,3.0,42.26],["FINANZAS PERSONALES_H_Y_M_25A60",null,126.11,null,null,null,2.0,63.05],["MUSK_H_Y_M_25A60",null,101.66,null,null,null,2.0,50.83],["MUSK_H_Y_M_25A60_5",null,96.91,null,null,null,12.0,8.08],["ADVANTAGE_H_Y_M_25A60_3",null,94.16,null,null,null,10.0,9.42],["FINANZAS_PERSONALES_H_Y_M_25A60_5",null,86.07,null,null,null,7.0,12.3],["FINANZAS_PERSONALES_H_Y_M_25A60_4",null,71.67,null,null,null,2.0,35.84],["BROAD_H_Y_M_25A60_5",null,69.66,null,null,null,4.0,17.41],["FINANZAS_PERSONALES_H_Y_M_25A60_3",null,68.36,null,null,null,5.0,13.67],["MUSK_H_Y_M_25A60_3",null,68.24,null,null,null,3.0,22.75],["BROAD_H_Y_M_25A60_3",null,67.84,null,null,null,1.0,67.84],["DINERO_RIQUEZA_H_Y_M_25A60_1",null,64.18,null,null,null,2.0,32.09],["BROAD_H_Y_M_25A60_2",null,63.54,null,null,null,3.0,21.18],["FINANZAS_PERSONALES_H_Y_M_25A60_1",null,62.98,null,null,null,1.0,62.98],["ADVANTAGE_H_Y_M_25A60_6",null,61.9,null,null,null,3.0,20.63],["ADVANTAGE_H_Y_M_25A60_2",null,61.53,null,null,null,1.0,61.53],["DINERO_RIQUEZA_H_Y_M_25A60_2",null,60.42,null,null,null,2.0,30.21],["ADVANTAGE_H_Y_M_25A60_5",null,57.39,null,null,null,3.0,19.13],["FINANZAS_PERSONALES_H_Y_M_25A60_2",null,55.79,null,null,null,3.0,18.6],["MUSK_H_Y_M_25A60_6",null,55.69,null,null,null,2.0,27.84],["ADVANTAGE_H_Y_M_25A60_1",null,55.01,null,null,null,null,null],["BROAD_H_Y_M_25A60_4",null,52.7,null,null,null,1.0,52.7],["DINERO_RIQUEZA_H_Y_M_25A60_6",null,52.48,null,null,null,1.0,52.48],["FINANZAS_PERSONALES_H_Y_M_25A60_6",null,50.68,null,null,null,1.0,50.68],["BROAD_H_Y_M_25A60_6",null,50.65,null,null,null,1.0,50.65],["BROAD_H_Y_M_25A60_1",null,50.29,null,null,null,3.0,16.76],["ADVANTAGE_H_Y_M_25A60_4",null,48.66,null,null,null,1.0,48.66],["MUSK_H_Y_M_25A60_2",null,48.41,null,null,null,null,null],["MUSK_H_Y_M_25A60_1",null,46.66,null,null,null,1.0,46.66],["MUSK_H_Y_M_25A60_4",null,46.66,null,null,null,3.0,15.55],["DINERO_RIQUEZA_H_Y_M_25A60_4",null,43.28,null,null,null,null,null],["AV1500_Parejas que quieren mejorar su situaci\u00f3n financiera",null,0.02,null,null,null,null,null]],
+  "1600":[["CREDITO__PRESTAMOS_H_Y_M_25A60_EU_ES",1.0,329.06,2500.0,7.6,null,31.0,10.61],["HIPOTECA_H_Y_M_25A60",null,162.85,null,null,null,7.0,23.26],["BROAD_H_Y_M_25A60_EU_ES",null,162.31,null,null,null,4.0,40.58],["ADVANTAGE_H_Y_M_25A60",1.0,140.86,2500.0,17.75,null,8.0,17.61],["CREDITO_H_Y_M_25A60",null,134.54,null,null,null,5.0,26.91],["PRESTAMO_H_Y_M_25A60",null,129.38,null,null,null,5.0,25.88],["BROAD_H_Y_M_25A60",null,126.97,null,null,null,4.0,31.74],["FINANZAS_PRESONALES_H_Y_M_25A60_EU_ES",null,120.62,null,null,null,4.0,30.16],["AV1600_Personas endeudadas",null,119.18,null,null,null,4.0,29.8],["CREDITO_H_Y_M_25A60_3",null,105.05,null,null,null,4.0,26.26],["BROAD_H_Y_M_25A60_3",null,98.39,null,null,null,4.0,24.6],["HIPOTECA_H_Y_M_25A60_4",null,98.05,null,null,null,3.0,32.68],["SIMILAR_REGISTRADOS_COMPRADORES_H_Y_M_25A60_EU_ES",null,96.12,null,null,null,2.0,48.06],["CREDITO_H_Y_M_25A60_1",null,94.23,null,null,null,7.0,13.46],["BROAD_H_Y_M_25A60_2",null,92.1,null,null,null,2.0,46.05],["ADVANTAGE_H_Y_M_25A60_3",null,83.18,null,null,null,1.0,83.18],["PRESTAMO_H_Y_M_25A60_4",null,81.29,null,null,null,3.0,27.1],["PRESTAMO_H_Y_M_25A60_2",null,77.63,null,null,null,null,null],["PRESTAMO_H_Y_M_25A60_5",null,76.11,null,null,null,3.0,25.37],["HIPOTECA_H_Y_M_25A60_1",null,75.18,null,null,null,1.0,75.18],["HIPOTECA_H_Y_M_25A60_2",null,75.18,null,null,null,7.0,10.74],["PRESTAMO_H_Y_M_25A60_3",null,73.48,null,null,null,1.0,73.48],["BROAD_H_Y_M_25A60_4",null,71.84,null,null,null,2.0,35.92],["BROAD_H_Y_M_25A60_5",null,71.13,null,null,null,4.0,17.78],["HIPOTECA_H_Y_M_25A60_3",null,70.66,null,null,null,3.0,23.55],["PRESTAMO_H_Y_M_25A60_1",null,68.84,null,null,null,2.0,34.42],["CREDITO_H_Y_M_25A60_5",null,68.37,null,null,null,3.0,22.79],["ADVANTAGE_H_Y_M_25A60_2",null,67.96,null,null,null,1.0,67.96],["ADVANTAGE_H_Y_M_25A60_5",null,67.28,null,null,null,1.0,67.28],["ADVANTAGE_H_Y_M_25A60_1",null,63.28,null,null,null,2.0,31.64],["CREDITO_H_Y_M_25A60_4",null,62.56,null,null,null,null,null],["CREDITO_H_Y_M_25A60_2",null,60.32,null,null,null,2.0,30.16],["ADVANTAGE_H_Y_M_25A60_4",null,59.5,null,null,null,2.0,29.75],["HIPOTECA_H_Y_M_25A60_5",null,57.16,null,null,null,3.0,19.05],["BROAD_H_Y_M_25A60_8",null,55.63,null,null,null,6.0,9.27],["BROAD_H_Y_M_25A60_1",null,52.35,null,null,null,1.0,52.35],["ADVANTAGE_H_Y_M_25A60_8",null,45.25,null,null,null,3.0,15.08],["CREDITO_H_Y_M_25A60_8",null,43.56,null,null,null,3.0,14.52],["PRESTAMO_H_Y_M_25A60_8",null,34.09,null,null,null,1.0,34.09],["HIPOTECA_H_Y_M_25A60_8",null,32.54,null,null,null,2.0,16.27]],
+  "1700":[["DEPORTISTASMARATONES_H_Y_M_18A50",null,198.39,null,null,null,3.0,66.13],["BROAD_H_Y_M_18A50",null,194.88,null,null,null,2.0,97.44],["FEDERACIONES_H_Y_M_18A50",null,189.28,null,null,null,2.0,94.64],["ADVNTG_H_Y_M_18A50",null,184.43,null,null,null,2.0,92.22],["TECHEQUIPAMIENTODEPPROFES_H_Y_M_18A50",null,178.86,null,null,null,2.0,89.43],["AV1700_Deportistas profesionales",null,86.39,null,null,null,null,null]],
+  "1801":[["SALUD_H_Y_M_20A60",null,58.87,null,null,null,4.0,14.72],["BROAD_H_Y_M_20A60",null,42.09,null,null,null,1.0,42.09],["WELLNESS_H_Y_M_20A60",null,42.07,null,null,null,1.0,42.07],["YOGA_H_Y_M_20A60",null,41.91,null,null,null,1.0,41.91],["ADVANTAGE_H_Y_M_20A60",null,41.71,null,null,null,1.0,41.71]],
+  "1802":[["ADVANTAGE_H_Y_M_20A60",null,47.86,null,null,null,null,null],["VOLUNTARIO_H_Y_M_20A60",null,45.2,null,null,null,1.0,45.2],["CHARITY_H_Y_M_20A60",null,41.19,null,null,null,2.0,20.59],["BROAD_H_Y_M_20A60",null,32.63,null,null,null,2.0,16.32]],
+  "1803":[["TERAPEUTAYOGA_H_Y_M_25A60",null,194.15,null,null,null,24.0,8.09],["BROAD_H_Y_M_25A60",1.0,153.08,2500.0,16.33,null,7.0,21.87],["ASTROLOGIA_H_Y_M_25A60",null,140.85,null,null,null,10.0,14.08],["ADVANTAGE_H_Y_M_45A60",null,118.37,null,null,null,6.0,19.73],["HOR\u00d3SCOPO_H_Y_M_25A60",null,117.3,null,null,null,7.0,16.76]],
+  "1805":[["TRAVEL_H_Y_M_20A60",null,72.66,null,null,null,5.0,14.53],["BROAD_H_Y_M_20A60",null,72.4,null,null,null,4.0,18.1],["TURISMO_H_Y_M_20A60_2",null,61.87,null,null,null,5.0,12.37],["TRAVEL_H_Y_M_20A60_2",null,49.34,null,null,null,4.0,12.34],["ADVANTAGE_H_Y_M_20A60_2",null,48.92,null,null,null,3.0,16.31],["TURISMO_H_Y_M_20A60",null,47.33,null,null,null,3.0,15.78],["ADVANTAGE_H_Y_M_20A60",null,45.71,null,null,null,2.0,22.86],["INTERNATIONALTRVLLERS_H_Y_M_20A60",null,45.24,null,null,null,4.0,11.31],["INTERNATIONALTRVLLERS_H_Y_M_20A60_2",null,44.67,null,null,null,1.0,44.67],["BROAD_H_Y_M_20A60_2",null,38.25,null,null,null,1.0,38.25]],
+  "1806":[["GAMER_H_Y_M_25A60",null,160.98,null,null,null,24.0,6.71],["INGRESOSPASIVOS_H_Y_M_25A60",null,110.01,null,null,null,13.0,8.46],["BROAD_H_Y_M_25A60",null,76.45,null,null,null,11.0,6.95],["ADVNTG_H_Y_M_25A60",null,43.36,null,null,null,5.0,8.67],["ONLINEGAMES_H_Y_M_25A60",null,39.62,null,null,null,4.0,9.9]],
+  "1901":[["BROAD_H_Y_M_25A60",null,104.89,null,null,null,13.0,8.07],["INSTRUMENTO_H_Y_M_25A60",null,84.83,null,null,null,3.0,28.28],["ADVANTAGE_H_Y_M_25A60",null,84.16,null,null,null,3.0,28.05],["INDUSTRIA MUSICAL_H_Y_M_25A60",null,83.2,null,null,null,3.0,27.73]],
+  "1902":[["BROAD_H_Y_M_25A60",null,354.29,null,null,null,35.0,10.12],["ADVANTAGE_H_Y_M_45A60",null,269.28,null,null,null,37.0,7.28],["DANCESTUDIO_H_Y_M_25A60",null,259.37,null,null,null,21.0,12.35],["BALLETCLASICO_H_Y_M_25A60",null,189.29,null,null,null,21.0,9.01],["BALLETDANZA_H_Y_M_25A60",null,169.86,null,null,null,14.0,12.13]],
+  "1903":[["ADVANTAGE_H_Y_M_25A60_2",null,67.3,null,null,null,null,null],["DESFILE DE MODA_H_Y_M_25A60_2",null,66.83,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,66.04,null,null,null,null,null],["SEMANA DE LA MODA_H_Y_M_25A60",null,66.03,null,null,null,null,null],["MODELO_H_Y_M_25A60",1.0,64.12,2500.0,38.99,null,2.0,32.06],["SEMANA DE LA MODA_H_Y_M_25A60_2",null,60.27,null,null,null,3.0,20.09],["ADVANTAGE_H_Y_M_25A60",null,59.06,null,null,null,1.0,59.06],["BROAD_H_Y_M_25A60_2",null,57.72,null,null,null,1.0,57.72],["MODELO_H_Y_M_25A60_2",null,57.37,null,null,null,1.0,57.37],["DESFILE DE MODA_H_Y_M_25A60",null,55.28,null,null,null,1.0,55.28]],
+  "1904":[["YOUTUBESTREAMING_H_Y_M_25A60",null,20.81,null,null,null,1.0,20.81],["ADVNTG_H_Y_M_25A60",null,5.79,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,5.55,null,null,null,null,null],["PATREON_H_Y_M_25A60",null,5.44,null,null,null,1.0,5.44],["CREADORESDECONTENIDO_H_Y_M_25A60",null,5.33,null,null,null,null,null]],
+  "1905":[["CONFIANZAENSI_H_Y_M_25A60",null,87.0,null,null,null,4.0,21.75],["COACHING_H_Y_M_25A60",null,74.79,null,null,null,2.0,37.4],["LIDERAZGO_H_Y_M_25A60",null,72.99,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,72.76,null,null,null,3.0,24.25],["ADVANTAGE_H_Y_M_45A60",null,70.01,null,null,null,1.0,70.01]],
+  "1906":[["BROAD_H_Y_M_25A60",null,150.74,null,null,null,11.0,13.7],["MENSFITNESSMOTIVATION_H_Y_M_25A60",null,133.99,null,null,null,4.0,33.5],["ADVANTAGE_H_Y_M_45A60",1.0,130.81,2500.0,19.11,null,4.0,32.7],["ESTADOFISICO_H_25A60",null,122.53,null,null,null,3.0,40.84],["BOMBEROS_H_Y_M_25A60",null,113.17,null,null,null,2.0,56.59],["AV1906_Bomberos",null,85.08,null,null,null,null,null]],
+  "1907":[["SOCIALMEDIAMARKETING_H_Y_M_25A60",null,91.44,null,null,null,2.0,45.72],["ADVANTAGE_H_Y_M_45A60",null,90.26,null,null,null,null,null],["CLOSERPUBLIONLNE_H_Y_M_25A60",null,87.23,null,null,null,1.0,87.23],["VENTASFREELANCE_H_Y_M_25A60",null,82.54,null,null,null,2.0,41.27],["BROAD_H_Y_M_25A60",null,74.16,null,null,null,2.0,37.08]],
+  "1908":[["DEPORTES_H_Y_M_25A60",null,52.78,null,null,null,null,null],["CLOSERPUBLIONLNE_H_Y_M_25A60",null,42.48,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,35.2,null,null,null,null,null],["SOCIALMEDIAMARKETING_H_Y_M_25A60",null,33.18,null,null,null,null,null],["ADVANTAGE_H_Y_M_45A60",null,31.8,null,null,null,2.0,15.9]],
+  "1909":[["POLITICS_H_Y_M_20A60",null,86.7,null,null,null,10.0,8.67],["LAW_H_Y_M_20A60",null,61.87,null,null,null,3.0,20.62],["BROAD_H_Y_M_20A60",null,61.6,null,null,null,3.0,20.53],["C0MMUNITYISSUES_H_Y_M_20A60",null,60.66,null,null,null,3.0,20.22],["ADVANTAGE_H_Y_M_20A60",null,46.71,null,null,null,2.0,23.36]],
+  "1910":[["FUERZAS ARMADAS_H_Y_M_25A60",null,69.37,null,null,null,8.0,8.67],["ADVANTAGE_H_Y_M_25A60",null,59.81,null,null,null,3.0,19.94],["DEPORTES_H_Y_M_25A60",null,54.14,null,null,null,4.0,13.54],["BROAD_H_Y_M_25A60",null,54.09,null,null,null,7.0,7.73],["UBICACIONES BASES MILITARES_H_Y_M_25A60",null,53.9,null,null,null,4.0,13.47],["ADVANTAGE_H_Y_M_25A60_1",null,4.13,null,null,null,null,null],["FUERZAS ARMADAS_H_Y_M_25A60_1",null,4.01,null,null,null,null,null],["BROAD_H_Y_M_25A60_1",null,4.0,null,null,null,null,null],["DEPORTES_H_Y_M_25A60_1",null,3.98,null,null,null,null,null],["UBICACIONES BASES MILITARES_H_Y_M_25A60_1",null,3.97,null,null,null,null,null]],
+  "1911":[["BROAD_H_Y_M_20A60",null,61.55,null,null,null,1.0,61.55],["ONLINEBIZ_H_Y_M_20A60",null,61.08,null,null,null,null,null],["ADVANTAGE_H_Y_M_20A60",null,60.42,null,null,null,1.0,60.42],["SOCIALMEDIA_H_Y_M_20A60",null,59.58,null,null,null,2.0,29.79],["COACHING_H_Y_M_20A60",null,46.41,null,null,null,null,null]],
+  "2000":[["ALQUILERES_H_Y_M_25A60",null,990.05,null,null,null,130.0,7.62],["TRABAJOINDEPENDIENTE_H_Y_M_25A60",1.0,776.36,2500.0,3.22,null,85.0,9.13],["BROAD_H_Y_M_25A60",null,745.28,null,null,null,82.0,9.09],["ADVANTAGE_H_Y_M_25A60",null,723.51,null,null,null,87.0,8.32],["AUTONOMOS_H_Y_M_25A60",null,666.57,null,null,null,75.0,8.89],["TRABAJOINDEPENDIENTE_H_Y_M_25A60_2",1.0,166.62,2500.0,15.0,null,18.0,9.26],["ADVANTAGE_H_Y_M_25A6_2",1.0,115.49,2500.0,21.65,null,4.0,28.87],["AUTONOMOS_H_Y_M_25A60_2",null,115.48,null,null,null,6.0,19.25],["BROAD_H_Y_M_25A60_2",null,103.35,null,null,null,2.0,51.67],["ALQUILERES_H_Y_M_25A60_2",null,98.43,null,null,null,5.0,19.69],["AV2000_Aut\u00f3nomos",null,87.86,null,null,null,null,null],["TRABAJOINDEP_H_Y_M_25A60_3",null,82.56,null,null,null,9.0,9.17],["TRABAJOINDEP_H_Y_M_25A60_2",null,60.01,null,null,null,11.0,5.46],["AUTONOMOS_H_Y_M_25A60_3",null,49.69,null,null,null,3.0,16.56],["BROAD_H_Y_M_25A60_3",null,44.43,null,null,null,3.0,14.81],["ADVANTAGE_H_Y_M_25A6_3",null,41.85,null,null,null,5.0,8.37],["ALQUILERES_H_Y_M_25A60_3",null,39.29,null,null,null,2.0,19.64]],
+  "2100":[["LOTERIA_H_Y_M_25A60",1.0,100.3,2500.0,24.93,null,6.0,16.72],["BROAD_H_Y_M_25A60",null,98.65,null,null,null,3.0,32.88],["CARTAS_H_Y_M_25A60",null,98.53,null,null,null,9.0,10.95],["ADVANTAGE_H_Y_M_45A60",null,81.48,null,null,null,1.0,81.48],["CASINOS_H_Y_M_25A60",null,78.48,null,null,null,2.0,39.24]],
+  "2400":[["BROAD_H_Y_M_25A60",null,42.94,null,null,null,null,null],["MANAGERS_H_Y_M_25A60",null,41.91,null,null,null,null,null],["ADVANTAGE_H_Y_M_25A60",null,40.34,null,null,null,1.0,40.34],["INNOVACION_H_Y_M_25A60",null,38.97,null,null,null,null,null],["LIDERAZGO_H_Y_M_25A60",null,33.01,null,null,null,1.0,33.01]],
+  "2500":[["ADVANTAGE_H_Y_M_25A60",null,46.87,null,null,null,4.0,11.72],["EMPLEO_H_Y_M_25A60",null,44.83,null,null,null,2.0,22.41],["ENTREVISTA DE TRABAJO_H_Y_M_25A60",null,39.5,null,null,null,1.0,39.5],["WEB EMPLEO_H_Y_M_25A60",null,37.87,null,null,null,2.0,18.93],["BROAD_H_Y_M_25A60",null,37.58,null,null,null,1.0,37.58]],
+  "2701":[["ESTUDIOS_H_Y_M__20A30",null,101.22,null,null,null,1.0,101.22],["INVERSIONES_H_Y_M__20A30",null,98.14,null,null,null,3.0,32.71],["ADVANTAGE_H_Y_M_20A30",null,76.0,null,null,null,1.0,76.0],["BROAD_H_Y_M_20A30",null,73.81,null,null,null,3.0,24.6],["MARKETING DIGITAL_H_Y_M__20A30",null,63.78,null,null,null,1.0,63.78],["DESARROLLO PERSONA_H_Y_M__20A30",null,51.57,null,null,null,1.0,51.57]],
+  "2703":[["BROAD_H_Y_M_40A50",null,93.97,null,null,null,6.0,15.66],["ADVANTAGE_H_Y_M_40A50",null,80.59,null,null,null,3.0,26.86],["DESARROLLO PERSONA_H_Y_M_40A50",null,77.65,null,null,null,2.0,38.83],["INVERSIONES_H_Y_M_40A50",1.0,76.8,2500.0,32.55,null,1.0,76.8],["ESTUDIOS_H_Y_M_40A50",null,72.42,null,null,null,1.0,72.42],["MARKETING DIGITAL_H_Y_M_40A50",null,59.54,null,null,null,4.0,14.88]],
+  "2704":[["ADVANTAGE_H_Y_M_50A60",null,149.14,null,null,null,28.0,5.33],["ESTUDIOS_H_Y_M_50A60",null,128.01,null,null,null,21.0,6.1],["INVERSIONES_H_Y_M_50A60",null,51.16,null,null,null,4.0,12.79],["DESARROLLO PERSONA_H_Y_M_50A60",null,50.04,null,null,null,2.0,25.02],["MARKETING DIGITAL_H_Y_M_50A60",null,41.57,null,null,null,3.0,13.86],["BROAD_H_Y_M_50A60",null,40.82,null,null,null,3.0,13.61]],
+  "2705":[["BROAD_H_Y_M_60A70",null,68.4,null,null,null,7.0,9.77],["MARKETING DIGITAL_H_Y_M_60A70",null,42.28,null,null,null,5.0,8.46],["ADVANTAGE_H_Y_M_60A70",null,41.15,null,null,null,2.0,20.57],["ESTUDIOS_H_Y_M_60A70",null,40.64,null,null,null,4.0,10.16],["INVERSIONES_H_Y_M_60A70",null,40.57,null,null,null,3.0,13.52],["DESARROLLO PERSONA_H_Y_M_60A70",null,35.5,null,null,null,2.0,17.75]],
+  "2706":[["ADVANTAGE_H_Y_M_65A65+",null,169.12,null,null,null,36.0,4.7],["MARKETING DIGITAL_H_Y_M_65A65+",null,52.2,null,null,null,2.0,26.1],["BROAD_H_Y_M_65A65+",null,47.62,null,null,null,null,null],["INVERSIONES_H_Y_M_65A65+",null,45.48,null,null,null,4.0,11.37],["ESTUDIOS_H_Y_M_65A65+",null,45.21,null,null,null,2.0,22.61],["DESARROLLO PERSONA_H_Y_M_65A65+",null,39.0,null,null,null,2.0,19.5]],
+  "2707":[["ADVANTAGE_H_Y_M_30A50",null,115.77,null,null,null,8.0,14.47],["DESARROLLOPERS_H_Y_M_30A60",null,115.66,null,null,null,15.0,7.71],["EMPLEO_H_Y_M_30A50",null,114.96,null,null,null,6.0,19.16],["BROAD_H_Y_M_25A60",null,111.58,null,null,null,2.0,55.79],["DESARROLLOPROF_H_Y_M_30A50",null,99.5,null,null,null,10.0,9.95],["AV2707_Adultos dependientes econ\u00f3micamente de sus padres",null,62.43,null,null,null,null,null]],
+  "2708":[["MOTIVACION_H_Y_M_45A60",null,186.41,null,null,null,21.0,8.88],["BROAD_H_Y_M_45A60",null,178.56,null,null,null,14.0,12.75],["DESARROLLOPERS_H_Y_M_45A60",null,148.48,null,null,null,14.0,10.61],["DESARROLLOPROF_H_Y_M_30A50",null,146.4,null,null,null,13.0,11.26],["ADVANTAGE_H_Y_M_45A60",null,137.58,null,null,null,8.0,17.2],["AV2708_Adultos que sienten que han perdido tiempo y quieren recuperar",null,90.7,null,null,null,8.0,11.34]],
+  "2709":[["MOTIVACION_H_Y_M_25A60",3.0,581.4,7500.0,12.9,null,106.0,5.48],["AHORROS_H_Y_M_25A60",null,562.78,null,null,null,101.0,5.57],["DINERO_H_Y_M_25A60",1.0,557.42,2500.0,4.48,null,117.0,4.76],["ADVANTAGE_H_Y_M_45A60",null,426.39,null,null,null,99.0,4.31],["BROAD_H_Y_M_25A60",null,250.55,null,null,null,50.0,5.01],["AV2709_Ahorradores con dinero parado en el banco",null,85.19,null,null,null,4.0,21.3]],
+  "2710":[["JOB_H_Y_M_20A60",null,44.09,null,null,null,null,null],["LAWYER_H_Y_M_20A60",null,42.53,null,null,null,null,null],["ADVANTAGE_H_Y_M_20A60",null,33.12,null,null,null,3.0,11.04],["RECRUITMENT_H_Y_M_20A60",null,30.47,null,null,null,null,null],["BROAD_H_Y_M_20A60",null,29.41,null,null,null,2.0,14.71]],
+  "2711":[["MOTIVACION_H_Y_M_25A60",null,192.51,null,null,null,18.0,10.7],["DESARROLLOIDENTIDAD_H_Y_M_25A60",null,177.3,null,null,null,12.0,14.78],["ADVANTAGE_H_Y_M_45A60",null,145.97,null,null,null,7.0,20.85],["BROAD_H_Y_M_25A60",null,134.45,null,null,null,7.0,19.21],["CONTABLES_H_Y_M_25A60",null,133.9,null,null,null,2.0,66.95]],
+  "2712":[["BROAD_H_Y_M_25A60",null,14.53,null,null,null,1.0,14.53],["AUXILIEINVERSIONES_H_Y_M_25A60",null,13.9,null,null,null,null,null],["ADVANTAGE_H_Y_M_25A60",null,13.45,null,null,null,null,null],["SERVICIOSOCIAL_H_Y_M_25A60",null,13.06,null,null,null,null,null]],
+  "2713":[["AUXILIARMOTIVACION_H_Y_M_25A60",null,16.55,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,15.97,null,null,null,null,null],["MOTIVACIONAUTOESTIMA_H_Y_M_25A60",null,15.77,null,null,null,null,null],["AUXILISALUD_H_Y_M_25A60",null,15.53,null,null,null,1.0,15.53],["ADVANTAGE_H_Y_M_45A60",null,15.46,null,null,null,1.0,15.46]],
+  "2714":[["ADVANTAGE_H_Y_M_45A60",null,14.19,null,null,null,null,null],["QUIMICA_H_Y_M_25A60",null,13.37,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,12.71,null,null,null,null,null],["BIOLOGIA_H_Y_M_25A60",null,12.36,null,null,null,null,null]],
+  "2715":[["ADVANTAGE_H_Y_M_45A60",1.0,105.08,2500.0,23.79,null,2.0,52.54],["BROAD_H_Y_M_25A60",null,92.87,null,null,null,null,null],["COCINAARTE_H_Y_M_25A60",null,92.67,null,null,null,null,null],["CAMAREROSECTORHOETELERO_H_Y_M_25A60",null,90.09,null,null,null,1.0,90.09],["ESCUELACOCINA_H_Y_M_25A60",null,87.24,null,null,null,2.0,43.62]],
+  "2716":[["ADVANTAGE_H_Y_M_45A60",null,81.4,null,null,null,5.0,16.28],["OBRAS_H_Y_M_25A60",null,78.55,null,null,null,4.0,19.64],["INGENIEROAGRICOLA_H_Y_M_25A60",null,70.33,null,null,null,1.0,70.33],["CONSTRUCCION_H_Y_M_25A60",null,64.63,null,null,null,1.0,64.63],["BROAD_H_Y_M_25A60",null,58.69,null,null,null,2.0,29.34]],
+  "2717":[["MERINVERSION_H_Y_M_25A60",null,14.89,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,14.65,null,null,null,null,null],["ADVANTAGE_H_Y_M_45A60",null,14.11,null,null,null,1.0,14.11],["PLANFINANCIERO_H_Y_M_25A60",null,14.06,null,null,null,null,null],["FinanzasPersonales_H_Y_M_25A60",null,13.87,null,null,null,null,null]],
+  "2719":[["ADVANTAGE_H_Y_M_45A60",null,75.05,null,null,null,1.0,75.05],["BROAD_H_Y_M_25A60",null,59.77,null,null,null,1.0,59.77],["CAMIONES_H_Y_M_25A60",null,55.91,null,null,null,null,null],["CAMIONETA_H_Y_M_25A60",null,49.72,null,null,null,1.0,49.72],["TRANSPORTE_H_Y_M_25A60",null,48.39,null,null,null,null,null]],
+  "2720":[["MARKCONTENIDOSFINANZAS_H_Y_M_25A60",null,44.66,null,null,null,1.0,44.66],["BROAD_H_Y_M_25A60",null,44.15,null,null,null,2.0,22.07],["AUTORESMILLON_H_Y_M_25A60",null,44.04,null,null,null,1.0,44.04],["INVERSIONINMOB_H_Y_M_25A60",null,42.64,null,null,null,2.0,21.32],["ADVANTAGE_H_Y_M_45A60",null,42.47,null,null,null,2.0,21.23]],
+  "2721":[["SOLIDARIDAD_H_Y_M_25A60",null,54.96,null,null,null,2.0,27.48],["ADVANTAGE_H_Y_M_45A60",null,50.94,null,null,null,3.0,16.98],["BROAD_H_Y_M_25A60",null,46.5,null,null,null,null,null],["TRABAJOSOCIALONG_H_Y_M_25A60",null,42.59,null,null,null,1.0,42.59],["CAUSASSOCIALES_H_Y_M_25A60",null,42.46,null,null,null,1.0,42.46]],
+  "2723":[["CARREFOUR_H_Y_M_25A60",null,215.57,null,null,null,36.0,5.99],["RETAISUPERMERCADO_H_Y_M_25A60",null,108.38,null,null,null,17.0,6.38],["ADVANTAGE_H_Y_M_45A60",null,92.07,null,null,null,8.0,11.51],["BROAD_H_Y_M_25A60",null,58.68,null,null,null,null,null],["TRABAJOPORTURNOSEMPLEO_H_Y_M_25A60",null,46.54,null,null,null,2.0,23.27],["AV2723_Dependientes y cajeros",null,0.76,null,null,null,null,null]],
+  "2724":[["BROAD_H_Y_M_25A60",null,68.44,null,null,null,2.0,34.22],["ADOBEEFFECTS_H_Y_M_25A60",null,68.25,null,null,null,2.0,34.12],["DISE\u00d1OGRAFICO_H_Y_M_25A60",null,60.75,null,null,null,1.0,60.75],["ADVANTAGE_H_Y_M_45A60",null,55.2,null,null,null,2.0,27.6],["WEBDESINGANIMATION_H_Y_M_25A60",null,53.59,null,null,null,4.0,13.4]],
+  "2725":[["AV2725_Divorciados",null,78.46,null,null,null,null,null]],
+  "2726":[["RENOVABLEELECTRICA_H_Y_M_25A60",null,184.5,null,null,null,35.0,5.27],["ELECTRICIDAD_H_Y_M_25A60",null,142.32,null,null,null,22.0,6.47],["BROAD_H_Y_M_25A60",null,107.04,null,null,null,23.0,4.65],["AV2726_Electricistas / instaladores",null,91.16,null,null,null,3.0,30.39],["INSTALACIONELECTRICA_H_Y_M_25A60",null,38.86,null,null,null,2.0,19.43],["ADVANTAGE_H_Y_M_45A60",null,20.24,null,null,null,1.0,20.24]],
+  "2729":[["FinanzasPersonales_H_Y_M_25A60_3",null,53.84,null,null,null,null,null],["ONLINETRADINGFINANCIERO_H_Y_M_25A60_3",null,52.87,null,null,null,null,null],["BOLSAANALISISTRADING_H_Y_M_25A60_3",null,50.48,null,null,null,null,null],["ADVNTG_H_Y_M_25A60_3",null,49.1,null,null,null,null,null],["BROAD_H_Y_M_25A60_3",null,47.34,null,null,null,null,null]],
+  "2732":[["AHORROSBANCA_H_Y_M_25A60",null,120.1,null,null,null,22.0,5.46],["BROAD_H_Y_M_25A60",null,79.51,null,null,null,15.0,5.3],["CASADOS_H_Y_M_25A60",null,45.48,null,null,null,3.0,15.16],["INGRESOSPASIVOS_H_Y_M_25A60",1.0,40.04,2500.0,62.44,null,3.0,13.35],["ADVNTG_H_Y_M_25A60",null,39.98,null,null,null,4.0,9.99]],
+  "2733":[["ADVNTG_H_Y_M_25A60",null,53.89,null,null,null,null,null],["GAMER_H_Y_M_25A60",null,53.08,null,null,null,null,null],["ONLINEGAMES_H_Y_M_25A60",null,52.99,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,52.81,null,null,null,null,null],["FORTNITE_H_Y_M_25A60",null,47.7,null,null,null,null,null]],
+  "2736":[["ESTRATEGIA INVERSION_H_Y_M_25A60",null,61.73,null,null,null,3.0,20.58],["ADVANTAGE_H_Y_M_25A60",null,51.26,null,null,null,2.0,25.63],["INVERSION INMOBILIARIA_H_Y_M_25A60",null,48.19,null,null,null,null,null],["REAL STATE_H_Y_M_25A60",null,46.86,null,null,null,3.0,15.62],["BROAD_H_Y_M_25A60",null,43.09,null,null,null,null,null]],
+  "2738":[["DINERO_H_Y_M_25A35",null,69.53,null,null,null,5.0,13.91],["AHORRO_H_Y_M_25A35",1.0,69.12,2500.0,36.17,null,5.0,13.82],["ADVANTAGE_H_Y_M_25A35",null,66.09,null,null,null,4.0,16.52],["INVERSION_H_Y_M_25A35",null,64.76,null,null,null,4.0,16.19],["BROAD_H_Y_M_25A35",null,52.06,null,null,null,2.0,26.03]],
+  "2739":[["MUEBLES_H_Y_M_25A35",null,173.18,null,null,null,27.0,6.41],["BROAD_H_Y_M_25A35",1.0,150.25,2500.0,16.64,null,29.0,5.18],["ADVANTAGE_H_Y_M_25A35",null,56.04,null,null,null,3.0,18.68],["SEGURO DEL HOGAR + OTROS_H_Y_M_25A35",null,52.6,null,null,null,1.0,52.6],["REFORMAS_H_Y_M_25A35",null,47.96,null,null,null,1.0,47.96]],
+  "2740":[["BROAD_H_Y_M_20A60",null,92.44,null,null,null,12.0,7.7],["ADVANTAGE_H_25A60",null,69.77,null,null,null,1.0,69.77],["MANTENIMIENTO DE VEHICULOS_H_25A60",null,64.38,null,null,null,null,null],["AUTO_H_Y_M_20A60",null,61.2,null,null,null,3.0,20.4],["BROAD_H_25A60",null,58.36,null,null,null,null,null],["MECANICA_H_25A60",null,57.46,null,null,null,2.0,28.73],["AUTOMOCION_H_25A60",null,49.01,null,null,null,null,null],["MECHANICG_H_Y_M_20A60",null,46.21,null,null,null,1.0,46.21],["ADVANTAGE_H_Y_M_20A60",null,43.26,null,null,null,3.0,14.42],["AUTOMOBILEE_H_Y_M_20A60",null,42.61,null,null,null,1.0,42.61]],
+  "2741":[["Autoempleo_M_25A60",1.0,123.55,2500.0,20.23,null,8.0,15.44],["ADVANTAGE_M_25A60_2",null,110.87,null,null,null,19.0,5.84],["AMA DE CASA_M_25A60",null,77.15,null,null,null,6.0,12.86],["BROAD_M_25A60",null,76.99,null,null,null,2.0,38.49],["ADVANTAGE_M_25A60",null,74.28,null,null,null,3.0,24.76],["BROAD_M_25A60_2",null,72.5,null,null,null,8.0,9.06],["FORMACION_M_25A60",null,71.74,null,null,null,2.0,35.87],["FORMACION_M_25A60_2",null,64.15,null,null,null,6.0,10.69],["AMA DE CASA_M_25A60_2",null,42.42,null,null,null,1.0,42.42],["Autoempleo_M_25A60_2",null,40.7,null,null,null,null,null]],
+  "2742":[["ADVANTAGE_M_25A60",null,89.26,null,null,null,7.0,12.75],["BROAD_M_25A60",null,78.29,null,null,null,3.0,26.1],["LIDERAZGO_M_25A60",null,74.2,null,null,null,6.0,12.37],["NEGOCIOS Y EMPRENDIMIENTO_M_25A60",null,71.64,null,null,null,2.0,35.82],["FORMACION EMPRESARIAL_M_25A60",null,62.38,null,null,null,3.0,20.79]],
+  "2744":[["MARKETING_H_Y_M_20A60",null,88.28,null,null,null,10.0,8.83],["MANAGEMENT_H_Y_M_20A60",null,74.96,null,null,null,4.0,18.74],["SMALLENTREPISE_H_Y_M_20A60",null,60.97,null,null,null,4.0,15.24],["ADVANTAGE_H_Y_M_20A60",1.0,48.4,2500.0,51.65,null,2.0,24.2],["BROAD_H_Y_M_20A60",null,43.68,null,null,null,1.0,43.68]],
+  "2745":[["BROAD_H_Y_M_25A60",null,60.57,null,null,null,4.0,15.14],["ADVANTAGE_H_Y_M_25A60",null,60.25,null,null,null,3.0,20.08],["BULDOCER_H_Y_M_25A60liebherr",null,42.27,null,null,null,null,null],["MAQUINARIA PESADA_H_Y_M_25A60",null,41.5,null,null,null,null,null],["INGENIERIA CIVIL_H_Y_M_25A60",null,35.57,null,null,null,2.0,17.79]],
+  "2747":[["PADRES_H_Y_M_25A60",null,117.33,null,null,null,13.0,9.03],["HIJOS_H_Y_M_25A60",null,113.69,null,null,null,16.0,7.11],["BROAD_H_Y_M_25A60",null,100.66,null,null,null,15.0,6.71],["UNIVERSITY_H_Y_M_25A60",null,53.78,null,null,null,1.0,53.78],["ADV_H_Y_M_25A60",null,40.12,null,null,null,2.0,20.06]],
+  "2749":[["MEDIA_H_Y_M_20A60",null,56.33,null,null,null,1.0,56.33],["ADVANTAGE_H_Y_M_20A60",null,56.24,null,null,null,3.0,18.75],["NEWS_H_Y_M_20A60",null,53.28,null,null,null,null,null],["BROAD_H_Y_M_20A60",null,52.04,null,null,null,3.0,17.35],["JOURNALISM_H_Y_M_20A60",null,41.3,null,null,null,2.0,20.65]],
+  "2750":[["BROAD_H_Y_M_20A60",null,85.99,null,null,null,3.0,28.66],["WASHINGMACHINE_H_Y_M_20A60",null,70.25,null,null,null,null,null],["HOUSEKEEPIN_H_Y_M_20A60",null,70.09,null,null,null,2.0,35.05],["ADVANTAGE_H_Y_M_20A60",null,69.61,null,null,null,1.0,69.61],["CLEANING_H_Y_M_20A60",null,67.43,null,null,null,2.0,33.72]],
+  "2755":[["ADVANTAGE_H_Y_M_25A60",null,47.66,null,null,null,null,null],["DineroF\u00e1cil_H_Y_M_25A60",null,47.61,null,null,null,1.0,47.61],["Psicolog\u00eda_H_Y_M_25A60",null,42.54,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,42.16,null,null,null,1.0,42.16],["InversorCortoplacista_H_Y_M_25A60",null,42.1,null,null,null,1.0,42.1]],
+  "2760":[["ADVANTAGE_H_Y_M_25A60",null,123.17,null,null,null,12.0,10.26],["GestionPatrimonio_H_Y_M_25A60",null,117.65,null,null,null,12.0,9.8],["BROAD_H_Y_M_25A60",null,99.03,null,null,null,9.0,11.0],["Seguros_H_Y_M_25A60",null,70.32,null,null,null,2.0,35.16],["Emprendimiento_H_Y_M_25A60",null,68.5,null,null,null,3.0,22.83]],
+  "2761":[["BROAD_H_Y_M_25A60",null,50.64,null,null,null,1.0,50.64],["Inversion_H_Y_M_25A60",null,40.99,null,null,null,null,null],["MercadoCrypto_H_Y_M_25A60",null,39.25,null,null,null,1.0,39.25],["Riqueza_H_Y_M_25A60",null,39.06,null,null,null,null,null],["ADVANTAGE_H_Y_M_25A60",null,37.23,null,null,null,null,null]],
+  "2762":[["Lifestyle_H_Y_M_25A60",null,107.0,null,null,null,10.0,10.7],["ADVANTAGE_H_Y_M_25A60",null,65.92,null,null,null,3.0,21.97],["BROAD_H_Y_M_25A60",null,64.05,null,null,null,2.0,32.02],["PilotosAeuronauticos_H_Y_M_25A60",null,63.75,null,null,null,1.0,63.75],["Riqueza_H_Y_M_25A60",null,62.79,null,null,null,1.0,62.79]],
+  "2763":[["Finanzas_H_Y_M_25A60",null,86.54,null,null,null,2.0,43.27],["ADVANTAGE_H_Y_M_25A60",null,73.0,null,null,null,2.0,36.5],["BROAD_H_Y_M_25A60",null,72.57,null,null,null,3.0,24.19],["Productividad_H_Y_M_25A60",null,70.26,null,null,null,null,null],["Tech_H_Y_M_25A60",null,57.86,null,null,null,1.0,57.86],["Finanzas_H_Y_M_25A60_2",null,57.34,null,null,null,4.0,14.34],["Tech_H_Y_M_25A60_2",null,51.96,null,null,null,3.0,17.32],["BROAD_H_Y_M_25A60_2",null,50.84,null,null,null,3.0,16.95],["ADVANTAGE_H_Y_M_25A60_2",null,47.91,null,null,null,null,null],["Productividad_H_Y_M_25A60_2",null,42.02,null,null,null,3.0,14.01]],
+  "2764":[["Marketing_H_Y_M_25A60_2",null,88.36,null,null,null,1.0,88.36],["BROAD_H_Y_M_25A60",null,84.41,null,null,null,5.0,16.88],["ADVANTAGE_H_Y_M_25A60_3",null,75.19,null,null,null,6.0,12.53],["ADVANTAGE_H_Y_M_25A60_2",null,74.96,null,null,null,null,null],["Marketing_H_Y_M_25A60",null,70.87,null,null,null,null,null],["N\u00f3mada_H_Y_M_25A60_2",null,70.4,null,null,null,null,null],["Ventas_H_Y_M_25A60",null,69.8,null,null,null,null,null],["BROAD_H_Y_M_25A60_2",null,69.1,null,null,null,2.0,34.55],["Ventas_H_Y_M_25A60_2",null,59.67,null,null,null,1.0,59.67],["N\u00f3mada_H_Y_M_25A60",null,59.45,null,null,null,null,null],["ADVANTAGE_H_Y_M_25A60",null,59.19,null,null,null,null,null],["Ventas_H_Y_M_25A60_3",null,44.39,null,null,null,1.0,44.39],["BROAD_H_Y_M_25A60_3",null,43.91,null,null,null,null,null],["N\u00f3mada_H_Y_M_25A60_3",null,42.2,null,null,null,1.0,42.2],["Marketing_H_Y_M_25A60_3",null,41.36,null,null,null,1.0,41.36]],
+  "2765":[["Programaci\u00f3n_H_Y_M_25A60_2",null,92.24,null,null,null,7.0,13.18],["Programaci\u00f3n_H_Y_M_25A60",null,69.38,null,null,null,2.0,34.69],["Freelance_H_Y_M_25A60",null,68.99,null,null,null,4.0,17.25],["BROAD_H_Y_M_25A60",null,67.27,null,null,null,2.0,33.63],["ADVANTAGE_H_Y_M_25A60",null,62.34,null,null,null,null,null],["ComunidadTech_H_Y_M_25A60",null,61.59,null,null,null,1.0,61.59],["ADVANTAGE_H_Y_M_25A60_2",1.0,52.62,2500.0,47.51,null,2.0,26.31],["BROAD_H_Y_M_25A60_2",null,51.78,null,null,null,2.0,25.89],["ComunidadTech_H_Y_M_25A60_2",null,50.92,null,null,null,2.0,25.46],["Freelance_H_Y_M_25A60_2",null,49.74,null,null,null,2.0,24.87]],
+  "2767":[["ADVANTAGE_H_Y_M_25A60",null,42.51,null,null,null,1.0,42.51],["Psicopedagogos_H_Y_M_25A60",null,37.1,null,null,null,1.0,37.1],["DesarrolloPersonal_H_Y_M_25A60",null,33.97,null,null,null,1.0,33.97],["BROAD_H_Y_M_25A60",null,33.61,null,null,null,null,null],["Aut\u00f3nomo_H_Y_M_25A60",null,33.39,null,null,null,2.0,16.7]],
+  "2769":[["AgriculturaModerna_H_Y_M_25A60",null,43.78,null,null,null,2.0,21.89],["ADVANTAGE_H_Y_M_25A60",null,40.86,null,null,null,1.0,40.86],["FinanzasPersonales_H_Y_M_25A60",null,38.53,null,null,null,3.0,12.84],["BROAD_H_Y_M_25A60",null,34.65,null,null,null,3.0,11.55],["Agricultura_H_Y_M_25A60",null,34.21,null,null,null,null,null]],
+  "2771":[["Tech_H_Y_M_25A60",null,43.55,null,null,null,1.0,43.55],["BROAD_H_Y_M_25A60",null,39.24,null,null,null,1.0,39.24],["Ciberseguridad_H_Y_M_25A60",null,35.16,null,null,null,null,null],["ADVANTAGE_H_Y_M_25A60",null,34.74,null,null,null,3.0,11.58],["Programaci\u00f3n_H_Y_M_25A60",null,33.83,null,null,null,3.0,11.28]],
+  "2772":[["MantenimientoIndustrial_H_Y_M_25A60",1.0,80.59,2500.0,31.02,null,5.0,16.12],["BROAD_H_Y_M_25A60",null,66.19,null,null,null,1.0,66.19],["Productividad_H_Y_M_25A60",null,65.44,null,null,null,4.0,16.36],["ADVANTAGE_H_Y_M_25A60",null,57.19,null,null,null,1.0,57.19],["DINERO_H_Y_M_25A60",null,55.9,null,null,null,1.0,55.9]],
+  "2773":[["ADVANTAGE_H_Y_M_25A60",null,72.28,null,null,null,7.0,10.33],["Telecomunicaciones_H_Y_M_25A60",null,43.26,null,null,null,1.0,43.26],["DINERO_H_Y_M_25A60",null,34.34,null,null,null,null,null],["Productividad_H_Y_M_25A60",null,31.59,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,20.32,null,null,null,1.0,20.32]],
+  "2775":[["INVERSIONES_H_Y_M_25A60",null,38.93,null,null,null,1.0,38.93],["Productividad_H_Y_M_25A60",null,38.64,null,null,null,1.0,38.64],["TradingCrypto_H_Y_M_25A60",null,37.74,null,null,null,null,null],["BROAD_H_Y_M_25A60",null,37.16,null,null,null,null,null],["ADVANTAGE_H_Y_M_25A60",null,33.12,null,null,null,1.0,33.12]],
+  "2778":[["Eduacacion_ES_EU",null,417.53,null,null,null,33.0,12.65],["SIMILAR_TF_IN_H_Y_M_25A60_EU_ES",null,243.41,null,null,null,15.0,16.23],["BOARD_ES_EU",1.0,233.01,2500.0,10.73,null,19.0,12.26],["Padres_HOMBRE_25A60_2",null,229.57,null,null,null,8.0,28.7],["ADVANTAGE_HOMBRE_25A60_2",2.0,208.36,5000.0,24.0,null,9.0,23.15],["Paternidad_HOMBRE_25A60_2",null,203.78,null,null,null,11.0,18.53],["Paternidad_HOMBRE_25A60",null,192.96,null,null,null,4.0,48.24],["Paternidad_ES_EU",null,169.34,null,null,null,12.0,14.11],["ADVANTAGE_HOMBRE_25A60",1.0,159.74,2500.0,15.65,null,8.0,19.97],["Padres_HOMBRE_25A60",null,155.86,null,null,null,4.0,38.97],["Finanzas_ES_EU",null,155.68,null,null,null,12.0,12.97],["BROAD_HOMBRE_25A60",null,155.59,null,null,null,1.0,155.59],["Ahorros_HOMBRE_25A60",null,153.71,null,null,null,1.0,153.71],["Ahorros_HOMBRE_25A60_2",null,153.63,null,null,null,2.0,76.81],["BROAD_HOMBRE_25A60_2",null,152.92,null,null,null,1.0,152.92],["ADVANTAGE_HOMBRE_25A60_6",null,118.0,null,null,null,19.0,6.21],["BROAD_H_Y_M_25A60_6",null,101.95,null,null,null,6.0,16.99],["ADVANTAGE_HOMBRE_25A60_5",null,97.74,null,null,null,10.0,9.77],["BROAD_H_Y_M_25A60_4",null,97.61,null,null,null,7.0,13.94],["ADVANTAGE_HOMBRE_25A60_3",null,90.4,null,null,null,6.0,15.07],["Paternidad_HOMBRE_25A60_6",null,85.94,null,null,null,5.0,17.19],["Ahorros_H_Y_M_25A60_4",null,84.42,null,null,null,8.0,10.55],["BROAD_H_Y_M_25A60_5",null,76.63,null,null,null,8.0,9.58],["Ahorros_H_Y_M_25A60_3",null,74.46,null,null,null,5.0,14.89],["PadresMadres_H_Y_M_25A60_6",1.0,73.37,2500.0,34.07,null,9.0,8.15],["BROAD_H_Y_M_25A60_3",null,73.09,null,null,null,3.0,24.36],["PadresMadres_H_Y_M_25A60_3",null,71.63,null,null,null,3.0,23.88],["Ahorros_H_Y_M_25A60_5",null,63.33,null,null,null,4.0,15.83],["Ahorros_H_Y_M_25A60_6",null,62.62,null,null,null,4.0,15.65],["Paternidad_HOMBRE_25A60_4",null,62.04,null,null,null,4.0,15.51],["Paternidad_HOMBRE_25A60_3",null,61.7,null,null,null,2.0,30.85],["ADVANTAGE_HOMBRE_25A60_4",null,60.66,null,null,null,3.0,20.22],["PadresMadres_H_Y_M_25A60_4",null,58.48,null,null,null,3.0,19.49],["BROAD_H_Y_M_25A60_7",null,58.15,null,null,null,6.0,9.69],["Ahorros_H_Y_M_25A60_7",null,57.22,null,null,null,2.0,28.61],["PadresMadres_H_Y_M_25A60_5",null,55.69,null,null,null,1.0,55.69],["Paternidad_HOMBRE_25A60_5",null,55.67,null,null,null,null,null],["PadresMadres_H_Y_M_25A60_7",null,47.3,null,null,null,4.0,11.82],["ADVANTAGE_HOMBRE_25A60_7",null,46.82,null,null,null,2.0,23.41],["Paternidad_HOMBRE_25A60_7",null,40.92,null,null,null,1.0,40.92],["Paternidad_H_Y_M_25A60_2",null,29.27,null,null,null,1.0,29.27]],
+  "2779":[["Econom\u00eda_H_Y_M_25A60",1.0,233.72,2500.0,10.7,null,26.0,8.99],["ADVANTAGE_H_Y_M_25A60",null,198.59,null,null,null,17.0,11.68],["BROAD_H_Y_M_25A60_2",null,194.85,null,null,null,4.0,48.71],["ADVANTAGE_H_Y_M_25A60_2",null,190.25,null,null,null,4.0,47.56],["BROAD_H_Y_M_25A60",null,166.35,null,null,null,5.0,33.27],["Inversi\u00f3n_H_Y_M_25A60",null,161.49,null,null,null,8.0,20.19],["FinanzasPersonales_H_Y_M_25A60_2",1.0,155.1,2500.0,16.12,null,4.0,38.77],["FinanzasPersonales_H_Y_M_25A60",1.0,153.0,2500.0,16.34,null,5.0,30.6],["Inversi\u00f3n_H_Y_M_25A60_2",null,147.18,null,null,null,4.0,36.8],["Econom\u00eda_H_Y_M_25A60_2",null,145.96,null,null,null,4.0,36.49],["Econom\u00eda_H_Y_M_25A60_4",null,80.36,null,null,null,4.0,20.09],["Econom\u00eda_H_Y_M_25A60_3",null,75.57,null,null,null,null,null],["Inversi\u00f3n_H_Y_M_25A60_3",null,69.12,null,null,null,2.0,34.56],["ADVANTAGE_H_Y_M_25A60_3",null,68.8,null,null,null,1.0,68.8],["Inversi\u00f3n_H_Y_M_25A60_4",null,67.98,null,null,null,3.0,22.66],["BROAD_H_Y_M_25A60_3",null,67.78,null,null,null,1.0,67.78],["FinanzasPersonales_H_Y_M_25A60_3",null,67.37,null,null,null,1.0,67.37],["FinanzasPersonales_H_Y_M_25A60_4",null,64.19,null,null,null,1.0,64.19],["BROAD_H_Y_M_25A60_4",null,63.18,null,null,null,null,null],["ADVANTAGE_H_Y_M_25A60_4",null,61.53,null,null,null,2.0,30.77],["Econom\u00eda_H_Y_M_25A60_5",null,40.92,null,null,null,2.0,20.46],["ADVANTAGE_H_Y_M_25A60_5",null,37.86,null,null,null,2.0,18.93],["BROAD_H_Y_M_25A60_5",1.0,37.4,2500.0,66.84,null,3.0,12.47],["Inversi\u00f3n_H_Y_M_25A60_5",null,34.82,null,null,null,1.0,34.82],["FinanzasPersonales_H_Y_M_25A60_5",null,29.56,null,null,null,1.0,29.56]],
+  "2780":[["Inversi\u00f3n_H_Y_M_25A60_2",4.0,1144.29,10000.0,8.74,null,155.0,7.38],["Inversi\u00f3n_H_Y_M_25A60",1.0,1089.02,2500.0,2.3,null,173.0,6.29],["FinanzasPersonales_H_Y_M_25A60_2",2.0,946.84,5000.0,5.28,null,144.0,6.58],["BROAD_H_Y_M_25A60",1.0,794.25,2500.0,3.15,null,110.0,7.22],["ADVANTAGE_H_Y_M_25A60",null,682.62,null,null,null,90.0,7.58],["Emprendimiento_H_Y_M_25A60",null,670.05,null,null,null,95.0,7.05],["BROAD_H_Y_M_25A60_2",2.0,573.36,5000.0,8.72,null,73.0,7.85],["Emprendimiento_H_Y_M_25A60_2",null,539.03,null,null,null,79.0,6.82],["ADVANTAGE_H_Y_M_25A60_2",null,498.52,null,null,null,69.0,7.22],["FinanzasPersonales_H_Y_M_25A60",null,467.38,null,null,null,58.0,8.06],["BROAD_H_Y_M_25A60_3",null,101.64,null,null,null,16.0,6.35],["ADVANTAGE_H_Y_M_25A60_5",1.0,100.73,2500.0,24.82,null,11.0,9.16],["FinanzasPersonales_H_Y_M_25A60_3",null,98.1,null,null,null,13.0,7.55],["Emprendimiento_H_Y_M_25A60_3",null,75.55,null,null,null,6.0,12.59],["ADVANTAGE_H_Y_M_25A60_4",null,65.02,null,null,null,4.0,16.25],["BROAD_H_Y_M_25A60_5",null,60.75,null,null,null,8.0,7.59],["Inversi\u00f3n_H_Y_M_25A60_5",null,56.54,null,null,null,2.0,28.27],["FinanzasPersonales_H_Y_M_25A60_5",null,56.12,null,null,null,2.0,28.06],["Inversi\u00f3n_H_Y_M_25A60_3",null,48.61,null,null,null,1.0,48.61],["Inversi\u00f3n_H_Y_M_25A60_4",null,46.88,null,null,null,4.0,11.72],["Emprendimiento_H_Y_M_25A60_5",null,45.9,null,null,null,1.0,45.9],["FinanzasPersonales_H_Y_M_25A60_4",null,40.95,null,null,null,1.0,40.95],["BROAD_H_Y_M_25A60_4",null,39.1,null,null,null,null,null],["ADVANTAGE_H_Y_M_25A60_3",null,36.48,null,null,null,4.0,9.12],["Emprendimiento_H_Y_M_25A60_4",null,34.07,null,null,null,null,null]],
+  "2781":[["BROAD_H_Y_M_25A60_2",4.0,2440.72,10000.0,4.1,null,395.0,6.18],["ADVANTAGE_H_Y_M_25A60_2",3.0,1583.85,7500.0,4.74,null,282.0,5.62],["FinanzasPersonales_H_Y_M_25A60_2",1.0,1492.64,2500.0,1.67,null,251.0,5.95],["Enfermer\u00eda_H_Y_M_25A60_2",3.0,1406.37,7500.0,5.33,null,280.0,5.02],["Formaci\u00f3nMedicina_H_Y_M_25A60_2",3.0,969.18,7500.0,7.74,null,180.0,5.38],["Formaci\u00f3nMedicina_H_Y_M_25A60",null,168.14,null,null,null,13.0,12.93],["ADVANTAGE_H_Y_M_25A60",1.0,155.0,2500.0,16.13,null,4.0,38.75],["BROAD_H_Y_M_25A60",null,154.66,null,null,null,7.0,22.09],["FinanzasPersonales_H_Y_M_25A60",null,150.36,null,null,null,5.0,30.07],["Enfermer\u00eda_H_Y_M_25A60",null,137.41,null,null,null,4.0,34.35],["ADVANTAGE_H_Y_M_25A60_4",null,123.42,null,null,null,15.0,8.23],["Enfermer\u00eda_H_Y_M_25A60_3",null,116.77,null,null,null,15.0,7.78],["ADVANTAGE_H_Y_M_25A60_3",null,97.01,null,null,null,18.0,5.39],["FinanzasPersonales_H_Y_M_25A60_3",null,75.81,null,null,null,8.0,9.48],["BROAD_H_Y_M_25A60_3",null,64.18,null,null,null,4.0,16.05],["FinanzasPersonales_H_Y_M_25A60_4",null,58.63,null,null,null,4.0,14.66],["Formaci\u00f3nMedicina_H_Y_M_25A60_3",null,54.05,null,null,null,4.0,13.51],["Enfermer\u00eda_H_Y_M_25A60_4",null,45.93,null,null,null,3.0,15.31],["BROAD_H_Y_M_25A60_4",null,42.55,null,null,null,2.0,21.27],["Formaci\u00f3nMedicina_H_Y_M_25A60_4",null,34.57,null,null,null,null,null]],
+  "2782":[["BROAD_MUJERES_25A60_2",null,244.7,null,null,null,43.0,5.69],["Emprendimiento_MUJERES_25A60_2",null,119.45,null,null,null,15.0,7.96],["ADVANTAGE_MUJERES_25A60_2",null,87.84,null,null,null,10.0,8.78],["Mindset_MUJERES_25A60_2",null,83.94,null,null,null,6.0,13.99],["BROAD_MUJERES_25A60",null,83.11,null,null,null,7.0,11.87],["FinanzasPersonales_MUJERES_25A60_2",null,70.99,null,null,null,7.0,10.14],["Mindset_MUJERES_25A60_4",1.0,60.52,2500.0,41.31,null,5.0,12.1],["ADVANTAGE_MUJERES_25A60_3",null,52.27,null,null,null,1.0,52.27],["ADVANTAGE_MUJERES_25A60_5",null,51.9,null,null,null,2.0,25.95],["Emprendimiento_MUJERES_25A60",null,51.69,null,null,null,4.0,12.92],["Mindset_MUJERES_25A60_3",null,51.57,null,null,null,3.0,17.19],["FinanzasPersonales_MUJERES_25A60_3",null,50.81,null,null,null,3.0,16.94],["Emprendimiento_MUJERES_25A60_3",null,50.47,null,null,null,1.0,50.47],["Mindset_MUJERES_25A60_5",null,46.74,null,null,null,1.0,46.74],["BROAD_MUJERES_25A60_5",null,46.61,null,null,null,null,null],["FinanzasPersonales_MUJERES_25A60_5",null,46.53,null,null,null,null,null],["FinanzasPersonales_MUJERES_25A60_4",1.0,46.09,2500.0,54.24,null,1.0,46.09],["Emprendimiento_MUJERES_25A60_5",null,45.97,null,null,null,1.0,45.97],["BROAD_MUJERES_25A60_3",null,45.5,null,null,null,1.0,45.5],["Mindset_MUJERES_25A60",null,39.84,null,null,null,2.0,19.92],["ADVANTAGE_MUJERES_25A60",null,39.08,null,null,null,2.0,19.54],["ADVANTAGE_MUJERES_25A60_4",null,36.8,null,null,null,1.0,36.8],["BROAD_MUJERES_25A60_4",null,35.93,null,null,null,1.0,35.93],["FinanzasPersonales_MUJERES_25A60",null,34.84,null,null,null,2.0,17.42],["Emprendimiento_MUJERES_25A60_4",null,32.48,null,null,null,1.0,32.48]],
+  "2783":[["NuevoEmpleo_H_Y_M_25A60",null,145.1,null,null,null,17.0,8.54],["Ahorro_H_Y_M_25A60",null,127.43,null,null,null,16.0,7.96],["FinanzasPersonales_H_Y_M_25A60",null,60.21,null,null,null,5.0,12.04],["BROAD_H_Y_M_25A60",null,55.64,null,null,null,1.0,55.64],["FinanzasPersonales_H_Y_M_25A60_4",null,53.66,null,null,null,3.0,17.89],["BROAD_H_Y_M_25A60_2",null,51.41,null,null,null,2.0,25.7],["Ahorro_H_Y_M_25A60_2",null,51.02,null,null,null,1.0,51.02],["Ahorro_H_Y_M_25A60_4",null,50.6,null,null,null,null,null],["FinanzasPersonales_H_Y_M_25A60_2",null,50.57,null,null,null,1.0,50.57],["ADVANTAGE_H_Y_M_25A60_2",null,50.41,null,null,null,1.0,50.41],["BROAD_H_Y_M_25A60_4",null,50.24,null,null,null,2.0,25.12],["ADVANTAGE_H_Y_M_25A60_4",null,46.44,null,null,null,2.0,23.22],["ADVANTAGE_H_Y_M_25A60",null,45.66,null,null,null,2.0,22.83],["NuevoEmpleo_H_Y_M_25A60_2",1.0,45.07,2500.0,55.47,null,2.0,22.54],["NuevoEmpleo_H_Y_M_25A60_3",null,44.05,null,null,null,3.0,14.68],["NuevoEmpleo_H_Y_M_25A60_4",null,43.39,null,null,null,1.0,43.39],["FinanzasPersonales_H_Y_M_25A60_3",null,36.62,null,null,null,1.0,36.62],["BROAD_H_Y_M_25A60_3",null,36.23,null,null,null,1.0,36.23],["Ahorro_H_Y_M_25A60_3",null,34.03,null,null,null,2.0,17.02],["ADVANTAGE_H_Y_M_25A60_3",null,27.81,null,null,null,null,null]],
+};
+
+// ---- AVATAR EXPAND ----
+var avExpandOpen = null;
+
+function allAdsForAvatar(codigo){
+  // Respect the active avatar traffic filter (avState.mode: 0=Todo,1=TF,2=TFIN,3=TT)
+  var all=[];
+  var mode=avState.mode;
+  if(mode===1){
+    if(typeof adsTF!=='undefined')all=all.concat(adsTF);
+  }else if(mode===2){
+    if(typeof adsTFIN!=='undefined')all=all.concat(adsTFIN);
+  }else if(mode===3){
+    if(typeof adsTT!=='undefined')all=all.concat(adsTT);
+  }else{
+    if(typeof adsTF!=='undefined')all=all.concat(adsTF);
+    if(typeof adsTFIN!=='undefined')all=all.concat(adsTFIN);
+    if(typeof adsTT!=='undefined')all=all.concat(adsTT);
+    if(typeof adsTTAF!=='undefined')all=all.concat(adsTTAF);
+    if(typeof adsLATAM!=='undefined')all=all.concat(adsLATAM);
+  }
+  var merged=mergeByName(all);
+  var pattern='AV'+codigo+'_';
+  return merged.filter(function(r){ return r[0].toUpperCase().indexOf(pattern.toUpperCase())===0; })
+               .sort(function(a,b){ return (b[4]||0)-(a[4]||0); });
+}
+
+function renderAvExpandTable(ads,sc,sa,bodyId,headId){
+  var sorted=[...ads].sort(function(a,b){
+    var va=a[sc]!=null?a[sc]:-Infinity,vb=b[sc]!=null?b[sc]:-Infinity;
+    return sa?va-vb:vb-va;
+  });
+  var rows='';
+  sorted.forEach(function(r){
+    var name=r[0],v=r[1],g=r[2],ing=r[3],roas=r[4],url=r[5],leads=r[6],cpl=r[7];
+    var link=url?'<a class="drive" href="'+url+'" target="_blank">►</a>':'';
+    rows+='<tr>'+
+      '<td class="left" title="'+name+'">'+name+'</td>'+
+      '<td>'+fmtN(leads)+'</td>'+
+      '<td>'+fmtE(cpl)+'</td>'+
+      '<td><b>'+fmtN(v)+'</b></td>'+
+      '<td>'+fmtE(g)+'</td>'+
+      '<td>'+fmtE(ing)+'</td>'+
+      '<td class="roas '+(roas!=null?rc(roas):'')+'" style="font-weight:700">'+fmtR(roas)+'</td>'+
+      '<td style="text-align:center">'+link+'</td>'+
+    '</tr>';
+  });
+  var tbody=document.getElementById(bodyId);
+  if(tbody) tbody.innerHTML=rows;
+  document.querySelectorAll('#'+headId+' th[data-col]').forEach(function(th){
+    var col=parseInt(th.getAttribute('data-col'));
+    var sp=th.querySelector('.si');
+    if(sp) sp.textContent=col===sc?(sa?'↑':'↓'):'⇕';
+    th.classList.toggle('active',col===sc);
+  });
+}
+
+function conjForAvatar(codigo){
+  if(!conjByAv||!conjByAv[codigo]) return [];
+  return conjByAv[codigo];
+}
+
+function renderAvExpandTable(data,sc,sa,bodyId,headId,fields){
+  var sorted=[...data].sort(function(a,b){
+    var va=a[sc]!=null?a[sc]:-Infinity,vb=b[sc]!=null?b[sc]:-Infinity;
+    return sa?va-vb:vb-va;
+  });
+  var rows='';
+  sorted.forEach(function(r){
+    var name=r[0];
+    // fields: array of {idx, fmt, bold, roas, link}
+    var cells='<td class="left" title="'+name+'">'+name+'</td>';
+    fields.forEach(function(f){
+      var v=r[f.idx];
+      var val=f.fmt(v);
+      if(f.roas&&v!=null){
+        cells+='<td class="roas '+rc(v)+'" style="font-weight:700">'+val+'</td>';
+      }else if(f.link){
+        cells+='<td style="text-align:center">'+(v?'<a class="drive" href="'+v+'" target="_blank">►</a>':'')+'</td>';
+      }else{
+        cells+='<td'+(f.bold?' style="font-weight:600"':'')+'>'+val+'</td>';
+      }
+    });
+    rows+='<tr>'+cells+'</tr>';
+  });
+  var tbody=document.getElementById(bodyId);
+  if(tbody) tbody.innerHTML=rows||'<tr><td colspan="9" style="color:#aaa;font-style:italic;padding:6px 8px">Sin datos</td></tr>';
+  document.querySelectorAll('#'+headId+' th[data-col]').forEach(function(th){
+    var col=parseInt(th.getAttribute('data-col'));
+    var sp=th.querySelector('.si');
+    if(sp) sp.textContent=col===sc?(sa?'↑':'↓'):'⇕';
+    th.classList.toggle('active',col===sc);
+  });
+}
+
+function makeExpandTable(uid, title, rows, defaultSc, fieldDefs, colHeaders){
+  if(!rows||rows.length===0) return '<div class="av-expand-empty">'+title+': sin datos</div>';
+  var headId=uid+'h', bodyId=uid+'b';
+  var sc=defaultSc, sa=false;
+  var ths=colHeaders.map(function(h,i){
+    return h.col!=null
+      ? '<th data-col="'+h.col+'" style="cursor:pointer;text-align:right">'+h.label+' <span class="si">⇕</span></th>'
+      : '<th style="text-align:'+(i===0?'left':'right')+'">'+h.label+'</th>';
+  }).join('');
+  var tbl='<div class="av-expand-title">▼ '+title+' ('+rows.length+')</div>'+
+    '<table class="av-expand-table">'+
+    '<thead id="'+headId+'"><tr><th class="left">Nombre</th>'+ths+'</tr></thead>'+
+    '<tbody id="'+bodyId+'"></tbody>'+
+    '</table>';
+  setTimeout(function(){
+    renderAvExpandTable(rows,sc,sa,bodyId,headId,fieldDefs);
+    document.querySelectorAll('#'+headId+' th[data-col]').forEach(function(th){
+      th.addEventListener('click',function(){
+        var col=parseInt(th.getAttribute('data-col'));
+        if(sc===col){sa=!sa;}else{sc=col;sa=false;}
+        renderAvExpandTable(rows,sc,sa,bodyId,headId,fieldDefs);
+      });
+    });
+  },0);
+  return tbl;
+}
+
+function buildAvExpandHTML(codigo){
+  // Conjuntos: [adset_name, v, g, ing, roas, null, leads, cpl]
+  var conjs=conjForAvatar(codigo);
+  // Anuncios: mergeByName result [name, v, g, ing, roas, url, leads, cpl]
+  var ads=allAdsForAvatar(codigo);
+
+  var conjFields=[
+    {idx:6,fmt:fmtN,bold:false},{idx:7,fmt:fmtE,bold:false},
+    {idx:1,fmt:fmtN,bold:true},{idx:2,fmt:fmtE,bold:false},
+    {idx:3,fmt:fmtE,bold:false},{idx:4,fmt:fmtR,roas:true}
+  ];
+  var conjCols=[
+    {label:'Leads',col:6},{label:'CPL',col:7},
+    {label:'Ventas',col:1},{label:'Gasto',col:2},
+    {label:'Ingresos',col:3},{label:'ROAS',col:4}
+  ];
+  var adsFields=[
+    {idx:6,fmt:fmtN,bold:false},{idx:7,fmt:fmtE,bold:false},
+    {idx:1,fmt:fmtN,bold:true},{idx:2,fmt:fmtE,bold:false},
+    {idx:3,fmt:fmtE,bold:false},{idx:4,fmt:fmtR,roas:true},
+    {idx:5,fmt:function(v){return v;},link:true}
+  ];
+  var adsCols=[
+    {label:'Leads',col:6},{label:'CPL',col:7},
+    {label:'Ventas',col:1},{label:'Gasto',col:2},
+    {label:'Ingresos',col:3},{label:'ROAS',col:4},
+    {label:'',col:null}
+  ];
+
+  var html='';
+  html+=makeExpandTable('c'+codigo, 'Conjuntos', conjs, 2, conjFields, conjCols);
+  html+='<div style="margin-top:14px"></div>';
+  html+=makeExpandTable('a'+codigo, 'Anuncios', ads, 4, adsFields, adsCols);
+  return html;
+}
+
+function toggleAvExpand(row, codigo, colspan){
+  var existingNext = row.nextSibling;
+  if(existingNext && existingNext.classList && existingNext.classList.contains('av-expand-row')){
+    // close
+    existingNext.parentNode.removeChild(existingNext);
+    row.classList.remove('expanded');
+    avExpandOpen = null;
+    return;
+  }
+  // close any other open
+  if(avExpandOpen){
+    var old=document.querySelector('.av-expand-row');
+    if(old){old.parentNode.removeChild(old);}
+    var oldRow=document.querySelector('.av-row.expanded');
+    if(oldRow){oldRow.classList.remove('expanded');}
+  }
+  // open
+  row.classList.add('expanded');
+  avExpandOpen = codigo;
+  var tr=document.createElement('tr');
+  tr.className='av-expand-row';
+  var td=document.createElement('td');
+  td.colSpan=colspan;
+  td.innerHTML='<div class="av-expand-inner">'+buildAvExpandHTML(codigo)+'</div>';
+  tr.appendChild(td);
+  row.parentNode.insertBefore(tr, row.nextSibling);
+}
 
 // ---- TABS ----
 function showTab(name){
