@@ -178,6 +178,9 @@ tfoot .tot-label{color:#555;font-size:11px;text-transform:uppercase;letter-spaci
     <button class="toggle" onclick="switchCampL2(4)">TT_AF</button>
     <button class="toggle" onclick="switchCampL2(5)">LATAM</button>
   </div>
+  <div style="margin:10px 0 8px">
+    <input id="camp-search" type="text" placeholder="Buscar campaña..." oninput="campSearchUpdate()" style="width:100%;max-width:400px;padding:7px 12px;border:1px solid #ddd;border-radius:20px;font-size:13px;outline:none;box-sizing:border-box" />
+  </div>
   <div class="section">
     <table id="camp-table"><tfoot id="camp-table-foot"><tr></tr></tfoot>
       <thead><tr>
@@ -209,6 +212,9 @@ tfoot .tot-label{color:#555;font-size:11px;text-transform:uppercase;letter-spaci
     <button class="toggle" onclick="switchConjL2(3)">TT</button>
     <button class="toggle" onclick="switchConjL2(4)">TT_AF</button>
     <button class="toggle" onclick="switchConjL2(5)">LATAM</button>
+  </div>
+  <div style="margin:10px 0 8px">
+    <input id="conj-search" type="text" placeholder="Buscar conjunto..." oninput="conjSearchUpdate()" style="width:100%;max-width:400px;padding:7px 12px;border:1px solid #ddd;border-radius:20px;font-size:13px;outline:none;box-sizing:border-box" />
   </div>
   <div class="section">
     <table id="conj-table"><tfoot id="conj-table-foot"><tr></tr></tfoot>
@@ -1203,12 +1209,18 @@ function switchCampL1(mode){
   var l2=document.getElementById('camp-toggles-l2');
   if(l2)l2.style.display=mode===1?'flex':'none';
   if(mode===1){document.querySelectorAll('#camp-toggles-l2 .toggle').forEach(function(b,i){b.classList.toggle('active',i===0)});}
-  renderCamp('camp-table',campData(),campState.sc,campState.sa);
+  var _cq=document.getElementById('camp-search')?document.getElementById('camp-search').value.toLowerCase().trim():'';
+  var _cd=campData();
+  if(_cq){_cd=_cd.filter(function(r){return r[0].toLowerCase().indexOf(_cq)>=0;});}
+  renderCampSorted('camp-table',multiSort(_cd,campState.sorts),campState.sorts);
 }
 function switchCampL2(mode){
   campState.l2=mode;campState.sc=2;campState.sa=false;
   document.querySelectorAll('#camp-toggles-l2 .toggle').forEach(function(b,i){b.classList.toggle('active',i===mode)});
-  renderCamp('camp-table',campData(),campState.sc,campState.sa);
+  var _cq=document.getElementById('camp-search')?document.getElementById('camp-search').value.toLowerCase().trim():'';
+  var _cd=campData();
+  if(_cq){_cd=_cd.filter(function(r){return r[0].toLowerCase().indexOf(_cq)>=0;});}
+  renderCampSorted('camp-table',multiSort(_cd,campState.sorts),campState.sorts);
 }
 document.querySelectorAll('#camp-table thead th.sortable').forEach(function(th){
   th.addEventListener('click',function(){
@@ -2322,12 +2334,18 @@ function switchConjL1(mode){
   var l2=document.getElementById('conj-toggles-l2');
   if(l2)l2.style.display=mode===1?'flex':'none';
   if(mode===1){document.querySelectorAll('#conj-toggles-l2 .toggle').forEach(function(b,i){b.classList.toggle('active',i===0)});}
-  renderConj('conj-table',conjData(),conjState.sc,conjState.sa);
+  var _oq=document.getElementById('conj-search')?document.getElementById('conj-search').value.toLowerCase().trim():'';
+  var _od=conjData();
+  if(_oq){_od=_od.filter(function(r){return r[0].toLowerCase().indexOf(_oq)>=0;});}
+  renderConjSorted('conj-table',multiSort(_od,conjState.sorts),conjState.sorts);
 }
 function switchConjL2(mode){
   conjState.l2=mode;conjState.sc=2;conjState.sa=false;
   document.querySelectorAll('#conj-toggles-l2 .toggle').forEach(function(b,i){b.classList.toggle('active',i===mode)});
-  renderConj('conj-table',conjData(),conjState.sc,conjState.sa);
+  var _oq=document.getElementById('conj-search')?document.getElementById('conj-search').value.toLowerCase().trim():'';
+  var _od=conjData();
+  if(_oq){_od=_od.filter(function(r){return r[0].toLowerCase().indexOf(_oq)>=0;});}
+  renderConjSorted('conj-table',multiSort(_od,conjState.sorts),conjState.sorts);
 }
 document.querySelectorAll('#conj-table thead th.sortable').forEach(function(th){
   th.addEventListener('click',function(){
@@ -3632,7 +3650,7 @@ function renderCampSorted(tableId,sorted,sorts){
     if(g!=null){tg+=g;cg++;}if(ing!=null)ti+=ing;
     var tr=document.createElement('tr');
     tr.innerHTML='<td style="color:#888">'+(i+1)+'</td>'+
-      '<td class="ad-name" title="'+name+'">'+name+(enlace?'&nbsp;'+enlace:'')+'</td>'+
+      '<td class="ad-name" title="'+name+'">'+name+'</td>'+
       '<td class="num">'+fmtN(leads)+'</td>'+
       '<td class="num">'+fmtE(cpl)+'</td>'+
       '<td class="num bold">'+fmtN(v)+'</td>'+
@@ -3664,7 +3682,7 @@ function renderConjSorted(tableId,sorted,sorts){
     if(g!=null){tg+=g;cg++;}if(ing!=null)ti+=ing;
     var tr=document.createElement('tr');
     tr.innerHTML='<td style="color:#888">'+(i+1)+'</td>'+
-      '<td class="ad-name" title="'+name+'">'+name+(enlace?'&nbsp;'+enlace:'')+'</td>'+
+      '<td class="ad-name" title="'+name+'">'+name+'</td>'+
       '<td class="num">'+fmtN(leads)+'</td>'+
       '<td class="num">'+fmtE(cpl)+'</td>'+
       '<td class="num bold">'+fmtN(v)+'</td>'+
@@ -4194,6 +4212,22 @@ function toggleAvExpand(row, codigo, colspan){
   row.parentNode.insertBefore(tr, row.nextSibling);
 }
 
+
+function campSearchUpdate(){
+  var q=document.getElementById('camp-search').value.toLowerCase().trim();
+  var data=campData();
+  if(q){data=data.filter(function(r){return r[0].toLowerCase().indexOf(q)>=0;});}
+  var sorted=multiSort(data,campState.sorts);
+  renderCampSorted('camp-table',sorted,campState.sorts);
+}
+
+function conjSearchUpdate(){
+  var q=document.getElementById('conj-search').value.toLowerCase().trim();
+  var data=conjData();
+  if(q){data=data.filter(function(r){return r[0].toLowerCase().indexOf(q)>=0;});}
+  var sorted=multiSort(data,conjState.sorts);
+  renderConjSorted('conj-table',sorted,conjState.sorts);
+}
 // ---- TABS ----
 function showTab(name){
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});
