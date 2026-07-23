@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configuración para el lanzamiento Celia 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2233;
+    --ink-soft:#5b6478;
+    --paper:#f6f7fb;
+    --card:#ffffff;
+    --line:#e5e8f0;
+    --blue:#2d6bff;
+    --blue-soft:#eaf0ff;
+    --green:#0ea678;
+    --green-soft:#e6f7f1;
+    --red:#e02b2b;
+    --red-soft:#fdecec;
+    --amber:#8a6100;
+    --amber-soft:#fff4d6;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:0 20px 80px}
+
+  /* ---------- Cabecera ---------- */
+  header{padding:28px 0 8px;display:flex;align-items:center;gap:10px}
+  .logo{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:17px;
+    letter-spacing:-.02em;
+  }
+  .logo span{color:var(--blue)}
+  .hero{padding:18px 0 6px}
+  .hero h1{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-weight:800;font-size:clamp(28px,7vw,38px);
+    letter-spacing:-.03em;line-height:1.12;
+  }
+  .hero p{margin-top:12px;color:var(--ink-soft);font-size:16px;max-width:48ch}
+  .time-chip{
+    display:inline-flex;align-items:center;gap:6px;margin-top:14px;
+    background:var(--card);border:1px solid var(--line);border-radius:999px;
+    padding:6px 14px;font-size:13px;font-weight:600;color:var(--ink-soft);
+  }
+
+  /* ---------- Apunte "página" ---------- */
+  .note{
+    margin-top:22px;background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius);padding:16px 18px;font-size:14.5px;color:var(--ink-soft);
+  }
+  .note strong{color:var(--ink)}
+
+  /* ---------- Bloques de paso ---------- */
+  .step{margin-top:34px}
+  .eyebrow{
+    display:flex;align-items:center;gap:10px;margin-bottom:12px;
+    font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+  .step h2{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:700;
+    font-size:clamp(20px,5vw,24px);letter-spacing:-.02em;
+  }
+  .step > p{margin-top:8px;color:var(--ink-soft);font-size:15px}
+
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;margin-top:14px;
+  }
+
+  .link-btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--ink);color:#fff;text-decoration:none;
+    border-radius:12px;padding:15px 18px;font-weight:600;font-size:15.5px;
+    margin-top:14px;transition:transform .12s ease, background .12s ease;
+  }
+  .link-btn:hover{background:#2a3450}
+  .link-btn:active{transform:scale(.98)}
+  .link-btn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  .url-hint{margin-top:8px;text-align:center;font-size:12.5px;color:var(--ink-soft);word-break:break-all}
+
+  /* ---------- El desvío (elemento firma) ---------- */
+  .fork{margin-top:16px;display:grid;gap:12px}
+  .fork-btn{
+    position:relative;text-align:left;cursor:pointer;width:100%;
+    background:var(--card);border:2px solid var(--line);border-radius:var(--radius);
+    padding:18px 18px 18px 56px;font-family:inherit;font-size:15.5px;color:var(--ink);
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .fork-btn strong{display:block;font-size:16.5px;margin-bottom:3px}
+  .fork-btn small{color:var(--ink-soft);font-size:13.5px;line-height:1.4;display:block}
+  .fork-btn::before{
+    content:"";position:absolute;left:18px;top:22px;width:22px;height:22px;
+    border-radius:50%;border:2px solid var(--line);background:#fff;
+    transition:all .15s ease;
+  }
+  .fork-btn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  .fork-btn[data-path="a"].selected{border-color:var(--blue);background:var(--blue-soft)}
+  .fork-btn[data-path="a"].selected::before{border-color:var(--blue);background:var(--blue);box-shadow:inset 0 0 0 4px var(--blue-soft)}
+  .fork-btn[data-path="b"].selected{border-color:var(--green);background:var(--green-soft)}
+  .fork-btn[data-path="b"].selected::before{border-color:var(--green);background:var(--green);box-shadow:inset 0 0 0 4px var(--green-soft)}
+
+  /* ---------- Checklists ---------- */
+  .path{display:none;margin-top:34px;animation:fadeUp .3s ease}
+  .path.visible{display:block}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .path-header{display:flex;align-items:center;gap:10px}
+  .path-badge{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:14px;
+    width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#fff;flex-shrink:0;
+  }
+  #path-a .path-badge{background:var(--blue)}
+  #path-b .path-badge{background:var(--green)}
+
+  .progress{
+    margin-top:14px;background:var(--card);border:1px solid var(--line);
+    border-radius:999px;height:10px;overflow:hidden;
+  }
+  .progress-fill{height:100%;width:0%;border-radius:999px;transition:width .25s ease}
+  #path-a .progress-fill{background:var(--blue)}
+  #path-b .progress-fill{background:var(--green)}
+  .progress-label{margin-top:6px;font-size:13px;font-weight:600;color:var(--ink-soft)}
+
+  .checks{margin-top:14px;display:grid;gap:10px}
+  .check{
+    display:flex;gap:14px;align-items:flex-start;cursor:pointer;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px;transition:opacity .15s ease;
+  }
+  .check input{
+    appearance:none;-webkit-appearance:none;flex-shrink:0;cursor:pointer;
+    width:24px;height:24px;margin-top:1px;border-radius:8px;border:2px solid var(--line);
+    background:#fff;display:grid;place-items:center;transition:all .15s ease;
+  }
+  .check input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  .check input::after{
+    content:"";width:12px;height:7px;border:solid #fff;border-width:0 0 2.5px 2.5px;
+    transform:rotate(-45deg) translateY(-1px);opacity:0;
+  }
+  #path-a .check input:checked{background:var(--blue);border-color:var(--blue)}
+  #path-b .check input:checked{background:var(--green);border-color:var(--green)}
+  .check input:checked::after{opacity:1}
+  .check:has(input:checked){opacity:.55}
+  .check:has(input:checked) .check-text{text-decoration:line-through;text-decoration-thickness:1.5px}
+  .check-text{font-size:15px}
+  .check-text b{font-weight:600}
+  .check-text small{display:block;margin-top:3px;color:var(--ink-soft);font-size:13.5px}
+
+  .subhead{
+    margin-top:18px;margin-bottom:2px;font-size:13px;font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);
+  }
+
+  /* ---------- Vídeo con toggle ---------- */
+  .video-btn{
+    display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+    border:none;cursor:pointer;font-family:inherit;
+    border-radius:12px;padding:15px 18px;
+    font-weight:600;font-size:15.5px;margin-top:14px;color:#fff;
+    transition:transform .12s ease, filter .12s ease;
+  }
+  .video-btn:hover{filter:brightness(1.08)}
+  .video-btn:active{transform:scale(.98)}
+  .video-btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+  #path-a .video-btn{background:var(--blue)}
+  #path-b .video-btn{background:var(--green)}
+  .video-hint{margin-top:8px;text-align:center;font-size:13px;color:var(--ink-soft)}
+  .video-wrap{margin-top:12px;animation:fadeUp .25s ease}
+  .video-wrap iframe{
+    width:100%;aspect-ratio:16/9;border:0;display:block;
+    border-radius:var(--radius);background:#000;
+  }
+
+  /* ---------- ID copiable ---------- */
+  .id-box{
+    margin-top:14px;background:var(--ink);border-radius:var(--radius);padding:18px;color:#fff;
+  }
+  .id-box p{font-size:13px;color:#aab3c8;margin-bottom:8px}
+  .id-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .id-value{
+    font-family:ui-monospace,Menlo,monospace;font-size:clamp(16px,4.5vw,20px);
+    font-weight:600;letter-spacing:.04em;flex:1;min-width:180px;
+  }
+  .copy-btn{
+    background:var(--blue);color:#fff;border:none;border-radius:10px;cursor:pointer;
+    padding:11px 18px;font-family:inherit;font-weight:600;font-size:14.5px;
+    transition:background .12s ease, transform .12s ease;
+  }
+  .copy-btn:hover{background:#1f57e0}
+  .copy-btn:active{transform:scale(.97)}
+  .copy-btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+  .copy-btn.copied{background:var(--green)}
+
+  /* ---------- Mensaje final ---------- */
+  .done{
+    display:none;margin-top:18px;border-radius:var(--radius);padding:20px;
+    animation:fadeUp .3s ease;font-size:15px;
+  }
+  .done.visible{display:block}
+  #path-a .done{background:var(--blue-soft);border:1px solid #c9d8ff}
+  #path-b .done{background:var(--green-soft);border:1px solid #bfe8da}
+  .done strong{display:block;font-size:16.5px;margin-bottom:6px}
+  .done ul{margin:8px 0 0 18px}
+  .done li{margin-top:4px}
+
+  /* ---------- Selector Meta / YouTube ---------- */
+  .tabs{
+    display:flex;gap:6px;margin-top:20px;
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px;
+  }
+  .tab{
+    flex:1;border:none;background:transparent;cursor:pointer;font-family:inherit;
+    padding:12px 8px;border-radius:10px;font-weight:700;font-size:15px;color:var(--ink-soft);
+    transition:background .15s ease, color .15s ease;
+  }
+  .tab:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  .tab[data-platform="meta"].active{background:var(--blue);color:#fff}
+  .tab[data-platform="youtube"].active{background:var(--red);color:#fff}
+
+  .platform{display:none}
+  .platform.visible{display:block;animation:fadeUp .25s ease}
+
+  /* Acentos de YouTube */
+  #platform-youtube .progress-fill{background:var(--red)}
+  #platform-youtube .check input:checked{background:var(--red);border-color:var(--red)}
+  #platform-youtube .done{display:none;background:var(--red-soft);border:1px solid #f6c9c9}
+  #platform-youtube .done.visible{display:block}
+
+  /* ---------- Pie ---------- */
+  footer{
+    margin-top:48px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:14.5px;color:var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <h1>Configuración para el lanzamiento Celia 2026</h1>
+    <div class="time-chip">⏱️ Solo unos 5 minutos</div>
+  </section>
+
+  <!-- Selector de plataforma -->
+  <div class="tabs" role="tablist" aria-label="Elige la plataforma">
+    <button class="tab active" data-platform="meta" role="tab" aria-selected="true" onclick="choosePlatform('meta')">Meta · Facebook e Instagram</button>
+    <button class="tab" data-platform="youtube" role="tab" aria-selected="false" onclick="choosePlatform('youtube')">YouTube</button>
+  </div>
+
+  <!-- ================= META ================= -->
+  <div class="platform visible" id="platform-meta">
+
+  <!-- PASO 1 -->
+  <section class="step">
+    <div class="eyebrow">Paso 1</div>
+    <h2>Averigua si tienes portafolio empresarial</h2>
+    <p>No hace falta que sepas lo que es 😊. Solo abre este enlace y mira qué te aparece:</p>
+    <div class="card">
+      <a class="link-btn" href="https://business.facebook.com/select" target="_blank" rel="noopener">Abrir Facebook Business ↗</a>
+      <div class="url-hint">business.facebook.com/select</div>
+    </div>
+  </section>
+
+  <!-- PASO 2: el desvío -->
+  <section class="step">
+    <div class="eyebrow">Paso 2</div>
+    <h2>¿Qué te ha aparecido?</h2>
+    <p>Toca la opción que corresponda y te mostramos solo tus pasos:</p>
+    <div class="fork" role="radiogroup" aria-label="Elige tu situación">
+      <button class="fork-btn" data-path="a" role="radio" aria-checked="false" onclick="choosePath('a')">
+        <strong>Me aparece un portafolio para seleccionar</strong>
+        <small>Veo uno o varios nombres de empresa o portafolios.</small>
+      </button>
+      <button class="fork-btn" data-path="b" role="radio" aria-checked="false" onclick="choosePath('b')">
+        <strong>No me aparece nada (o no me deja entrar)</strong>
+        <small>No pasa nada 😊, lo haremos con tu página de Facebook.</small>
+      </button>
+    </div>
+  </section>
+
+  <!-- CAMINO A -->
+  <section class="path" id="path-a">
+    <div class="path-header">
+      <div class="path-badge">A</div>
+      <h2>Sí tengo portafolio empresarial</h2>
+    </div>
+
+    <button class="video-btn" onclick="toggleVideo('video-a', this)" aria-expanded="false" aria-controls="video-a">▶️ Ver el vídeo (1:32)</button>
+    <div class="video-hint">Míralo primero y luego ve marcando los pasos 👇</div>
+    <div class="video-wrap" id="video-a" hidden>
+      <iframe src="https://drive.google.com/file/d/1fcDRxFvdXYaMPOHVoXxCuUJubU8YU4HG/preview" allow="autoplay" allowfullscreen loading="lazy" title="Vídeo 1"></iframe>
+    </div>
+
+    <div class="id-box">
+      <p>Este es el número (ID) que tendrás que pegar en el paso 4:</p>
+      <div class="id-row">
+        <span class="id-value" id="portfolio-id">216404613325201</span>
+        <button class="copy-btn" onclick="copyId(this)">Copiar</button>
+      </div>
+    </div>
+
+    <div class="progress"><div class="progress-fill"></div></div>
+    <div class="progress-label">0 de 6 pasos</div>
+
+    <div class="checks">
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-a')"><span class="check-text"><b>1.</b> Entra en el enlace del paso 1 y <b>selecciona tu portafolio</b></span></label>
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-a')"><span class="check-text"><b>2.</b> Ve a <b>Configuración</b></span></label>
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-a')"><span class="check-text"><b>3.</b> Entra en <b>Socios</b> y dale al botón <b>Añadir</b></span></label>
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-a')"><span class="check-text"><b>4.</b> Pega el número de arriba: <b>216404613325201</b><small>Usa el botón "Copiar" para no equivocarte con ningún dígito.</small></span></label>
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-a')"><span class="check-text"><b>5.</b> Ve a <b>Cuentas de Instagram</b> → comparte tu cuenta → marca todas las opciones → <b>Control total</b> → <b>Asignar</b></span></label>
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-a')"><span class="check-text"><b>6.</b> Ve a <b>Páginas</b> → comparte tu página → marca todas las opciones → <b>Control total</b> → <b>Asignar</b></span></label>
+    </div>
+
+    <div class="done">
+      <strong>🎉 ¡Listo! Ya casi estamos.</strong>
+      Solo falta que nos envíes:
+      <ul>
+        <li>El <b>nombre de tu página de Facebook</b> (o su enlace)</li>
+        <li>Y nos dices: <b>"He seguido el camino A"</b></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CAMINO B -->
+  <section class="path" id="path-b">
+    <div class="path-header">
+      <div class="path-badge">B</div>
+      <h2>No tengo portafolio empresarial</h2>
+    </div>
+
+    <button class="video-btn" onclick="toggleVideo('video-b', this)" aria-expanded="false" aria-controls="video-b">▶️ Ver el vídeo (3:27)</button>
+    <div class="video-hint">Míralo primero y luego ve marcando los pasos 👇</div>
+    <div class="video-wrap" id="video-b" hidden>
+      <iframe src="https://drive.google.com/file/d/1JWwVU1lX3JASKsrIVtBu0iJwKMpfRauF/preview" allow="autoplay" allowfullscreen loading="lazy" title="Vídeo 2"></iframe>
+    </div>
+
+    <div class="progress"><div class="progress-fill"></div></div>
+    <div class="progress-label">0 de 8 pasos</div>
+
+    <div class="checks">
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-b')"><span class="check-text"><b>1.</b> Inicia sesión en tu <b>cuenta de Facebook</b></span></label>
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-b')"><span class="check-text"><b>2.</b> En el menú de la izquierda, busca <b>Páginas</b><small>Si no lo ves, dale a "Ver más".</small></span></label>
+    </div>
+
+    <div class="subhead">Si todavía no tienes página</div>
+    <div class="checks">
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-b')"><span class="check-text"><b>3.</b> Dale a <b>Crear página pública</b> → ponle un nombre → en categoría puedes poner <b>"Educación"</b> → sube foto de perfil y banner → Siguiente hasta terminar<small>¿Ya tienes página? Marca esta casilla y sigue con el paso 4.</small></span></label>
+    </div>
+
+    <div class="subhead">Con tu página ya creada</div>
+    <div class="checks">
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-b')"><span class="check-text"><b>4.</b> Selecciona tu página y <b>cambia a la vista de página</b><small>Botón "Cambiar", arriba del todo.</small></span></label>
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-b')"><span class="check-text"><b>5.</b> Envíanos el <b>nombre de tu página</b><small>Lo necesitamos para poder mandarte la invitación del paso 7.</small></span></label>
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-b')"><span class="check-text"><b>6.</b> Ve a <b>Configuración</b> y baja hasta <b>Accesos de la página</b></span></label>
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-b')"><span class="check-text"><b>7.</b> Verás nuestra invitación → dale a <b>Revisar</b> y <b>Aceptar</b></span></label>
+      <label class="check"><input type="checkbox" onchange="updateProgress('path-b')"><span class="check-text"><b>8.</b> Ve a <b>Vinculaciones</b> y comprueba que tu <b>cuenta de Instagram está vinculada</b> a la página<small>Este paso es necesario para poder configurar la publicidad del lanzamiento.</small></span></label>
+    </div>
+
+    <div class="done">
+      <strong>🎉 ¡Listo! Ya lo tenemos todo.</strong>
+      Si aún no nos has pasado el <b>nombre de tu página de Facebook</b>, envíanoslo junto con un <b>"He terminado el camino B"</b>.
+    </div>
+  </section>
+
+  </div><!-- /platform-meta -->
+
+  <!-- ================= YOUTUBE ================= -->
+  <div class="platform" id="platform-youtube">
+
+    <section class="step">
+      <div class="eyebrow">Pasos para YouTube</div>
+    </section>
+
+    <div class="progress"><div class="progress-fill"></div></div>
+    <div class="progress-label">0 de 3 pasos</div>
+
+    <div class="checks">
+      <label class="check"><input type="checkbox" onchange="updateProgress('platform-youtube')"><span class="check-text"><b>1.</b> Envíanos la <b>URL de tu canal de YouTube</b><small>La encuentras entrando en YouTube → tu foto de perfil → "Ver tu canal" → copia el enlace de la barra de arriba.</small></span></label>
+      <label class="check"><input type="checkbox" onchange="updateProgress('platform-youtube')"><span class="check-text"><b>2.</b> Envíanos el <b>correo con el que creaste tu cuenta de YouTube</b><small>Es el correo de Google con el que inicias sesión en YouTube.</small></span></label>
+      <label class="check"><input type="checkbox" onchange="updateProgress('platform-youtube')"><span class="check-text"><b>3.</b> Te llegará una <b>invitación a ese correo</b> → ábrela y dale a <b>Aceptar</b><small>Te avisaremos en cuanto te la enviemos.</small></span></label>
+    </div>
+
+    <div class="done">
+      <strong>🎉 ¡Listo!</strong>
+      Con esto ya está todo por la parte de YouTube.
+    </div>
+
+  </div><!-- /platform-youtube -->
+
+  <footer>
+    ❓ <b>¿Te sale un error o tienes dudas en algún paso?</b> Escríbenos y lo vemos juntos sin problema. 💬
+  </footer>
+
+</div>
+
+<script>
+  function choosePlatform(p){
+    document.querySelectorAll('.tab').forEach(function(t){
+      var on = t.dataset.platform === p;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    document.querySelectorAll('.platform').forEach(function(el){
+      el.classList.toggle('visible', el.id === 'platform-' + p);
+    });
+  }
+
+  function choosePath(path){
+    document.querySelectorAll('.fork-btn').forEach(function(btn){
+      var on = btn.dataset.path === path;
+      btn.classList.toggle('selected', on);
+      btn.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+    document.querySelectorAll('.path').forEach(function(p){
+      p.classList.toggle('visible', p.id === 'path-' + path);
+    });
+    var target = document.getElementById('path-' + path);
+    setTimeout(function(){ target.scrollIntoView({behavior:'smooth', block:'start'}); }, 60);
+  }
+
+  function updateProgress(pathId){
+    var section = document.getElementById(pathId);
+    var boxes = section.querySelectorAll('input[type="checkbox"]');
+    var checked = section.querySelectorAll('input[type="checkbox"]:checked').length;
+    var pct = Math.round((checked / boxes.length) * 100);
+    section.querySelector('.progress-fill').style.width = pct + '%';
+    section.querySelector('.progress-label').textContent =
+      checked + ' de ' + boxes.length + ' pasos' + (checked === boxes.length ? ' · ¡Completado!' : '');
+    section.querySelector('.done').classList.toggle('visible', checked === boxes.length);
+  }
+
+  function toggleVideo(id, btn){
+    var wrap = document.getElementById(id);
+    if (!btn.dataset.label){ btn.dataset.label = btn.textContent; }
+    var opening = wrap.hasAttribute('hidden');
+    if (opening){
+      wrap.removeAttribute('hidden');
+      btn.textContent = '▲ Ocultar vídeo';
+    } else {
+      wrap.setAttribute('hidden','');
+      btn.textContent = btn.dataset.label;
+    }
+    btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+  }
+
+  function copyId(btn){
+    var id = document.getElementById('portfolio-id').textContent.trim();
+    function ok(){
+      btn.textContent = '✓ Copiado';
+      btn.classList.add('copied');
+      setTimeout(function(){ btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(id).then(ok).catch(function(){ fallback(); });
+    } else { fallback(); }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = id; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch(e){}
+      document.body.removeChild(ta);
+    }
+  }
+</script>
+</body>
+</html>
